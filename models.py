@@ -1,8 +1,18 @@
-import db, datetime
+from flask_sqlalchemy import SQLAlchemy
+from flask import Flask
+import sqlalchemy, datetime
+from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
-from werkzeug.security import generate_password_hash
 
 
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://postgres:mvjunetwo@localhost/bookshelf'
+engine = sqlalchemy.create_engine('postgres://postgres:mvjunetwo@localhost')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+
+db = SQLAlchemy(app)
 class User(UserMixin, db.Model):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
@@ -12,12 +22,13 @@ class User(UserMixin, db.Model):
     last_name = db.Column(db.String(50), nullable=False)
     contact_number = db.Column(db.String(11))
     birth_date = db.Column(db.DATE, nullable=False)
-    sex = db.Column(db.String(6), nullable=False)
+    gender = db.Column(db.String(6), nullable=False)
     profpic = db.Column(db.TEXT)
     bookshelf_user = db.relationship('Bookshelf', uselist=False, backref='user_bookshelf')
     borrow_bookshelfs = db.relationship('BorrowsAssociation', backref='user_borrow')
     userRateBooks = db.relationship('BookRateAssociation', backref='user_raterBooks')
     wishlists_bookshelf = db.relationship('Wishlist', backref='user_wishlist')
+    purchase = db.relationship('PurchaseAssociation', backref='user_purchase')
     user_messaging = db.relationship('MessagingAssociation', backref='user_message')
     user_interest = db.relationship('InterestAssociation', backref='user_interest')
 
@@ -55,6 +66,7 @@ class Books(db.Model):
     year_published = db.Column(db.String(4))
     isbn = db.Column(db.String(20))
     types = db.Column(db.String(20))
+    types = db.Column(db.String(20))
     price = db.Column(db.Integer)
     publisher_id = db.Column(db.Integer, db.ForeignKey('publisher.publisher_id'))
     bookshelfBooks = db.relationship('ContainsAsscociation', backref='books_contains')
@@ -76,10 +88,11 @@ class Books(db.Model):
 
 class ContainsAsscociation(db.Model):
     __tablename__ = 'contains'
+    contain_id = db.Column(db.Integer, primary_key=True)
     quantity = db.Column(db.Integer)
     availability = db.Column(db.String(3))
-    shelf_id = db.Column(db.Integer, db.ForeignKey('bookshelf.bookshelf_id'), primary_key=True)
-    book_id = db.Column(db.Integer, db.ForeignKey('books.book_id'), primary_key=True)
+    shelf_id = db.Column(db.Integer, db.ForeignKey('bookshelf.bookshelf_id'))
+    book_id = db.Column(db.Integer, db.ForeignKey('books.book_id'))
     bookshelfcontain = db.relationship('Bookshelf', backref='containingbooks')
     containsbooks = db.relationship('Books', backref='booksBookshelf')
 
@@ -112,8 +125,9 @@ class Author(db.Model):
 
 class WrittenByAssociation(db.Model):
     __tablename__ = 'writtenBy'
-    book_id = db.Column(db.Integer, db.ForeignKey('books.book_id'), primary_key=True)
-    author_id = db.Column(db.Integer, db.ForeignKey('author.author_id'), primary_key=True)
+    written_id = db.Column(db.Integer, primary_key=True)
+    book_id = db.Column(db.Integer, db.ForeignKey('books.book_id'))
+    author_id = db.Column(db.Integer, db.ForeignKey('author.author_id'))
     author = db.relationship('Author', backref='author_writtenby')
     books = db.relationship('Books', backref='booksAuthor_writtenby')
 
@@ -143,7 +157,7 @@ class Genre(db.Model):
 class HasGenreAssociation(db.Model):
     __tablename__ = 'hasGenre'
     genreId = db.Column(db.Integer, db.ForeignKey('genre.id_genre'), primary_key=True)
-    bookId = db.Column(db.Integer, db.ForeignKey('books.book_id'), primary_key=True)
+    bookId = db.Column(db.Integer, db.ForeignKey('books.book_id'))
     books = db.relationship('Books', backref='booksGenre')
     genre = db.relationship('Genre', backref='bookHasGenre')
 
@@ -202,7 +216,7 @@ class Wishlist(db.Model):
 
 class BookRateAssociation(db.Model):
     __tablename__ = 'bookRate'
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     book_id = db.Column(db.Integer, db.ForeignKey('books.book_id'), primary_key=True)
     rating = db.Column(db.Integer)
     comment = db.Column(db.TEXT)
@@ -231,8 +245,9 @@ class BookRateTotal(db.Model):
 
 class UserRateAssociation(db.Model):
     __tablename__ = 'userRate'
-    user_idRater = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key = True)
-    user_idRatee = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key= True)
+    rate_id = db.Column(db.Integer, primary_key=True)
+    user_idRater = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_idRatee = db.Column(db.Integer, db.ForeignKey('user.id'))
     rating = db.Column(db.Integer)
     comment = db.Column(db.TEXT)
 
