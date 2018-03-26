@@ -182,21 +182,22 @@ def viewbooks(id):
 
     books = ContainsAsscociation.query.join(Bookshelf).filter_by(bookshelf_id = id).all()
 
+    if books == []:
+        return jsonify({'message': 'No book found!'})
 
-    if books is None:
-        return jsonify({'message':'No book found!'})
+    else:
 
-    output = []
+        output = []
+        for book in books:
+            user_data = {}
+            user_data['shelf_id'] = book.shelf_id
+            user_data['book_id'] = book.book_id
+            user_data['quantity'] = book.quantity
+            user_data['availability'] = book.availability
+            output.append(user_data)
 
-    for book in books:
-        user_data = {}
-        user_data['shelf_id'] = book.shelf_id
-        user_data['book_id'] =book.book_id
-        user_data['quantity'] = book.quantity
-        user_data['availability'] = book.availability
-        output.append(user_data)
+        return jsonify({'book': output})
 
-    return jsonify({'book': output})
 
 # @app.route('/addbok/<int:id>')
 # def addbook(id):
