@@ -151,7 +151,7 @@ def login():
     if check_password_hash(user.password, auth.password):
         token = jwt.encode({'id' : user.id, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
 
-        return jsonify({'token' : token.decode('UTF-8'), 'user' : user.username})
+        return jsonify({'token' : token.decode('UTF-8'), 'username' : user})
 
     return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic Realm="Login Required!"'})
 
@@ -180,10 +180,8 @@ def search(shelf_id, item):
 @app.route('/user/<int:id>/bookshelf/', methods=['GET'])
 def viewbooks(id):
 
-    user = Bookshelf.query.filter_by(bookshef_owner=id).first()
-    shelf_id = user.bookshelf_id
+    books = ContainsAsscociation.query.join(Bookshelf).filter_by(bookshelf_id = id).all()
 
-    books = ContainsAsscociation.query.filter_by(shelf_id = shelf_id).all()
 
     if books is None:
         return jsonify({'message':'No book found!'})
@@ -200,8 +198,8 @@ def viewbooks(id):
 
     return jsonify({'book': output})
 
-@app.route('/addbok/<int:id>')
-def addbook(id):
+# @app.route('/addbok/<int:id>')
+# def addbook(id):
 
 
 if __name__ == '__main__':

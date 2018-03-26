@@ -76,6 +76,7 @@ class Books(db.Model):
     publisher = db.relationship('Publisher', backref='bookPublish')
     booksInGenre = db.relationship('HasGenreAssociation',foreign_keys=[book_id], backref='books_genre')
     rateBooks = db.relationship('BookRateAssociation', backref='books_rateBooks')
+    purchase = db.relationship('PurchaseAssociation', backref='books_purchase')
     borrowcount = db.Column(db.Integer, default=0)
 
     def __init__(self, title='', edition='', year_published='', isbn='', types='', publisher_id=''):
@@ -162,14 +163,14 @@ class HasGenreAssociation(db.Model):
     genre = db.relationship('Genre', foreign_keys=[genreId], backref='bookHasGenre')
 
 
-# class PurchaseAssociation(db.Model):
-#     __tablename__ = 'purchase'
-#     purchase_id = db.Column(db.Integer, primary_key=True)
-#     price = db.Column(db.Integer)
-#     seller = db.Column(db.Integer, db.ForeignKey('user.id'))
-#     buyer = db.Column(db.Integer, db.ForeignKey('user.id'))
-#     user = db.relationship('User', backref='borrowBookshelfs')
-#     bookshelf = db.relationship('Bookshelf', foreign_keys=[seller,buyer], backref='purchasebook')
+class PurchaseAssociation(db.Model):
+    __tablename__ = 'purchase'
+    purchase_id = db.Column(db.Integer, primary_key=True)
+    price = db.Column(db.Integer)
+    seller = db.Column(db.Integer, db.ForeignKey('user.id'))
+    buyer = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship('User', backref='borrowBookshelfs')
+    bookshelf = db.relationship('Bookshelf', foreign_keys=[seller,buyer], backref='purchasebook')
 
 
 
