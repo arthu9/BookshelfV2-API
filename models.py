@@ -6,6 +6,7 @@ from flask_login import UserMixin
 
 
 
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://postgres:mvjunetwo@localhost/bookshelf'
 engine = sqlalchemy.create_engine('postgres://postgres:mvjunetwo@localhost')
@@ -28,8 +29,6 @@ class User(UserMixin, db.Model):
     borrow_bookshelfs = db.relationship('BorrowsAssociation', backref='user_borrow')
     userRateBooks = db.relationship('BookRateAssociation', backref='user_raterBooks')
     wishlists_bookshelf = db.relationship('Wishlist', backref='user_wishlist')
-    purchase = db.relationship('PurchaseAssociation', backref='user_purchase')
-    user_messaging = db.relationship('MessagingAssociation', backref='user_message')
     user_interest = db.relationship('InterestAssociation', backref='user_interest')
 
 
@@ -48,9 +47,11 @@ class Bookshelf(db.Model):
     bookshelf_id = db.Column(db.Integer, primary_key=True)
     bookshef_owner = db.Column(db.Integer, db.ForeignKey('user.id'))
     owner = db.relationship('User', backref='bookshelf_owner')
+    price = db.Column(db.Integer, db.ForeignKey('purchase.price'))
     booksContain = db.relationship('ContainsAsscociation', backref=db.backref('bookshelf_contains'))
     borrow_users = db.relationship('BorrowsAssociation', backref='bookshelfBooks')
     wishlist_users = db.relation('Wishlist', backref='bookshelfwish')
+    # bookshelfpurchase = db.relation('PurchaseAssociation', backref='bookshelf_purchase')
 
 
     def __init__(self, bookshelf_id='', bookshef_owner=''):
@@ -60,7 +61,7 @@ class Bookshelf(db.Model):
 
 class Books(db.Model):
     __tablename__ = 'books'
-    book_id = db.Column(db.Integer, primary_key=True)
+    book_id = db.Column(db.Integer,db.ForeignKey('books.book_id'), primary_key=True)
     title = db.Column(db.TEXT, nullable=False)
     edition = db.Column(db.Integer)
     year_published = db.Column(db.String(4))
@@ -73,7 +74,7 @@ class Books(db.Model):
     categoryBooks = db.relationship('Category', backref='books_category')
     booksAuthor = db.relationship('WrittenByAssociation', backref='books_author')
     publisher = db.relationship('Publisher', backref='bookPublish')
-    booksInGenre = db.relationship('HasGenreAssociation', backref='books_genre')
+    booksInGenre = db.relationship('HasGenreAssociation',foreign_keys=[book_id], backref='books_genre')
     rateBooks = db.relationship('BookRateAssociation', backref='books_rateBooks')
     borrowcount = db.Column(db.Integer, default=0)
 
@@ -113,7 +114,7 @@ class Category(db.Model):
 
 class Author(db.Model):
     __tablename__ = 'author'
-    author_id = db.Column(db.Integer, primary_key=True)
+    author_id = db.Column(db.Integer, db.ForeignKey('author.author_id'), primary_key=True)
     author_first_name = db.Column(db.String(50))
     author_last_name = db.Column(db.String(50))
     authorBooks = db.relationship('WrittenByAssociation', backref="author_books")
@@ -125,8 +126,7 @@ class Author(db.Model):
 
 class WrittenByAssociation(db.Model):
     __tablename__ = 'writtenBy'
-    written_id = db.Column(db.Integer, primary_key=True)
-    book_id = db.Column(db.Integer, db.ForeignKey('books.book_id'))
+    book_id = db.Column(db.Integer, db.ForeignKey('books.book_id'), primary_key=True)
     author_id = db.Column(db.Integer, db.ForeignKey('author.author_id'))
     author = db.relationship('Author', backref='author_writtenby')
     books = db.relationship('Books', backref='booksAuthor_writtenby')
@@ -159,17 +159,17 @@ class HasGenreAssociation(db.Model):
     genreId = db.Column(db.Integer, db.ForeignKey('genre.id_genre'), primary_key=True)
     bookId = db.Column(db.Integer, db.ForeignKey('books.book_id'))
     books = db.relationship('Books', backref='booksGenre')
-    genre = db.relationship('Genre', backref='bookHasGenre')
+    genre = db.relationship('Genre', foreign_keys=[genreId], backref='bookHasGenre')
 
 
-class PurchaseAssociation(db.Model):
-    __tablename__ = 'purchase'
-    purchase_id = db.Column(db.Integer, primary_key=True)
-    price = db.Column(db.Integer)
-    seller = db.Column(db.Integer, db.ForeignKey('user.id'))
-    buyer = db.Column(db.Integer, db.ForeignKey('user.id'))
-    user = db.relationship('User', backref='borrowBookshelfs')
-    bookshelf = db.relationship('Bookshelf', backref='purchasebook')
+# class PurchaseAssociation(db.Model):
+#     __tablename__ = 'purchase'
+#     purchase_id = db.Column(db.Integer, primary_key=True)
+#     price = db.Column(db.Integer)
+#     seller = db.Column(db.Integer, db.ForeignKey('user.id'))
+#     buyer = db.Column(db.Integer, db.ForeignKey('user.id'))
+#     user = db.relationship('User', backref='borrowBookshelfs')
+#     bookshelf = db.relationship('Bookshelf', foreign_keys=[seller,buyer], backref='purchasebook')
 
 
 
@@ -276,7 +276,7 @@ class Message(db.Model):
     messageFrom = db.Column(db.Integer, db.ForeignKey('user.id'))
     messageTo = db.Column(db.Integer, db.ForeignKey('user.id'))
     content = db.Column(db.String(100))
-    messaging_message = db.relationship('MessageAssociation', backref='messaging')
+   # messaging_message = db.relationship('MessageAssociation', backref='messaging')
 
     def __init__(self, messageFrom='', messageTo='', content='' ):
         self.messageFrom = messageFrom
@@ -290,8 +290,8 @@ class MessageAssociation(db.Model):
     messageTo = db.Column(db.Integer, db.ForeignKey('user.id'))
     content = db.Column(db.String(100), db.ForeignKey('message.content'))
     date = db.Column(db.DATE, nullable=False)
-    user = db.relationship('User', backref='userMessage')
-    messaging = db.relationship('Message', backref='hasMessage')
+    # user = db.relationship('User', backref='userMessage')
+    # messaging = db.relationship('Message', backref='hasMessage')
 
     def __init__(self, messageFrom='', messageTo='', content='', date='' ):
         self.messageFrom = messageFrom
@@ -304,8 +304,8 @@ class InterestAssociation(db.Model):
     interestId = db.Column(db.Integer, db.ForeignKey('genre.id_genre'), primary_key=True)
     user_Id = db.Column(db.Integer, db.ForeignKey('user.id'))
     genreId = db.Column(db.Integer, db.ForeignKey('genre.id_genre'))
-    user = db.relationship('User', backref='Interest')
-    genre = db.relationship('Genre', backref='Interest')
+    user = db.relationship('User',foreign_keys=[user_Id], backref='Interest')
+    genre = db.relationship('Genre',foreign_keys=[genreId], backref='Interest')
 
 
 class ActLogs(db.Model):
