@@ -62,7 +62,6 @@ class Books(db.Model):
     __tablename__ = 'books'
     book_id = db.Column(db.Integer,db.ForeignKey('books.book_id'), primary_key=True)
     title = db.Column(db.TEXT, nullable=False)
-    description = db.Column(db.String(500))
     edition = db.Column(db.Integer)
     year_published = db.Column(db.String(4))
     isbn = db.Column(db.String(20))

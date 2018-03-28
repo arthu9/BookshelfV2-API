@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request, make_response
+from sqlalchemy import or_
 from flask_sqlalchemy import SQLAlchemy
 import uuid
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -155,7 +156,7 @@ def login():
 
     return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic Realm="Login Required!"'})
 
-@app.route('/bookshelf/<int:shelf_id>/search/<string:item>', methods=['GET'])
+@app.route('/user/<int:user_id>/bookshelf/search/<string:item>', methods=['GET'])
 def search(shelf_id, item):
 
     item = '%'+item+'%'
@@ -177,10 +178,37 @@ def search(shelf_id, item):
 
     return jsonify({'book': output})
 
-@app.route('/user/<int:id>/bookshelf/', methods=['GET'])
-def viewbooks(id):
+@app.route('/user/<int:id>/bookshelf', methods=['GET'])
+def viewbook(id):
 
-    books = ContainsAsscociation.query.join(Bookshelf).filter_by(bookshelf_id = id).all()
+    books = Bookshelf.query.filter_by(bookshef_owner = id).first()
+    shelf_id = books.bookshelf_id
+
+    contains = ContainsAsscociation.query.filter_by(shelf_id = shelf_id).first()
+    shelf_id = contains.shelf_id
+
+    Book = Books.query.join(ContainsAsscociation).filter_by(shelf_id = shelf_id).all()
+
+    # q = (db.session.query(Books, Bookshelf, ContainsAsscociation)
+    #      .filter(Bookshelf.bookshef_owner == id)
+    #      .filter(ContainsAsscociation.shelf_id == Bookshelf.bookshelf_id)
+    #      .filter(Books.book_id == ContainsAsscociation.book_id)
+    #      .all())
+
+    output = []
+
+    for book in Book:
+        user_data = {}
+        user_data['title'] = book.title
+        user_data['edition'] = book.edition
+        user_data['year'] = book.year_published
+        user_data['isbn'] = book.isbn
+        user_data['types'] = book.types
+        user_data['type'] = book.publisher_id
+        output.append(user_data)
+
+    return jsonify({'book': output})
+
 
     if books == []:
         return jsonify({'message': 'No book found!'})
@@ -191,7 +219,28 @@ def viewbooks(id):
         for book in books:
             user_data = {}
             user_data['shelf_id'] = book.shelf_id
-            user_data['book_id'] = book.book_id
+            user_data['title'] = book.title
+            user_data['quantity'] = book.quantity
+            user_data['availability'] = book.availability
+            output.append(user_data)
+
+        return jsonify({'book': output})\
+
+@app.route('/user/<int:id>/bookshelf/availability', methods=['GET'])
+def viewbooks(id):
+
+    books = ContainsAsscociation.query.join(Bookshelf).filter_by(bookshef_owner = id).all()
+
+    if books == []:
+        return jsonify({'message': 'No book found!'})
+
+    else:
+
+        output = []
+        for book in books:
+            user_data = {}
+            user_data['shelf_id'] = book.shelf_id
+            user_data['title'] = book.title
             user_data['quantity'] = book.quantity
             user_data['availability'] = book.availability
             output.append(user_data)
@@ -199,8 +248,21 @@ def viewbooks(id):
         return jsonify({'book': output})
 
 
-# @app.route('/addbok/<int:id>')
-# def addbook(id):
+@app.route('/addbok', methods=['POST'])
+def addbook():
+
+    data = request.get_json()
+
+    newBook = WrittenByAssociation.query.join(Books).filter(or_(Books.title == data['title'], WrittenByAssociation.author == data['author'])).all()
+
+    if newBook is None:
+        return jsonify({'message': 'No book like that'})
+    else:
+        return jsonify({'message': 'buhat sa create'})
+
+    return 'bla'
+
+
 
 
 if __name__ == '__main__':
