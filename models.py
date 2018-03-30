@@ -29,7 +29,6 @@ class User(UserMixin, db.Model):
     userRateBooks = db.relationship('BookRateAssociation', backref='user_raterBooks')
     wishlists_bookshelf = db.relationship('Wishlist', backref='user_wishlist')
     purchase = db.relationship('PurchaseAssociation', backref='user_purchase')
-    user_messaging = db.relationship('MessagingAssociation', backref='user_message')
     user_interest = db.relationship('InterestAssociation', backref='user_interest')
 
 
@@ -66,8 +65,6 @@ class Books(db.Model):
     year_published = db.Column(db.String(4))
     isbn = db.Column(db.String(20))
     types = db.Column(db.String(20))
-    types = db.Column(db.String(20))
-    price = db.Column(db.Integer)
     publisher_id = db.Column(db.Integer, db.ForeignKey('publisher.publisher_id'))
     bookshelfBooks = db.relationship('ContainsAsscociation', backref='books_contains')
     categoryBooks = db.relationship('Category', backref='books_category')
@@ -88,10 +85,9 @@ class Books(db.Model):
 
 class ContainsAsscociation(db.Model):
     __tablename__ = 'contains'
-    contain_id = db.Column(db.Integer, primary_key=True)
     quantity = db.Column(db.Integer)
     availability = db.Column(db.String(3))
-    shelf_id = db.Column(db.Integer, db.ForeignKey('bookshelf.bookshelf_id'))
+    shelf_id = db.Column(db.Integer, db.ForeignKey('bookshelf.bookshelf_id'), primary_key=True)
     book_id = db.Column(db.Integer, db.ForeignKey('books.book_id'))
     bookshelfcontain = db.relationship('Bookshelf', backref='containingbooks')
     containsbooks = db.relationship('Books', backref='booksBookshelf')
@@ -149,14 +145,14 @@ class Publisher(db.Model):
 class Genre(db.Model):
     __tablename__ = 'genre'
     id_genre = db.Column(db.Integer, primary_key=True)
-    book_id = db.Column(db.Integer, db.ForeignKey('books.book_id'))
+    genre = db.Column(db.String(50))
     genreBooks = db.relationship('HasGenreAssociation', backref='genres_books')
     genreInterest = db.relationship('InterestAssociation', backref='genre_interest')
 
 
 class HasGenreAssociation(db.Model):
     __tablename__ = 'hasGenre'
-    genreId = db.Column(db.Integer, db.ForeignKey('genre.id_genre'), primary_key=True)
+    genreId = db.Column(db.Integer, db.ForeignKey(Genre.id_genre), primary_key=True)
     bookId = db.Column(db.Integer, db.ForeignKey('books.book_id'))
     books = db.relationship('Books', backref='booksGenre')
     genre = db.relationship('Genre', backref='bookHasGenre')
@@ -165,11 +161,11 @@ class HasGenreAssociation(db.Model):
 class PurchaseAssociation(db.Model):
     __tablename__ = 'purchase'
     purchase_id = db.Column(db.Integer, primary_key=True)
+    bookshelf_id = db.Column(db.Integer, db.ForeignKey('bookshelf.bookshelf_id'))
     price = db.Column(db.Integer)
-    seller = db.Column(db.Integer, db.ForeignKey('user.id'))
-    buyer = db.Column(db.Integer, db.ForeignKey('user.id'))
-    user = db.relationship('User', backref='borrowBookshelfs')
-    bookshelf = db.relationship('Bookshelf', backref='purchasebook')
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship('User', backref='purchaseuser')
+    bookshelf = db.relationship('Bookshelf', backref='purchasebookshelf')
 
 
 
@@ -270,28 +266,13 @@ class UserRateTotal(db.Model):
         self.userRater = userRater
         self.totalRate = totalRate
 
-class Message(db.Model):
-    __tablename__ = 'message'
-    message_id = db.Column(db.Integer, primary_key=True)
-    messageFrom = db.Column(db.Integer, db.ForeignKey('user.id'))
-    messageTo = db.Column(db.Integer, db.ForeignKey('user.id'))
-    content = db.Column(db.String(100))
-    messaging_message = db.relationship('MessageAssociation', backref='messaging')
-
-    def __init__(self, messageFrom='', messageTo='', content='' ):
-        self.messageFrom = messageFrom
-        self.messageTo = messageTo
-        self.content = content
-
 class MessageAssociation(db.Model):
     __tablename__ = 'messaging'
     message_id = db.Column(db.Integer, db.ForeignKey('message.message_id'), primary_key=True)
     messageFrom = db.Column(db.Integer, db.ForeignKey('user.id'))
     messageTo = db.Column(db.Integer, db.ForeignKey('user.id'))
-    content = db.Column(db.String(100), db.ForeignKey('message.content'))
+    content = db.Column(db.String(100))
     date = db.Column(db.DATE, nullable=False)
-    user = db.relationship('User', backref='userMessage')
-    messaging = db.relationship('Message', backref='hasMessage')
 
     def __init__(self, messageFrom='', messageTo='', content='', date='' ):
         self.messageFrom = messageFrom
@@ -301,11 +282,11 @@ class MessageAssociation(db.Model):
 
 class InterestAssociation(db.Model):
     __tablename__ = 'hasInterest'
-    interestId = db.Column(db.Integer, db.ForeignKey('genre.id_genre'), primary_key=True)
+    interestId = db.Column(db.Integer,primary_key=True)
     user_Id = db.Column(db.Integer, db.ForeignKey('user.id'))
     genreId = db.Column(db.Integer, db.ForeignKey('genre.id_genre'))
-    user = db.relationship('User', backref='Interest')
-    genre = db.relationship('Genre', backref='Interest')
+    user = db.relationship('User', backref='Interestuser')
+    genre = db.relationship('Genre', backref='Interestgenre')
 
 
 class ActLogs(db.Model):
