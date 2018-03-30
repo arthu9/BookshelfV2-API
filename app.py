@@ -149,10 +149,10 @@ def login():
     if not user:
         return make_response('Could not verify', 401, {'WWW-Authenticate' : 'Basic Realm="Login Required!"'})
 
-    if check_password_hash(user.password, auth.password):
-        token = jwt.encode({'id' : user.id, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
+    if check_password_hash(User.password, auth.password):
+        token = jwt.encode({'id' : User.id, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
 
-        return jsonify({'token' : token.decode('UTF-8'), 'username' : user})
+        return jsonify({'token' : token.decode('UTF-8')})
 
     return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic Realm="Login Required!"'})
 
@@ -209,23 +209,6 @@ def viewbook(id):
 
     return jsonify({'book': output})
 
-
-    if books == []:
-        return jsonify({'message': 'No book found!'})
-
-    else:
-
-        output = []
-        for book in books:
-            user_data = {}
-            user_data['shelf_id'] = book.shelf_id
-            user_data['title'] = book.title
-            user_data['quantity'] = book.quantity
-            user_data['availability'] = book.availability
-            output.append(user_data)
-
-        return jsonify({'book': output})\
-
 @app.route('/user/<int:id>/bookshelf/availability', methods=['GET'])
 def viewbooks(id):
 
@@ -248,19 +231,21 @@ def viewbooks(id):
         return jsonify({'book': output})
 
 
-@app.route('/addbok', methods=['POST'])
-def addbook():
+@app.route('/addbok/<string:title>/<string:author>', methods=['GET'])
+def addbook(title, author):
 
-    data = request.get_json()
 
-    newBook = WrittenByAssociation.query.join(Books).filter(or_(Books.title == data['title'], WrittenByAssociation.author == data['author'])).all()
+    q = (db.session.query(Books, Author)
+         .filter(Books.title == title )
+         .filter(Author.author_id == Books  .publisher_id)
+        .filter(Author.author_first_name == author)
+         .first())
 
-    if newBook is None:
+
+    if q is None:
         return jsonify({'message': 'No book like that'})
     else:
         return jsonify({'message': 'buhat sa create'})
-
-    return 'bla'
 
 
 
