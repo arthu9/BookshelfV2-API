@@ -253,9 +253,8 @@ def addbook():
 
     if q is None:
 
-        author = Author.query.filter_by(and_(author_first_name = data['author_fname'], author_last_name = data['author_lname'])).first()
-
-        # author = (db.session.query(Author).filter(Author.author_first_name == data['author_fname']).filter(Author.author_last_name == data['author_lname'])).first()
+        # author = Author.query.filter_by(and_(author_first_name = data['author_fname']).first()
+        author = (db.session.query(Author).filter(Author.author_first_name == data['author_fname']).filter(Author.author_last_name == data['author_lname'])).first()
         author_id = author.author_id
 
         if author_id is None:
