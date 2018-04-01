@@ -1,36 +1,33 @@
 from flask import Flask, jsonify, request, make_response
-from flask_sqlalchemy import SQLAlchemy
-import uuid
+# from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
 import datetime
 from functools import wraps
-from flask_httpauth import HTTPBasicAuth
+# from flask_httpauth import HTTPBasicAuth
 from models import *
 
 
-auth = HTTPBasicAuth()
-
-def token_required(f):
-    @wraps(f)
-    def decorated(*args, **kwargs):
-        token = None
-
-        if 'x-access-token' in request.headers:
-            token = request.headers['x-access-token']
-
-        if not token:
-            return jsonify({'message' : 'Token is missing!'}), 401
-
-        try:
-            data = jwt.decode(token, app.config['SECRET_KEY'])
-            current_user = User.query.filter_by(id=data['id']).first()
-        except:
-            return jsonify({'message' : 'Token is invalid!'}), 401
-
-        return f(current_user, *args, **kwargs)
-
-    return decorated
+# def token_required(f):
+#     @wraps(f)
+#     def decorated(*args, **kwargs):
+#         token = None
+#
+#         if 'x-access-token' in request.headers:
+#             token = request.headers['x-access-token']
+#
+#         if not token:
+#             return jsonify({'message' : 'Token is missing!'}), 401
+#
+#         try:
+#             data = jwt.decode(token, app.config['SECRET_KEY'])
+#             current_user = User.query.filter_by(id=data['id']).first()
+#         except:
+#             return jsonify({'message' : 'Token is invalid!'}), 401
+#
+#         return f(current_user, *args, **kwargs)
+#
+#     return decorated
 
 @app.route('/users', methods=['GET'])
 def get_all_users():
@@ -55,10 +52,9 @@ def get_all_users():
         user_data['profpic'] = user.profpic
         output.append(user_data)
 
-    return jsonify({'users', output})
+    return jsonify({'users': output})
 
 @app.route('/user/info/<id>', methods=['GET'])
-@token_required
 def get_one_user(id):
     # if not current_user.admin:
 
@@ -80,7 +76,7 @@ def get_one_user(id):
     user_data['gender'] = user.gender
     user_data['profpic'] = user.profpic
 
-    return jsonify({'user' : user_data})
+    return jsonify({'user': user_data})
 
 @app.route('/signup', methods=['POST'])
 def create_user():
@@ -101,59 +97,27 @@ def create_user():
     else:
         return jsonify({'message': 'username already created'})
 
-# @app.route('/user/<user_id>', methods=['PUT'])
-# @token_required
-# def promote_user(current_user, public_id):
-#
-#     # if not current_user.admin:
-#     #     return jsonify({'message' : 'Cannot perform that function!'})
-#
-#     user = User.query.filter_by(public_id=public_id).first()
-#
-#     if not user:
-#         return jsonify({'message' : 'No user found!'})
-#
-#     user.admin = True
-#     db.session.commit()
-#
-#     return jsonify({'message' : 'The user has been promoted!'})
-#
-# @app.route('/user/<user_id>', methods=['DELETE'])
-# @token_required
-# def delete_user(current_user, public_id):
-#
-#     # if not current_user.admin:
-#     #     return jsonify({'message' : 'Cannot perform that function!'})
-#
-#     user = User.query.filter_by(public_id=public_id).first()
-#
-#     if not user:
-#         return jsonify({'message': 'No user found!'})
-#
-#     db.session.delete(user)
-#     db.session.commit()
-#
-#     return ({'message' : 'The user has been deleted!'})
 
 @app.route('/login')
 def login():
-    auth = request.get_json()
+    auth = request.authorization
 
-
-    if not auth or not auth.username or not auth.password:
-        return make_response('Could not verify', 401, {'WWW-Authenticate' : 'Basic Realm="Login Required!"'})
+    if not auth or not auth.password:
+        return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic Realm="Login Required!"'})
 
     user = User.query.filter_by(username=auth.username).first()
 
     if not user:
-        return make_response('Could not verify', 401, {'WWW-Authenticate' : 'Basic Realm="Login Required!"'})
+        return jsonify({'message': 'No user found!'})
 
-    if check_password_hash(user.password, auth.password):
-        token = jwt.encode({'id' : user.id, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
+    else:
+        check_password_hash(user.password, auth.password)
 
-        return jsonify({'token' : token.decode('UTF-8'), 'username' : user})
+        token = jwt.encode({'user': user.username, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)},
+                           app.config['SECRET_KEY'])
 
-    return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic Realm="Login Required!"'})
+        return jsonify({'user': user.username, 'token': token.decode('utf-8')})
+
 
 @app.route('/bookshelf/<int:shelf_id>/search/<string:item>', methods=['GET'])
 def search(shelf_id, item):
