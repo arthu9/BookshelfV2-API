@@ -91,7 +91,7 @@ def create_user():
         db.session.commit()
         return jsonify({'message': 'New user created!'})
     else:
-        return jsonify({'message': 'username already created'})
+        return jsonify({'message': 'Username already created'})
 
 
 @app.route('/login')
