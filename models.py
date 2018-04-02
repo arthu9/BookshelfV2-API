@@ -1,7 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
 import sqlalchemy, datetime
-from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
 
@@ -33,7 +32,7 @@ class User(UserMixin, db.Model):
 
     def __init__(self, username='', password='', first_name='', last_name='', contact_number='', birth_date='', gender='', profpic=''):
         self.username = username
-        self.password = generate_password_hash('password', method='sha256')
+        self.password = password
         self.first_name = first_name
         self.last_name = last_name
         self.contact_number = contact_number

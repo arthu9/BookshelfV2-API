@@ -31,10 +31,7 @@ def token_required(f):
 
 @app.route('/users', methods=['GET'])
 @token_required
-def get_all_users():
-
-    # if not current_user.admin:
-    #     return jsonify({'message' : 'Cannot perform that function!'})
+def get_all_users(current_user):
 
     users = User.query.all()
 
@@ -58,9 +55,6 @@ def get_all_users():
 @app.route('/user/info/<id>', methods=['GET'])
 @token_required
 def get_one_user(id):
-    # if not current_user.admin:
-
-    #     return jsonify({'message' : 'Cannot perform that function!'})
 
     user = User.query.filter_by(id=id).first()
 
@@ -104,21 +98,20 @@ def create_user():
 def login():
     auth = request.authorization
 
-    if not auth or not auth.password:
-        return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic Realm="Login Required!"'})
+    if not auth or not auth.username or not auth.password:
+        return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
 
     user = User.query.filter_by(username=auth.username).first()
 
     if not user:
-        return jsonify({'message': 'No user found!'})
+        return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
 
-    else:
-        check_password_hash(user.password, auth.password)
+    if check_password_hash(user.password, auth.password):
+        token = jwt.encode({'id': user.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
 
-        token = jwt.encode({'user': user.username, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)},
-                           app.config['SECRET_KEY'])
+        return jsonify({'token': token.decode('UTF-8')})
 
-        return jsonify({'user': user.username, 'token': token.decode('utf-8')})
+    return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
 
 
 @app.route('/bookshelf/<int:shelf_id>/search/<string:item>', methods=['GET'])
