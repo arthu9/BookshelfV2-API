@@ -155,12 +155,11 @@ def login():
 
     return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic Realm="Login Required!"'})
 
-@app.route('/bookshelf/<int:shelf_id>/search/<string:item>', methods=['GET'])
-def search(shelf_id, item):
+@app.route('/search/<string:item>', methods=['GET'])
+def search(item):
 
     item = '%'+item+'%'
-    books = ContainsAsscociation.query.join(Books).filter((ContainsAsscociation.shelf_id.like(shelf_id)) & ((Books.title.like(item)) | (
-        Books.year_published.like(item)) | (Books.types.like(item)) | Books.edition.like(str(item)) | (Books.isbn.like(item)))).all()
+    books = Books.query.filter((Books.title.like(item)) |(Books.description.like(item)) | (Books.year_published.like(item)) | (Books.types.like(item)) | (cast( Books.edition, sqlalchemy.String).like(item ))| (Books.isbn.like(item))).all()
 
     if books is None:
         return jsonify({'message':'No book found!'})
@@ -169,15 +168,18 @@ def search(shelf_id, item):
 
     for book in books:
         user_data = {}
-        user_data['shelf_id'] = book.shelf_id
-        user_data['book_id'] =book.book_id
-        user_data['quantity'] = book.quantity
-        user_data['availability'] = book.availability
+        user_data['book_id'] = book.book_id
+        user_data['title'] = book.title
+        user_data['description'] = book.description
+        user_data['year_published'] = book.year_published
+        user_data['isbn'] = book.isbn
+        user_data['types'] = book.types
+        user_data['publisher_id'] = book.publisher_id
         output.append(user_data)
 
     return jsonify({'book': output})
 
-@app.route('/user/<int:id>/bookshelf/', methods=['GET'])
+@app.route('/user/<int:id>/bookshelf/availability', methods=['GET'])
 def viewbooks(id):
 
     books = ContainsAsscociation.query.join(Bookshelf).filter_by(bookshelf_id = id).all()
@@ -198,6 +200,38 @@ def viewbooks(id):
 
         return jsonify({'book': output})
 
+@app.route('/user/<int:id>/bookshelf', methods=['GET'])
+def viewbook(id):
+
+    books = Bookshelf.query.filter_by(bookshef_owner = id).first()
+    shelf_id = books.bookshelf_id
+
+    contains = ContainsAsscociation.query.filter_by(shelf_id = shelf_id).first()
+    shelf_id = contains.shelf_id
+
+    Book = Books.query.join(ContainsAsscociation).filter_by(shelf_id = shelf_id).all()
+
+    # q = (db.session.query(Books, Bookshelf, ContainsAsscociation, Author)
+    #      .filter(Bookshelf.bookshef_owner == id)
+    #      .filter(ContainsAsscociation.shelf_id == Bookshelf.bookshelf_id)
+    #      .filter(Books.book_id == ContainsAsscociation.book_id)
+    #      .filter(Author.author_id == Books.publisher_id)
+    #      .all())
+
+    output = []
+
+    for book in Book:
+        user_data = {}
+        user_data['title'] = book.title
+        user_data['description'] = book.description
+        user_data['edition'] = book.edition
+        user_data['year'] = book.year_published
+        user_data['isbn'] = book.isbn
+        user_data['types'] = book.types
+        user_data['publisher_id'] = book.publisher_id
+        output.append(user_data)
+
+    return render_template('Profile.html', book=output)
 
 @app.route('/user/<int:id>/addbook', methods=['POST'])
 def addbook():
@@ -226,7 +260,7 @@ def addbook():
 
             publisher = (db.session.query(Publisher).filter(Publisher.publisher_name == data['publisher_name'])).first()
             publisher_id = publisher.publisher_id
-            new_book = Books(title = data['title'],edition = data['edition'], year_published = data['year'], isbn =data['isbn'], types =data['type'], publisher_id= publisher_id)
+            new_book = Books(title = data['title'],description = data['description'],edition = data['edition'], year_published = data['year'], isbn =data['isbn'], types =data['type'], publisher_id= publisher_id)
 
             db.session.add(new_book)
             db.session.commit()
@@ -235,7 +269,7 @@ def addbook():
         else:
 
             publisher_id = publisher.author_id
-            new_book = Books(title = data['title'],edition = data['edition'], year_published = data['year'], isbn =data['isbn'], types =data['type'], publisher_id= publisher_id)
+            new_book = Books(title = data['title'],description = data['description'],edition = data['edition'], year_published = data['year'], isbn =data['isbn'], types =data['type'], publisher_id= publisher_id)
 
             db.session.add(new_book)
             db.session.commit()
