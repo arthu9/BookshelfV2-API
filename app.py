@@ -199,8 +199,54 @@ def viewbooks(id):
         return jsonify({'book': output})
 
 
-# @app.route('/addbok/<int:id>')
-# def addbook(id):
+@app.route('/user/<int:id>/addbook', methods=['POST'])
+def addbook():
+
+    data = request.get_json()
+
+    # new_book = User(username=data['username'], password=hashed_password, first_name=data['first_name'],last_name=data['last_name'],
+    #                 contact_number=data['contact_number'], birth_date=data['birth_date'], gender = data['gender'], profpic = data['profpic'])
+
+    q = (db.session.query(Books, Publisher)
+         .filter(Books.title == data['title'])
+         .filter(Publisher.publisher_id == Books.publisher_id)
+         .filter(Publisher.publisher_name == data['publisher_name'])
+         .first())
+
+    if q is None:
+
+        # author = Author.query.filter_by(and_(author_first_name = data['author_fname']).first()
+        publisher = (db.session.query(Publisher).filter(Publisher.publisher_name == data['publisher_name'])).first()
+
+
+        if publisher is None:
+            new_publisher = Publisher(publisher_name= data['publisher_name'])
+            db.session.add(new_publisher)
+            db.session.commit()
+
+            publisher = (db.session.query(Publisher).filter(Publisher.publisher_name == data['publisher_name'])).first()
+            publisher_id = publisher.publisher_id
+            new_book = Books(title = data['title'],edition = data['edition'], year_published = data['year'], isbn =data['isbn'], types =data['type'], publisher_id= publisher_id)
+
+            db.session.add(new_book)
+            db.session.commit()
+            return jsonify({'message': 'New book created!'})
+
+        else:
+
+            publisher_id = publisher.author_id
+            new_book = Books(title = data['title'],edition = data['edition'], year_published = data['year'], isbn =data['isbn'], types =data['type'], publisher_id= publisher_id)
+
+            db.session.add(new_book)
+            db.session.commit()
+            return jsonify({'message': 'New book created!'})
+
+    else:
+        return jsonify({"message": "There exist such book"})
+
+
+# {"title": "wat","edition": "1", "year": "1989", "isbn": "assa", "type": "hard" , "author_fname": "joana", "author_lname": "marie"}
+
 
 
 if __name__ == '__main__':
