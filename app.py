@@ -158,9 +158,21 @@ def viewbooks(id):
         return jsonify({'book': output})
 
 
-# @app.route('/addbok/<int:id>')
-# def addbook(id):
-
+# @app.route('/ratings/<int:book_id>', methods=['POST'])
+# def ratings(book_id):
+#
+#     data = request.get_json()
+#
+#     current_user = User.query.filter_by(id=id).first()
+#
+#     rate = BookRateAssociation(rating=data['rating'])
+#
+#     rateOld = BookRateAssociation.query.filter(
+#         (BookRateAssociation.user_id == current_user.id) & (BookRateAssociation.book_id == book_id)).first()
+#
+#     if rateOld is None:
+#         rateOld.rating = rate
+#         db.session.commit()
 
 if __name__ == '__main__':
     app.run (debug=True)
