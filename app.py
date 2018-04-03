@@ -94,7 +94,7 @@ def create_user():
         return jsonify({'message': 'Username already created'})
 
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     auth = request.authorization
 
