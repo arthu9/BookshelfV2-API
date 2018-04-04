@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, make_response
+from flask import Flask, jsonify, request, make_response, render_template
 # from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
@@ -6,6 +6,7 @@ import datetime
 from functools import wraps
 # from flask_httpauth import HTTPBasicAuth
 from models import *
+from sqlalchemy import cast
 
 
 def token_required(f):
@@ -114,12 +115,11 @@ def login():
     return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
 
 
-@app.route('/bookshelf/<int:shelf_id>/search/<string:item>', methods=['GET'])
-def search(shelf_id, item):
+@app.route('/search/<string:item>', methods=['GET'])
+def search(item):
 
     item = '%'+item+'%'
-    books = ContainsAsscociation.query.join(Books).filter((ContainsAsscociation.shelf_id.like(shelf_id)) & ((Books.title.like(item)) | (
-        Books.year_published.like(item)) | (Books.types.like(item)) | Books.edition.like(str(item)) | (Books.isbn.like(item)))).all()
+    books = Books.query.filter(((Books.title.like(item)) | (Books.year_published.like(item)) | (Books.types.like(item)) | cast(Books.edition, sqlalchemy.String).like(str(item)) | (Books.isbn.like(item)))).all()
 
     if books is None:
         return jsonify({'message':'No book found!'})
@@ -128,10 +128,12 @@ def search(shelf_id, item):
 
     for book in books:
         user_data = {}
-        user_data['shelf_id'] = book.shelf_id
-        user_data['book_id'] =book.book_id
-        user_data['quantity'] = book.quantity
-        user_data['availability'] = book.availability
+        user_data['title'] = book.title
+        user_data['description'] = book.description
+        user_data['year_published'] = book.year_published
+        user_data['isbn'] = book.isbn
+        user_data['types'] = book.types
+        user_data['publisher_id'] = book.publisher_id
         output.append(user_data)
 
     return jsonify({'book': output})
