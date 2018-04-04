@@ -1,16 +1,15 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
 import sqlalchemy, datetime
-from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
 
-
-
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:pagararea1096@127.0.0.1:5432/bookshelf'
-engine = sqlalchemy.create_engine('postgresql://postgres:pagararea1096@127.0.0.1:5432')
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:mvjunetwo@127.0.0.1:5432/bookshelf'
+engine = sqlalchemy.create_engine('postgresql://postgres:mvjunetwo@127.0.0.1:5432/bookshelf')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SECRET_KEY'] = 'thisisthesecretkey'
 
 
 db = SQLAlchemy(app)
@@ -32,14 +31,15 @@ class User(UserMixin, db.Model):
     user_interest = db.relationship('InterestAssociation', backref='user_interest')
 
 
-    def __init__(self, username='', password='', first_name='', last_name='', contact_number='', birth_date='', sex=''):
+    def __init__(self, username='', password='', first_name='', last_name='', contact_number='', birth_date='', gender='', profpic=''):
         self.username = username
-        self.password = generate_password_hash(password, method='sha256')
+        self.password = password
         self.first_name = first_name
         self.last_name = last_name
         self.contact_number = contact_number
         self.birth_date = birth_date
-        self.sex = sex
+        self.gender = gender
+        self.profpic = profpic
 
 
 class Bookshelf(db.Model):
@@ -76,8 +76,9 @@ class Books(db.Model):
     rateBooks = db.relationship('BookRateAssociation', backref='books_rateBooks')
     borrowcount = db.Column(db.Integer, default=0)
 
-    def __init__(self, title='', edition='', year_published='', isbn='', types='', publisher_id=''):
+    def __init__(self, title='',description='', edition='', year_published='', isbn='', types='', publisher_id=''):
         self.title = title
+        self.description = description
         self.edition = edition
         self.year_published = year_published
         self.isbn = isbn
