@@ -138,7 +138,7 @@ def search(item):
 
     return jsonify({'book': output})
 
-@app.route('/user/<int:id>/bookshelf/', methods=['GET'])
+@app.route('/user/<int:id>/bookshelf/availability', methods=['GET'])
 def viewbooks(id):
 
     books = ContainsAsscociation.query.join(Bookshelf).filter_by(bookshelf_id = id).all()
