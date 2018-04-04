@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, make_response
+from flask import Flask, jsonify, request, make_response, render_template
 from flask_sqlalchemy import SQLAlchemy
 import uuid
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -82,6 +82,7 @@ def get_one_user(id):
     user_data['profpic'] = user.profpic
 
     return jsonify({'user' : user_data})
+    return render_template("Profile.html", userInfo = user_data)
 
 @app.route('/signup', methods=['POST'])
 def create_user():
@@ -91,7 +92,7 @@ def create_user():
     hashed_password = generate_password_hash(data['password'], method='sha256')
 
     new_user = User(username=data['username'], password=hashed_password, first_name=data['first_name'],last_name=data['last_name'],
-                    contact_number=data['contact_number'], birth_date=data['birth_date'], gender = data['gender'], profpic = data['profpic'])
+                    contact_number=data['contact_number'], birth_date=data['birth_date'], gender = data['gender'])
 
     user = User.query.filter_by(username=data['username']).first()
 
@@ -160,7 +161,7 @@ def login():
 def search(shelf_id, item):
 
     item = '%'+item+'%'
-    books = ContainsAsscociation.query.join(Books).filter((ContainsAsscociation.shelf_id.like(shelf_id)) & ((Books.title.like(item)) | (
+    books = ContainsAsscociation.query.join(Books).filter((ContainsAsscociation.shelf_id.like(int(shelf_id))) & ((Books.title.like(item)) | (
         Books.year_published.like(item)) | (Books.types.like(item)) | Books.edition.like(str(item)) | (Books.isbn.like(item)))).all()
 
     if books is None:
@@ -228,41 +229,48 @@ def viewbook(id):
         user_data['year'] = book.year_published
         user_data['isbn'] = book.isbn
         user_data['types'] = book.types
-        user_data['author_id'] = book.publisher_id
+        user_data['publisher_id'] = book.publisher_id
         output.append(user_data)
 
-    return jsonify({'book': output})
+    return render_template('Profile.html', book=output)
 
-@app.route('/addbook', methods=['POST'])
+@app.route('/user/<int:id>/addbook', methods=['POST'])
 def addbook():
 
     data = request.get_json()
 
-
-
-
     # new_book = User(username=data['username'], password=hashed_password, first_name=data['first_name'],last_name=data['last_name'],
     #                 contact_number=data['contact_number'], birth_date=data['birth_date'], gender = data['gender'], profpic = data['profpic'])
 
-    q = (db.session.query(Books, Author)
+    q = (db.session.query(Books, Publisher)
          .filter(Books.title == data['title'])
-         .filter(Author.author_id == Books.publisher_id)
-         .filter(Author.author_first_name == data['author_fname'])
-         .filter(Author.author_last_name == data['author_lname'])
+         .filter(Publisher.publisher_id == Books.publisher_id)
+         .filter(Publisher.publisher_name == data['publisher_name'])
          .first())
 
     if q is None:
 
         # author = Author.query.filter_by(and_(author_first_name = data['author_fname']).first()
-        author = (db.session.query(Author).filter(Author.author_first_name == data['author_fname']).filter(Author.author_last_name == data['author_lname'])).first()
-        author_id = author.author_id
+        publisher = (db.session.query(Publisher).filter(Publisher.publisher_name == data['publisher_name'])).first()
 
-        if author_id is None:
-            new_author = Author(author_first_name= data['author_fname'], author_last_name= data['author_lname'])
-            db.session.add(new_author)
+
+        if publisher is None:
+            new_publisher = Publisher(publisher_name= data['publisher_name'])
+            db.session.add(new_publisher)
+            db.session.commit()
+
+            publisher = (db.session.query(Publisher).filter(Publisher.publisher_name == data['publisher_name'])).first()
+            publisher_id = publisher.publisher_id
+            new_book = Books(title = data['title'],edition = data['edition'], year_published = data['year'], isbn =data['isbn'], types =data['type'], publisher_id= publisher_id)
+
+            db.session.add(new_book)
+            db.session.commit()
+            return jsonify({'message': 'New book created!'})
 
         else:
-            new_book = Books(title = data['title'],edition = data['edition'], year_published = data['year'], isbn =data['isbn'], types =data['type'], publisher_id= author_id)
+
+            publisher_id = publisher.author_id
+            new_book = Books(title = data['title'],edition = data['edition'], year_published = data['year'], isbn =data['isbn'], types =data['type'], publisher_id= publisher_id)
 
             db.session.add(new_book)
             db.session.commit()
@@ -270,6 +278,10 @@ def addbook():
 
     else:
         return jsonify({"message": "There exist such book"})
+
+
+# {"title": "wat","edition": "1", "year": "1989", "isbn": "assa", "type": "hard" , "author_fname": "joana", "author_lname": "marie"}
+
 
 if __name__ == '__main__':
     app.run (debug=True)

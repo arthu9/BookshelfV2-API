@@ -61,6 +61,7 @@ class Books(db.Model):
     __tablename__ = 'books'
     book_id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.TEXT, nullable=False)
+    description = db.Column(db.TEXT)
     edition = db.Column(db.Integer)
     year_published = db.Column(db.String(4))
     isbn = db.Column(db.String(20))
@@ -74,8 +75,9 @@ class Books(db.Model):
     rateBooks = db.relationship('BookRateAssociation', backref='books_rateBooks')
     borrowcount = db.Column(db.Integer, default=0)
 
-    def __init__(self, title='', edition='', year_published='', isbn='', types='', publisher_id=''):
+    def __init__(self, title='', description='', edition='', year_published='', isbn='', types='', publisher_id=''):
         self.title = title
+        self.description = description
         self.edition = edition
         self.year_published = year_published
         self.isbn = isbn
