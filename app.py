@@ -1,15 +1,12 @@
 from flask import Flask, jsonify, request, make_response
-from flask_sqlalchemy import SQLAlchemy
-import uuid
+# from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
 import datetime
 from functools import wraps
-from flask_httpauth import HTTPBasicAuth
+# from flask_httpauth import HTTPBasicAuth
 from models import *
 
-
-auth = HTTPBasicAuth()
 
 def token_required(f):
     @wraps(f)
@@ -33,10 +30,8 @@ def token_required(f):
     return decorated
 
 @app.route('/users', methods=['GET'])
-def get_all_users():
-
-    # if not current_user.admin:
-    #     return jsonify({'message' : 'Cannot perform that function!'})
+@token_required
+def get_all_users(current_user):
 
     users = User.query.all()
 
@@ -55,14 +50,11 @@ def get_all_users():
         user_data['profpic'] = user.profpic
         output.append(user_data)
 
-    return jsonify({'users', output})
+    return jsonify({'users': output})
 
 @app.route('/user/info/<id>', methods=['GET'])
 @token_required
 def get_one_user(id):
-    # if not current_user.admin:
-
-    #     return jsonify({'message' : 'Cannot perform that function!'})
 
     user = User.query.filter_by(id=id).first()
 
@@ -80,7 +72,7 @@ def get_one_user(id):
     user_data['gender'] = user.gender
     user_data['profpic'] = user.profpic
 
-    return jsonify({'user' : user_data})
+    return jsonify({'user': user_data})
 
 @app.route('/signup', methods=['POST'])
 def create_user():
@@ -99,61 +91,28 @@ def create_user():
         db.session.commit()
         return jsonify({'message': 'New user created!'})
     else:
-        return jsonify({'message': 'username already created'})
+        return jsonify({'message': 'Username already created'})
 
-# @app.route('/user/<user_id>', methods=['PUT'])
-# @token_required
-# def promote_user(current_user, public_id):
-#
-#     # if not current_user.admin:
-#     #     return jsonify({'message' : 'Cannot perform that function!'})
-#
-#     user = User.query.filter_by(public_id=public_id).first()
-#
-#     if not user:
-#         return jsonify({'message' : 'No user found!'})
-#
-#     user.admin = True
-#     db.session.commit()
-#
-#     return jsonify({'message' : 'The user has been promoted!'})
-#
-# @app.route('/user/<user_id>', methods=['DELETE'])
-# @token_required
-# def delete_user(current_user, public_id):
-#
-#     # if not current_user.admin:
-#     #     return jsonify({'message' : 'Cannot perform that function!'})
-#
-#     user = User.query.filter_by(public_id=public_id).first()
-#
-#     if not user:
-#         return jsonify({'message': 'No user found!'})
-#
-#     db.session.delete(user)
-#     db.session.commit()
-#
-#     return ({'message' : 'The user has been deleted!'})
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    auth = request.get_json()
-
+    auth = request.authorization
 
     if not auth or not auth.username or not auth.password:
-        return make_response('Could not verify', 401, {'WWW-Authenticate' : 'Basic Realm="Login Required!"'})
+        return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
 
     user = User.query.filter_by(username=auth.username).first()
 
     if not user:
-        return make_response('Could not verify', 401, {'WWW-Authenticate' : 'Basic Realm="Login Required!"'})
+        return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
 
     if check_password_hash(user.password, auth.password):
-        token = jwt.encode({'id' : user.id, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
+        token = jwt.encode({'id': user.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
 
-        return jsonify({'token' : token.decode('UTF-8'), 'username' : user})
+        return jsonify({'token': token.decode('UTF-8')})
 
-    return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic Realm="Login Required!"'})
+    return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
+
 
 @app.route('/bookshelf/<int:shelf_id>/search/<string:item>', methods=['GET'])
 def search(shelf_id, item):
@@ -199,9 +158,21 @@ def viewbooks(id):
         return jsonify({'book': output})
 
 
-# @app.route('/addbok/<int:id>')
-# def addbook(id):
-
+# @app.route('/ratings/<int:book_id>', methods=['POST'])
+# def ratings(book_id):
+#
+#     data = request.get_json()
+#
+#     current_user = User.query.filter_by(id=id).first()
+#
+#     rate = BookRateAssociation(rating=data['rating'])
+#
+#     rateOld = BookRateAssociation.query.filter(
+#         (BookRateAssociation.user_id == current_user.id) & (BookRateAssociation.book_id == book_id)).first()
+#
+#     if rateOld is None:
+#         rateOld.rating = rate
+#         db.session.commit()
 
 if __name__ == '__main__':
     app.run (debug=True)
