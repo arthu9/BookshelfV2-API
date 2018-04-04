@@ -83,7 +83,7 @@ def create_user():
     hashed_password = generate_password_hash(data['password'], method='sha256')
 
     new_user = User(username=data['username'], password=hashed_password, first_name=data['first_name'],last_name=data['last_name'],
-                    contact_number=data['contact_number'], birth_date=data['birth_date'], gender = data['gender'], profpic = data['profpic'])
+                    contact_number=data['contact_number'], birth_date=data['birth_date'], gender = data['gender'])
 
     user = User.query.filter_by(username=data['username']).first()
 
@@ -115,11 +115,45 @@ def login():
     return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
 
 
-@app.route('/search/<string:item>', methods=['GET'])
-def search(item):
+@app.route('/search', methods=['GET', 'POST'])
+def search():
 
-    item = '%'+item+'%'
+    data = request.get_json()
+    item = '%' + data['item'] + '%'
+
+
     books = Books.query.filter(((Books.title.like(item)) | (Books.year_published.like(item)) | (Books.types.like(item)) | cast(Books.edition, sqlalchemy.String).like(str(item)) | (Books.isbn.like(item)))).all()
+
+    if books is None:
+        return jsonify({'message':'No book found!'})
+
+    output = []
+
+    for book in books:
+        user_data = {}
+        user_data['title'] = book.title
+        user_data['description'] = book.description
+        user_data['year_published'] = book.year_published
+        user_data['isbn'] = book.isbn
+        user_data['types'] = book.types
+        user_data['publisher_id'] = book.publisher_id
+        output.append(user_data)
+
+    return jsonify({'book': output})
+
+
+@app.route('/user/<int:id>/bookshelf/search/<string:item>', methods=['GET'])
+def searchbookshelf(id):
+
+    data = request.get_json()
+
+    item = '%'+data['item']+'%'
+
+    user = Bookshelf.query.filter_by(bookshef_owner=id).first()
+    shelf_id = user.bookshelf_id
+
+    books = ContainsAsscociation.query.join(Books).filter((cast(shelf_id, sqlalchemy.String).like(item)) & ((Books.title.like(item)) | (
+        Books.year_published.like(item)) | (Books.types.like(item)) | cast(Books.edition, sqlalchemy.String).like(item) | (Books.isbn.like(item)))).all()
 
     if books is None:
         return jsonify({'message':'No book found!'})
@@ -215,6 +249,9 @@ def addbook():
 
     else:
         return jsonify({"message": "There exist such book"})
+
+# {"title": "ert","edition": "1", "year": "1289", "isbn": "assdsa", "type": "hrd" , "author_fname": "joanamae", "author_lname": "Villanueva"}
+
 
 @app.route('/user/<int:id>/bookshelf/availability', methods=['GET'])
 def viewbooks(id):
