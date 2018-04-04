@@ -54,6 +54,7 @@ def get_all_users(current_user):
 
     return jsonify({'users': output})
 
+
 @app.route('/user/info', methods=['GET'])
 @token_required
 def get_one_user(current_user):
@@ -73,8 +74,9 @@ def get_one_user(current_user):
     user_data['birth_date'] = user.birth_date
     user_data['gender'] = user.gender
     user_data['profpic'] = user.profpic
+    
+  return jsonify({'information': user_data})
 
-    return jsonify({'user': user_data})
 
 @app.route('/signup', methods=['POST'])
 def create_user():
@@ -83,8 +85,8 @@ def create_user():
 
     hashed_password = generate_password_hash(data['password'], method='sha256')
 
-    new_user = User(username=data['username'], password=hashed_password, first_name=data['first_name'],last_name=data['last_name'],
-                    contact_number=data['contact_number'], birth_date=data['birth_date'], gender = data['gender'])
+
+    new_user = User(username=data['username'], password=hashed_password, first_name=data['first_name'],last_name=data['last_name'],contact_number=data['contact_number'], birth_date=data['birth_date'], gender = data['gender'])
 
     user = User.query.filter_by(username=data['username']).first()
 
@@ -114,6 +116,28 @@ def login():
         return jsonify({'token': token.decode('UTF-8')})
 
     return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
+
+@app.route('/user/info/<id>', methods=['GET'])
+@token_required
+def get_one_user(id):
+
+    user = User.query.filter_by(id=id).first()
+
+    if not user:
+        return jsonify({'message':'No user found!'})
+
+    user_data = {}
+    user_data['id'] = user.id
+    user_data['username'] = user.username
+    user_data['password'] = user.password
+    user_data['first_name'] = user.first_name
+    user_data['last_name'] = user.last_name
+    user_data['contact_number'] = user.contact_number
+    user_data['birth_date'] = user.birth_date
+    user_data['gender'] = user.gender
+    user_data['profpic'] = user.profpic
+
+    return render_template("Profile.html", userInfo = user_data)
 
 
 @app.route('/search', methods=['GET', 'POST'])
@@ -207,7 +231,9 @@ def viewbook(current_id):
         user_data['publisher_id'] = book.publisher_id
         output.append(user_data)
 
-    return jsonify( {"book": output})
+
+    return jsonify({'book': output})
+
 
 @app.route('/user/<int:id>/addbook', methods=['POST'])
 def addbook():
@@ -246,7 +272,6 @@ def addbook():
 
             publisher_id = publisher.author_id
             new_book = Books(title = data['title'],decripition = data['decription'],edition = data['edition'], year_published = data['year'], isbn =data['isbn'], types =data['type'], publisher_id= publisher_id)
-
             db.session.add(new_book)
             db.session.commit()
             return jsonify({'message': 'New book created!'})
