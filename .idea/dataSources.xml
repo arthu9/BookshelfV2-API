@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="1245682228">
-    <data-source source="LOCAL" name="PostgreSQL - bookshelf@localhost" uuid="8892689d-f927-48ee-94ae-b7ce6ecdbac5">
+  <component name="DataSourceManagerImpl" format="xml" hash="2687981442">
+    <data-source source="LOCAL" name="PostgreSQL - bookshelf@localhost" uuid="e1243add-5afe-4c5e-84d4-afbebe1bd601">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://localhost:5432/bookshelf</jdbc-url>
     </data-source>
-    <data-source source="LOCAL" name="PostgreSQL - postgres@localhost" uuid="e2103f81-ce1f-42d4-9e2e-704b161e3122">
-      <driver-ref>postgresql</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:5432/postgres</jdbc-url>
-    </data-source>
-    <data-source source="LOCAL" name="PostgreSQL - bookshelf@localhost [2]" uuid="694e91bb-2220-4d0c-88d8-86c1a5db153c">
+    <data-source source="LOCAL" name="PostgreSQL - bookshelf@localhost [2]" uuid="a663f039-e7e7-4046-9682-6f9070475237">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
