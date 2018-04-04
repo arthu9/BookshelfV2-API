@@ -7,6 +7,7 @@ import datetime
 from functools import wraps
 from flask_httpauth import HTTPBasicAuth
 from models import *
+from flask_login import LoginManager, current_user, login_user, login_required, logout_user
 
 
 auth = HTTPBasicAuth()
@@ -26,7 +27,7 @@ def token_required(f):
             data = jwt.decode(token, app.config['SECRET_KEY'])
             current_user = User.query.filter_by(id=data['id']).first()
         except:
-            return jsonify({'message' : 'Token is invalid!'}), 401
+            return jsonify({'message': 'Token is invalid!'}), 401
 
         return f(current_user, *args, **kwargs)
 
@@ -135,25 +136,35 @@ def create_user():
 #
 #     return ({'message' : 'The user has been deleted!'})
 
-@app.route('/login')
-def login():
-    auth = request.get_json()
+#
+# @app.route('/login', methods=['GET', 'POST'])
+# def login():
+#     form = LoginForm()
+#
+#     if current_user.is_authenticated is True:
+#          return jsonify({'status': 'success', 'message': 'current user is authenticated'})
+#          # return redirect(url_for('home'))
+#
+#     elif form.validate_on_submit():
+#
+#         user = User.query.filter_by(username=form.username.data).first()
+#
+#         if user:
+#             if check_password_hash(user.password, form.password.data):
+#                 login_user(user, remember=True)
+#                 token = jwt.encode({'id': user.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
+#                 return jsonify({'status': 'success', 'username': user.username, 'message': 'success','token': token.decode('UTF-8')})
+#                 # return redirect(url_for('home'))
+#             else:
+#                 # flash('Invalid username or password')
+#                 return jsonify({'status': 'Could not verify', 'message': 'error'})
+#                 # return render_template('login.html', form=form)
+#         else:
+#             return jsonify({'status': 'Could not verify', 'message': 'error'})
+#             # return render_template('login.html', form=form)
+#     return jsonify({'status': 'Could not verify', 'message': 'error'})
+#     # return render_template('login.html', form=form)
 
-
-    if not auth or not auth.username or not auth.password:
-        return make_response('Could not verify', 401, {'WWW-Authenticate' : 'Basic Realm="Login Required!"'})
-
-    user = User.query.filter_by(username=auth.username).first()
-
-    if not user:
-        return make_response('Could not verify', 401, {'WWW-Authenticate' : 'Basic Realm="Login Required!"'})
-
-    if check_password_hash(user.password, auth.password):
-        token = jwt.encode({'id' : user.id, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
-
-        return jsonify({'token' : token.decode('UTF-8'), 'username' : user})
-
-    return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic Realm="Login Required!"'})
 
 @app.route('/bookshelf/<int:shelf_id>/search/<string:item>', methods=['GET'])
 def search(shelf_id, item):
@@ -199,8 +210,63 @@ def viewbooks(id):
         return jsonify({'book': output})
 
 
-# @app.route('/addbok/<int:id>')
-# def addbook(id):
+#COMMENT (USER)
+# @app.route('/profile/commentUser/', methods=['GET', 'POST'])
+@app.route('/profile/commentUser/<int:user_id>', methods=['GET', 'POST'])
+def comment(user_id):
+
+    if user_id == current_user.id:
+        comments = UserCommentAssociation.query.filter((UserCommentAssociation.user_idCommentee == current_user.id))
+        x = []
+        for c in comments:
+            s = User.query.filter_by(id=c.user_idCommenter).first()
+            x.append(s.first_name + ' ' + s.last_name)
+        return jsonify({'message': 'ok', 'comments': comments, 'name': x,'currrent_user': current_user})
+    else:
+        user = User.query.filter_by(id=user_id).first()
+        otheruserId = user_id
+        comments = UserCommentAssociation.query.filter((UserCommentAssociation.user_idCommentee == user_id))
+        xs = []
+        for c in comments:
+            s = User.query.filter_by(id=c.user_idCommenter).first()
+            xs.append(s.first_name + ' ' + s.last_name)
+        if request.method == 'POST':
+            comment = request.form['comment']
+            commentOld = UserCommentAssociation.query.filter((UserCommentAssociation.user_idCommentee == otheruserId) & (
+                UserCommentAssociation.user_idCommenterter == current_user.id)).first()
+
+            if commentOld is not None:
+                commentOld.comment = comment
+                db.session.commit()
+
+            else:
+                newCommenter = UserCommentAssociation(current_user.id, otheruserId,comment)
+                db.session.add(newCommenter)
+                db.session.commit()
+            return jsonify({'message': 'ok', 'user_id': user_id})
+        return jsonify({'message': 'ok', 'user': user, 'comments': comments, 'name': xs, 'currrent_user': current_user})
+
+
+#COMMENT (BOOK)
+# @app.route('/commentBook/', methods=['POST', 'GET'])
+@app.route('/commentBook/<int:book_id>', methods=['POST', 'GET'])
+def commentbook(book_id):
+    data = request.get_json()
+    comment = request.form['comment']
+    commentOld = BookCommentAssociation.query.filter((BookCommentAssociation.user_id == current_user.id) & (BookCommentAssociation.book_id == book_id)).first()
+    if commentOld is not None:
+        commentOld.comment = comment
+        db.session.commit()
+
+    else:
+        newCommenter = BookCommentAssociation(current_user.id, book_id, comment)
+        db.session.add(newCommenter)
+        db.session.commit()
+
+    # return redirect(url_for('indibook', book_id=book_id, page_num=1))
+    return jsonify({'message': 'ok', 'book_id': book_id})
+
+
 
 
 if __name__ == '__main__':

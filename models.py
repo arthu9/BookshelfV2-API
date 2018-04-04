@@ -8,8 +8,8 @@ from flask_login import UserMixin
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://postgres:mvjunetwo@localhost/bookshelf'
-engine = sqlalchemy.create_engine('postgres://postgres:mvjunetwo@localhost')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:pagararea1096@127.0.0.1:5432/bookshelf'
+engine = sqlalchemy.create_engine('postgresql://postgres:pagararea1096@127.0.0.1:5432')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
@@ -218,6 +218,7 @@ class Wishlist(db.Model):
         self.shelf_id = shelf_id
         self.bookid = bookid
 
+# Rates (book)
 class BookRateAssociation(db.Model):
     __tablename__ = 'bookRate'
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -246,7 +247,7 @@ class BookRateTotal(db.Model):
         self.bookRated = bookRated
         self.totalRate = totalRate
 
-
+# Rates (user)
 class UserRateAssociation(db.Model):
     __tablename__ = 'userRate'
     rate_id = db.Column(db.Integer, primary_key=True)
@@ -273,6 +274,36 @@ class UserRateTotal(db.Model):
         self.userRatee = userRatee
         self.userRater = userRater
         self.totalRate = totalRate
+
+
+# Comment (Book)--------------------------------
+class BookCommentAssociation(db.Model):
+    __tablename__ = 'bookComment'
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    book_id = db.Column(db.Integer, db.ForeignKey('books.book_id'), primary_key=True)
+    comment = db.Column(db.TEXT)
+    user = db.relationship('User', backref='user_booksComment')
+    books = db.relationship('Books', backref='bookComment')
+
+    def __init__(self, user_id='', book_id='', comment=''):
+        self.user_id = user_id
+        self.book_id = book_id
+        self.comment = comment
+
+# Comment (User)
+class UserCommentAssociation(db.Model):
+    __tablename__ = 'userComment'
+    comment_id = db.Column(db.Integer, primary_key=True)
+    user_idCommenter = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_idCommentee = db.Column(db.Integer, db.ForeignKey('user.id'))
+    comment = db.Column(db.TEXT)
+
+    def __init__(self, user_idCommenter='', user_idCommentee='', comment=''):
+        self.user_idCommenter = user_idCommenter
+        self.user_idCommentee = user_idCommentee
+        self.comment = comment
+
+
 
 # class Message(db.Model):
 #     __tablename__ = 'message'
@@ -321,3 +352,4 @@ class ActLogs(db.Model):
         self.status = status
         self.bookid = bookid
 
+db.create_all()
