@@ -5,8 +5,8 @@ from flask_login import UserMixin
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@127.0.0.1:5432/bookshelf'
-engine = sqlalchemy.create_engine('postgresql://postgres:postgres@127.0.0.1:5432/bookshelf')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:mvjunetwo@127.0.0.1:5432/bookshelf'
+engine = sqlalchemy.create_engine('postgresql://postgres:mvjunetwo@127.0.0.1:5432/bookshelf')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'thisisthesecretkey'
 
@@ -75,8 +75,9 @@ class Books(db.Model):
     rateBooks = db.relationship('BookRateAssociation', backref='books_rateBooks')
     borrowcount = db.Column(db.Integer, default=0)
 
-    def __init__(self, title='', edition='', year_published='', isbn='', types='', publisher_id=''):
+    def __init__(self, title='',description='', edition='', year_published='', isbn='', types='', publisher_id=''):
         self.title = title
+        self.description = description
         self.edition = edition
         self.year_published = year_published
         self.isbn = isbn
