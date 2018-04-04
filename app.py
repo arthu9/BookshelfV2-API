@@ -138,6 +138,39 @@ def search(item):
 
     return jsonify({'book': output})
 
+@app.route('/user/<int:id>/bookshelf', methods=['GET'])
+def viewbook(id):
+
+    books = Bookshelf.query.filter_by(bookshef_owner = id).first()
+    shelf_id = books.bookshelf_id
+
+    contains = ContainsAsscociation.query.filter_by(shelf_id = shelf_id).first()
+    shelf_id = contains.shelf_id
+
+    Book = Books.query.join(ContainsAsscociation).filter_by(shelf_id = shelf_id).all()
+
+    # q = (db.session.query(Books, Bookshelf, ContainsAsscociation, Author)
+    #      .filter(Bookshelf.bookshef_owner == id)
+    #      .filter(ContainsAsscociation.shelf_id == Bookshelf.bookshelf_id)
+    #      .filter(Books.book_id == ContainsAsscociation.book_id)
+    #      .filter(Author.author_id == Books.publisher_id)
+    #      .all())
+
+    output = []
+
+    for book in Book:
+        user_data = {}
+        user_data['title'] = book.title
+        user_data['description'] = book.decription
+        user_data['edition'] = book.edition
+        user_data['year'] = book.year_published
+        user_data['isbn'] = book.isbn
+        user_data['types'] = book.types
+        user_data['publisher_id'] = book.publisher_id
+        output.append(user_data)
+
+    return render_template('Profile.html', book=output)
+
 @app.route('/user/<int:id>/addbook', methods=['POST'])
 def addbook():
 
@@ -174,7 +207,7 @@ def addbook():
         else:
 
             publisher_id = publisher.author_id
-            new_book = Books(title = data['title'],edition = data['edition'], year_published = data['year'], isbn =data['isbn'], types =data['type'], publisher_id= publisher_id)
+            new_book = Books(title = data['title'],decripition = data['decription'],edition = data['edition'], year_published = data['year'], isbn =data['isbn'], types =data['type'], publisher_id= publisher_id)
 
             db.session.add(new_book)
             db.session.commit()
