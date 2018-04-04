@@ -53,27 +53,7 @@ def get_all_users(current_user):
 
     return jsonify({'users': output})
 
-@app.route('/user/info/<id>', methods=['GET'])
-@token_required
-def get_one_user(id):
 
-    user = User.query.filter_by(id=id).first()
-
-    if not user:
-        return jsonify({'message':'No user found!'})
-
-    user_data = {}
-    user_data['id'] = user.id
-    user_data['username'] = user.username
-    user_data['password'] = user.password
-    user_data['first_name'] = user.first_name
-    user_data['last_name'] = user.last_name
-    user_data['contact_number'] = user.contact_number
-    user_data['birth_date'] = user.birth_date
-    user_data['gender'] = user.gender
-    user_data['profpic'] = user.profpic
-
-    return jsonify({'user': user_data})
 
 @app.route('/signup', methods=['POST'])
 def create_user():
@@ -114,12 +94,9 @@ def login():
 
     return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
 
-@app.route('/user/<id>/info', methods=['GET'])
+@app.route('/user/info/<id>', methods=['GET'])
 @token_required
 def get_one_user(id):
-    # if not current_user.admin:
-
-    #     return jsonify({'message' : 'Cannot perform that function!'})
 
     user = User.query.filter_by(id=id).first()
 
@@ -138,6 +115,7 @@ def get_one_user(id):
     user_data['profpic'] = user.profpic
 
     return render_template("Profile.html", userInfo = user_data)
+
 
 @app.route('/search/<string:item>', methods=['GET'])
 def search(item):
