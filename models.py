@@ -308,3 +308,5 @@ class ActLogs(db.Model):
 
 db.create_all()
 
+
+
