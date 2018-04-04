@@ -163,7 +163,7 @@ def viewbook(id):
     for book in Book:
         user_data = {}
         user_data['title'] = book.title
-        user_data['description'] = book.decription
+        user_data['description'] = book.description
         user_data['edition'] = book.edition
         user_data['year'] = book.year_published
         user_data['isbn'] = book.isbn
@@ -171,7 +171,7 @@ def viewbook(id):
         user_data['publisher_id'] = book.publisher_id
         output.append(user_data)
 
-    return render_template('Profile.html', book=output)
+    return jsonify({'book': output})
 
 @app.route('/user/<int:id>/addbook', methods=['POST'])
 def addbook():
@@ -210,7 +210,6 @@ def addbook():
 
             publisher_id = publisher.author_id
             new_book = Books(title = data['title'],decripition = data['decription'],edition = data['edition'], year_published = data['year'], isbn =data['isbn'], types =data['type'], publisher_id= publisher_id)
-
             db.session.add(new_book)
             db.session.commit()
             return jsonify({'message': 'New book created!'})
