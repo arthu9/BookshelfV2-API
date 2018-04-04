@@ -22,7 +22,8 @@ def token_required(f):
 
         try:
             data = jwt.decode(token, app.config['SECRET_KEY'])
-            current_user = User.query.filter_by(id=data['id']).first()
+            current = User.query.filter_by(id=data['id']).first()
+            current_user = current.id
         except:
             return jsonify({'message' : 'Token is invalid!'}), 401
 
@@ -53,11 +54,11 @@ def get_all_users(current_user):
 
     return jsonify({'users': output})
 
-@app.route('/user/info/<id>', methods=['GET'])
+@app.route('/user/info', methods=['GET'])
 @token_required
-def get_one_user(id):
+def get_one_user(current_user):
 
-    user = User.query.filter_by(id=id).first()
+    user = User.query.filter_by(id=current_user).first()
 
     if not user:
         return jsonify({'message':'No user found!'})
@@ -143,14 +144,15 @@ def search():
 
 
 
-@app.route('/user/<int:id>/bookshelf/search/<string:item>', methods=['GET'])
-def searchbookshelf(id):
+@app.route('/user/bookshelf/search', methods=['GET','POST'])
+@token_required
+def searchbookshelf(current_user):
 
     data = request.get_json()
 
     item = '%'+data['item']+'%'
 
-    user = Bookshelf.query.filter_by(bookshef_owner=id).first()
+    user = Bookshelf.query.filter_by(bookshef_owner=current_user).first()
     shelf_id = user.bookshelf_id
 
     books = ContainsAsscociation.query.join(Books).filter((cast(shelf_id, sqlalchemy.String).like(item)) & ((Books.title.like(item)) | (
@@ -173,10 +175,11 @@ def searchbookshelf(id):
 
     return jsonify({'book': output})
 
-@app.route('/user/<int:id>/bookshelf', methods=['GET'])
-def viewbook(id):
+@app.route('/user/bookshelf', methods=['GET'])
+@token_required
+def viewbook(current_id):
 
-    books = Bookshelf.query.filter_by(bookshef_owner = id).first()
+    books = Bookshelf.query.filter_by(bookshef_owner = current_id).first()
     shelf_id = books.bookshelf_id
 
     contains = ContainsAsscociation.query.filter_by(shelf_id = shelf_id).first()
@@ -196,7 +199,7 @@ def viewbook(id):
     for book in Book:
         user_data = {}
         user_data['title'] = book.title
-        user_data['description'] = book.decription
+        user_data['description'] = book.description
         user_data['edition'] = book.edition
         user_data['year'] = book.year_published
         user_data['isbn'] = book.isbn
@@ -204,7 +207,7 @@ def viewbook(id):
         user_data['publisher_id'] = book.publisher_id
         output.append(user_data)
 
-    return render_template('Profile.html', book=output)
+    return jsonify( {"book": output})
 
 @app.route('/user/<int:id>/addbook', methods=['POST'])
 def addbook():
@@ -214,13 +217,13 @@ def addbook():
     # new_book = User(username=data['username'], password=hashed_password, first_name=data['first_name'],last_name=data['last_name'],
     #                 contact_number=data['contact_number'], birth_date=data['birth_date'], gender = data['gender'], profpic = data['profpic'])
 
-    q = (db.session.query(Books, Publisher)
+    book = (db.session.query(Books, Publisher)
          .filter(Books.title == data['title'])
-         .filter(Publisher.publisher_id == Books.publisher_id)
-         .filter(Publisher.publisher_name == data['publisher_name'])
+            .filter(Publisher.publisher_name == data['publisher_name'])
+            .filter(Publisher.publisher_id == Books.publisher_id)
          .first())
 
-    if q is None:
+    if book is None:
 
         # author = Author.query.filter_by(and_(author_first_name = data['author_fname']).first()
         publisher = (db.session.query(Publisher).filter(Publisher.publisher_name == data['publisher_name'])).first()
@@ -234,9 +237,9 @@ def addbook():
             publisher = (db.session.query(Publisher).filter(Publisher.publisher_name == data['publisher_name'])).first()
             publisher_id = publisher.publisher_id
             new_book = Books(title = data['title'],edition = data['edition'], year_published = data['year'], isbn =data['isbn'], types =data['type'], publisher_id= publisher_id)
-
             db.session.add(new_book)
             db.session.commit()
+
             return jsonify({'message': 'New book created!'})
 
         else:
@@ -254,10 +257,11 @@ def addbook():
 # {"title": "ert","edition": "1", "year": "1289", "isbn": "assdsa", "type": "hrd" , "author_fname": "joanamae", "author_lname": "Villanueva"}
 
 
-@app.route('/user/<int:id>/bookshelf/availability', methods=['GET'])
-def viewbooks(id):
+@app.route('/user/bookshelf/availability', methods=['GET'])
+@token_required
+def viewbooks(current_user):
 
-    books = ContainsAsscociation.query.join(Bookshelf).filter_by(bookshelf_id = id).all()
+    books = ContainsAsscociation.query.join(Bookshelf).filter_by(bookshef_owner = current_user).all()
 
     if books == []:
         return jsonify({'message': 'No book found!'})
