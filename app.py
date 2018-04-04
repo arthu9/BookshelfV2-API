@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, make_response
+from flask import Flask, jsonify, request, make_response, render_template
 from flask_sqlalchemy import SQLAlchemy
 import uuid
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -7,6 +7,7 @@ import datetime
 from functools import wraps
 from flask_httpauth import HTTPBasicAuth
 from models import *
+from sqlalchemy import cast
 
 
 auth = HTTPBasicAuth()
@@ -159,7 +160,8 @@ def login():
 def search(item):
 
     item = '%'+item+'%'
-    books = Books.query.filter((Books.title.like(item)) |(Books.description.like(item)) | (Books.year_published.like(item)) | (Books.types.like(item)) | (cast( Books.edition, sqlalchemy.String).like(item ))| (Books.isbn.like(item))).all()
+    books = Books.query.filter((Books.title.like(item)) |(Books.description.like(item)) | (Books.year_published.like(item)) | (Books.types.like(item)) |
+                               (cast( Books.edition, sqlalchemy.String).like(item ))| (Books.isbn.like(item))).all()
 
     if books is None:
         return jsonify({'message':'No book found!'})
