@@ -49,6 +49,8 @@ def get_all_users(current_user):
         user_data['contact_number'] = user.contact_number
         user_data['birth_date'] = user.birth_date
         user_data['gender'] = user.gender
+        user_data['longitude'] = user.longitude
+        user_data['latitude'] = user.latitude
         user_data['profpic'] = user.profpic
         output.append(user_data)
 
@@ -73,6 +75,8 @@ def get_one_user(current_user):
     user_data['contact_number'] = user.contact_number
     user_data['birth_date'] = user.birth_date
     user_data['gender'] = user.gender
+    user_data['longitude'] = user.longitude
+    user_data['latitude'] = user.latitude
     user_data['profpic'] = user.profpic
 
     return jsonify({'information': user_data})
@@ -86,7 +90,7 @@ def create_user():
     hashed_password = generate_password_hash(data['password'], method='sha256')
 
 
-    new_user = User(username=data['username'], password=hashed_password, first_name=data['first_name'],last_name=data['last_name'],contact_number=data['contact_number'], birth_date=data['birth_date'], gender = data['gender'])
+    new_user = User(username=data['username'], password=hashed_password, first_name=data['first_name'],last_name=data['last_name'],contact_number=data['contact_number'], birth_date=data['birth_date'], gender = data['gender'], longitude=data['longitude'], latitude=data['latitude'])
 
     user = User.query.filter_by(username=data['username']).first()
 
