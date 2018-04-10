@@ -6,8 +6,8 @@ from flask_login import UserMixin
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:mvjunetwo@127.0.0.1:5432/bookshelf'
-engine = sqlalchemy.create_engine('postgresql://postgres:mvjunetwo@127.0.0.1:5432/bookshelf')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:pagararea1096@127.0.0.1:5432/bookshelf'
+engine = sqlalchemy.create_engine('postgresql://postgres:pagararea1096@127.0.0.1:5432/bookshelf')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'thisisthesecretkey'
 
@@ -27,6 +27,7 @@ class User(UserMixin, db.Model):
     bookshelf_user = db.relationship('Bookshelf', uselist=False, backref='user_bookshelf')
     borrow_bookshelfs = db.relationship('BorrowsAssociation', backref='user_borrow')
     userRateBooks = db.relationship('BookRateAssociation', backref='user_raterBooks')
+    userCommentBooks = db.relationship('BookCommentAssociation', backref='user_CommenterBooks')
     wishlists_bookshelf = db.relationship('Wishlist', backref='user_wishlist')
     user_interest = db.relationship('InterestAssociation', backref='user_interest')
 
@@ -74,6 +75,7 @@ class Books(db.Model):
     publisher = db.relationship('Publisher', backref='bookPublish')
     booksInGenre = db.relationship('HasGenreAssociation', backref='books_genre')
     rateBooks = db.relationship('BookRateAssociation', backref='books_rateBooks')
+    commentBooks = db.relationship('BookCommentAssociation', backref='books_commentBooks')
     borrowcount = db.Column(db.Integer, default=0)
 
     def __init__(self, title='',description='', edition='', year_published='', isbn='', types='', publisher_id=''):
