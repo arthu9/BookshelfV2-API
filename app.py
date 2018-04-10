@@ -74,8 +74,8 @@ def get_one_user(current_user):
     user_data['birth_date'] = user.birth_date
     user_data['gender'] = user.gender
     user_data['profpic'] = user.profpic
-    
-  return jsonify({'information': user_data})
+
+    return jsonify({'information': user_data})
 
 
 @app.route('/signup', methods=['POST'])
@@ -117,28 +117,6 @@ def login():
 
     return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
 
-@app.route('/user/info/<id>', methods=['GET'])
-@token_required
-def get_one_user(id):
-
-    user = User.query.filter_by(id=id).first()
-
-    if not user:
-        return jsonify({'message':'No user found!'})
-
-    user_data = {}
-    user_data['id'] = user.id
-    user_data['username'] = user.username
-    user_data['password'] = user.password
-    user_data['first_name'] = user.first_name
-    user_data['last_name'] = user.last_name
-    user_data['contact_number'] = user.contact_number
-    user_data['birth_date'] = user.birth_date
-    user_data['gender'] = user.gender
-    user_data['profpic'] = user.profpic
-
-    return render_template("Profile.html", userInfo = user_data)
-
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
@@ -176,8 +154,8 @@ def searchbookshelf(current_user):
 
     item = '%'+data['item']+'%'
 
-    user = Bookshelf.query.filter_by(bookshef_owner=current_user).first()
-    shelf_id = user.bookshelf_id
+    books = Bookshelf.query.filter_by(bookshef_owner = current_user).first()
+    shelf_id = books.bookshelf_id
 
     books = ContainsAsscociation.query.join(Books).filter((cast(shelf_id, sqlalchemy.String).like(item)) & ((Books.title.like(item)) | (
         Books.year_published.like(item)) | (Books.types.like(item)) | cast(Books.edition, sqlalchemy.String).like(item) | (Books.isbn.like(item)))).all()
@@ -201,9 +179,9 @@ def searchbookshelf(current_user):
 
 @app.route('/user/bookshelf', methods=['GET'])
 @token_required
-def viewbook(current_id):
+def viewbook(current_user):
 
-    books = Bookshelf.query.filter_by(bookshef_owner = current_id).first()
+    books = Bookshelf.query.filter_by(bookshef_owner = current_user).first()
     shelf_id = books.bookshelf_id
 
     contains = ContainsAsscociation.query.filter_by(shelf_id = shelf_id).first()
