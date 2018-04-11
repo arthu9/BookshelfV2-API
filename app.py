@@ -310,6 +310,11 @@ def viewbooks(current_user):
 
         return jsonify({'book': output})
 
+@app.route('/')
+def category():
+
+    return 0
+
 
 # @app.route('/ratings/<int:book_id>', methods=['POST'])
 # def ratings(book_id):
