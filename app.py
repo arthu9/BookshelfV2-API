@@ -217,49 +217,110 @@ def viewbook(current_user):
     return jsonify({'book': output})
 
 
-@app.route('/user/<int:id>/addbook', methods=['POST'])
-def addbook():
+@app.route('/user/addbook', methods=['POST'])
+@token_required
+def addbook(current_user):
 
     data = request.get_json()
 
-    # new_book = User(username=data['username'], password=hashed_password, first_name=data['first_name'],last_name=data['last_name'],
-    #                 contact_number=data['contact_number'], birth_date=data['birth_date'], gender = data['gender'], profpic = data['profpic'])
-
-    book = (db.session.query(Books, Publisher)
-         .filter(Books.title == data['title'])
-            .filter(Publisher.publisher_name == data['publisher_name'])
-            .filter(Publisher.publisher_id == Books.publisher_id)
-         .first())
-
-    if book is None:
-
-        # author = Author.query.filter_by(and_(author_first_name = data['author_fname']).first()
-        publisher = (db.session.query(Publisher).filter(Publisher.publisher_name == data['publisher_name'])).first()
-
-
+    book = Books.query.filter((Books.title == data['title']) & (Books.edition == data['edition']) & (Books.year_published == data['year']) & (Books.isbn == data['isbn'])).first()
+    publisher = Publisher.query.filter(Publisher.publisher_name == data['publisher_name']).first()
+    author = Author.query.filter(
+        (Author.author_first_name == data['author_fname']) & (Author.author_last_name == data['author_lname'])).first()
+    if (book is None) or (publisher is None) or (author is None):
         if publisher is None:
-            new_publisher = Publisher(publisher_name= data['publisher_name'])
-            db.session.add(new_publisher)
+            newPublisher = Publisher(publisher_name= data['publisher_name'])
+            db.session.add(newPublisher)
             db.session.commit()
+            publisher_id = Publisher.query.filter((Publisher.publisher_name == data['publisher_name'])).first()
+            if author is None:
+                author = Author(data['author_fname'], data['author_lname'])
+                db.session.add(author)
+                db.session.commit()
+            elif author is not None:
+                auth_id = Author.query.filter((Author.author_first_name == data['author_fname']) and (Author.author_last_name == data['author_lname'])).first()
+        elif publisher is not None:
+            publisher_id = Publisher.query.filter((Publisher.publisher_name == data['publisher_name'])).first()
+            if author is None:
+                authbook = Author(data['author_fname'], data['author_lname'])
+                db.session.add(authbook)
+                db.session.commit()
+            elif author is not None:
+                auth_id = Author.query.filter((Author.author_first_name == data['author_fname']) and (
+                    Author.author_last_name == data['author_lname'])).first()
 
-            publisher = (db.session.query(Publisher).filter(Publisher.publisher_name == data['publisher_name'])).first()
-            publisher_id = publisher.publisher_id
-            new_book = Books(title = data['title'],edition = data['edition'], year_published = data['year'], isbn =data['isbn'], types =data['type'], publisher_id= publisher_id)
-            db.session.add(new_book)
-            db.session.commit()
+        publisher = Publisher.query.filter(Publisher.publisher_name == data['publisher_name']).first()
+        publisher_id = publisher.publisher_id
+        book = Books(title = data['title'],edition = data['edition'], year_published = data['year'], isbn =data['isbn'], types =data['types'], publisher_id= publisher_id)
+        db.session.add(book)
+        db.session.commit()
 
-            return jsonify({'message': 'New book created!'})
+        written = WrittenByAssociation(auth_id.author_id, book.book_id)
+        db.session.add(written)
+        db.session.commit()
 
-        else:
+        bookshelf = Bookshelf.query.filter_by(bookshef_owner=current_user).first()
+        shelf_id = bookshelf.bookshelf_id
 
-            publisher_id = publisher.author_id
-            new_book = Books(title = data['title'],decripition = data['decription'],edition = data['edition'], year_published = data['year'], isbn =data['isbn'], types =data['type'], publisher_id= publisher_id)
-            db.session.add(new_book)
-            db.session.commit()
-            return jsonify({'message': 'New book created!'})
+        contain = ContainsAsscociation(shelf_id, book.book_id, 1, 'YES')
+        db.session.add(contain)
+        db.session.commit()
+
+        return jsonify({'message': 'New book created!'})
 
     else:
-        return jsonify({"message": "There exist such book"})
+
+        bookshelf = Bookshelf.query.filter_by(bookshef_owner=current_user).first()
+        shelf_id = bookshelf.bookshelf_id
+
+        bookquantity = ContainsAsscociation.query.filter((ContainsAsscociation.shelf_id == shelf_id) & (ContainsAsscociation.book_id == book.book_id)).first()
+        if bookquantity is None:
+            contain = ContainsAsscociation(shelf_id, book.book_id, 1, 'YES')
+            db.session.add(contain)
+            db.session.commit()
+        else:
+            curQuant = bookquantity.quantity
+            bookquantity.quantity = int(curQuant + 1)
+            db.session.commit()
+
+    return jsonify({'message': 'New book counted!'})
+    # if book is None:
+    #
+    #     # author = Author.query.filter_by(and_(author_first_name = data['author_fname']).first()
+    #     publisher = (db.session.query(Publisher).filter(Publisher.publisher_name == data['publisher_name'])).first()
+    #
+    #
+    #     if publisher is None:
+    #         new_publisher = Publisher(publisher_name= data['publisher_name'])
+    #         db.session.add(new_publisher)
+    #         db.session.commit()
+    #
+    #         publisher = (db.session.query(Publisher).filter(Publisher.publisher_name == data['publisher_name'])).first()
+    #         publisher_id = publisher.publisher_id
+    #         new_book = Books(title = data['title'],edition = data['edition'], year_published = data['year'], isbn =data['isbn'], types =data['type'], publisher_id= publisher_id)
+    #         db.session.add(new_book)
+    #         db.session.commit()
+    #         #
+    #         # qBook = (db.session.query(Books)
+    #         #         .filter(Books.title == data['title'])
+    #         #         .filter(Books.edition == data['edition'])
+    #         #         .filter(Books.year_published == data['year'])
+    #         #         .filter(Books.isbn == data['isbn'])
+    #         #         .filter(Books.types == data['types'])
+    #         #         .filter(Books.publisher_id == publisher_id)
+    #         #         .first())
+    #         # book_id = qBook.book_id
+    #         # checkAuthor = WrittenByAssociation.query.filter_by(book_id = book_id).first()
+    #         # aykona
+    #         return jsonify({'message': 'New book created!'})
+    #
+    #     else:
+    #
+    #         publisher_id = publisher.publisher_id
+    #         new_book = Books(title = data['title'],edition = data['edition'], year_published = data['year'], isbn =data['isbn'], types =data['types'], publisher_id= publisher_id)
+    #         db.session.add(new_book)
+    #         db.session.commit()
+    #         return jsonify({'message': 'New book created!'})
 
 # {"title": "ert","edition": "1", "year": "1289", "isbn": "assdsa", "type": "hrd" , "author_fname": "joanamae", "author_lname": "Villanueva"}
 
