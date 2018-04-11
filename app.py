@@ -284,45 +284,8 @@ def addbook(current_user):
             db.session.commit()
 
     return jsonify({'message': 'New book counted!'})
-    # if book is None:
-    #
-    #     # author = Author.query.filter_by(and_(author_first_name = data['author_fname']).first()
-    #     publisher = (db.session.query(Publisher).filter(Publisher.publisher_name == data['publisher_name'])).first()
-    #
-    #
-    #     if publisher is None:
-    #         new_publisher = Publisher(publisher_name= data['publisher_name'])
-    #         db.session.add(new_publisher)
-    #         db.session.commit()
-    #
-    #         publisher = (db.session.query(Publisher).filter(Publisher.publisher_name == data['publisher_name'])).first()
-    #         publisher_id = publisher.publisher_id
-    #         new_book = Books(title = data['title'],edition = data['edition'], year_published = data['year'], isbn =data['isbn'], types =data['type'], publisher_id= publisher_id)
-    #         db.session.add(new_book)
-    #         db.session.commit()
-    #         #
-    #         # qBook = (db.session.query(Books)
-    #         #         .filter(Books.title == data['title'])
-    #         #         .filter(Books.edition == data['edition'])
-    #         #         .filter(Books.year_published == data['year'])
-    #         #         .filter(Books.isbn == data['isbn'])
-    #         #         .filter(Books.types == data['types'])
-    #         #         .filter(Books.publisher_id == publisher_id)
-    #         #         .first())
-    #         # book_id = qBook.book_id
-    #         # checkAuthor = WrittenByAssociation.query.filter_by(book_id = book_id).first()
-    #         # aykona
-    #         return jsonify({'message': 'New book created!'})
-    #
-    #     else:
-    #
-    #         publisher_id = publisher.publisher_id
-    #         new_book = Books(title = data['title'],edition = data['edition'], year_published = data['year'], isbn =data['isbn'], types =data['types'], publisher_id= publisher_id)
-    #         db.session.add(new_book)
-    #         db.session.commit()
-    #         return jsonify({'message': 'New book created!'})
 
-# {"title": "ert","edition": "1", "year": "1289", "isbn": "assdsa", "type": "hrd" , "author_fname": "joanamae", "author_lname": "Villanueva"}
+# {"title": "new book","edition": "20", "year": "2018", "isbn": "SEVENTEEN", "types": "HARD" , "publisher_name":"DK", "author_fname": "SEANNE", "author_lname": "CANOY"}
 
 
 @app.route('/user/bookshelf/availability', methods=['GET'])
