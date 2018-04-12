@@ -1,10 +1,10 @@
 from flask import Flask, jsonify, request, make_response, render_template
-# from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
 import datetime
 from functools import wraps
-# from flask_httpauth import HTTPBasicAuth
+from flask_httpauth import HTTPBasicAuth
 from models import *
 from sqlalchemy import cast
 
@@ -25,7 +25,7 @@ def token_required(f):
             current = User.query.filter_by(id=data['id']).first()
             current_user = current.id
         except:
-            return jsonify({'message' : 'Token is invalid!'}), 401
+            return jsonify({'message': 'Token is invalid!'}), 401
 
         return f(current_user, *args, **kwargs)
 
@@ -74,8 +74,8 @@ def get_one_user(current_user):
     user_data['birth_date'] = user.birth_date
     user_data['gender'] = user.gender
     user_data['profpic'] = user.profpic
-    
-  return jsonify({'information': user_data})
+
+    return jsonify({'information': user_data})
 
 
 @app.route('/signup', methods=['POST'])
@@ -85,8 +85,7 @@ def create_user():
 
     hashed_password = generate_password_hash(data['password'], method='sha256')
 
-
-    new_user = User(username=data['username'], password=hashed_password, first_name=data['first_name'],last_name=data['last_name'],contact_number=data['contact_number'], birth_date=data['birth_date'], gender = data['gender'])
+    new_user = User(username=data['username'], password=hashed_password, first_name=data['first_name'],last_name=data['last_name'],contact_number=data['contact_number'], birth_date=data['birth_date'], gender=data['gender'])
 
     user = User.query.filter_by(username=data['username']).first()
 
@@ -116,28 +115,28 @@ def login():
         return jsonify({'token': token.decode('UTF-8')})
 
     return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
-
-@app.route('/user/info/<id>', methods=['GET'])
-@token_required
-def get_one_user(id):
-
-    user = User.query.filter_by(id=id).first()
-
-    if not user:
-        return jsonify({'message':'No user found!'})
-
-    user_data = {}
-    user_data['id'] = user.id
-    user_data['username'] = user.username
-    user_data['password'] = user.password
-    user_data['first_name'] = user.first_name
-    user_data['last_name'] = user.last_name
-    user_data['contact_number'] = user.contact_number
-    user_data['birth_date'] = user.birth_date
-    user_data['gender'] = user.gender
-    user_data['profpic'] = user.profpic
-
-    return render_template("Profile.html", userInfo = user_data)
+#
+# @app.route('/user/info/<id>', methods=['GET'])
+# @token_required
+# def get_one_user(id):
+#
+#     user = User.query.filter_by(id=id).first()
+#
+#     if not user:
+#         return jsonify({'message':'No user found!'})
+#
+#     user_data = {}
+#     user_data['id'] = user.id
+#     user_data['username'] = user.username
+#     user_data['password'] = user.password
+#     user_data['first_name'] = user.first_name
+#     user_data['last_name'] = user.last_name
+#     user_data['contact_number'] = user.contact_number
+#     user_data['birth_date'] = user.birth_date
+#     user_data['gender'] = user.gender
+#     user_data['profpic'] = user.profpic
+#
+#     return render_template("Profile.html", userInfo = user_data)
 
 
 @app.route('/search', methods=['GET', 'POST'])
@@ -145,7 +144,6 @@ def search():
 
     data = request.get_json()
     item = '%' + data['item'] + '%'
-
 
     books = Books.query.filter(((Books.title.like(item)) | (Books.year_published.like(item)) | (Books.types.like(item)) | cast(Books.edition, sqlalchemy.String).like(str(item)) | (Books.isbn.like(item)))).all()
 
@@ -243,8 +241,7 @@ def addbook():
     # new_book = User(username=data['username'], password=hashed_password, first_name=data['first_name'],last_name=data['last_name'],
     #                 contact_number=data['contact_number'], birth_date=data['birth_date'], gender = data['gender'], profpic = data['profpic'])
 
-    book = (db.session.query(Books, Publisher)
-         .filter(Books.title == data['title'])
+    book = (db.session.query(Books, Publisher).filter(Books.title == data['title'])
             .filter(Publisher.publisher_name == data['publisher_name'])
             .filter(Publisher.publisher_id == Books.publisher_id)
          .first())
@@ -305,6 +302,63 @@ def viewbooks(current_user):
         return jsonify({'book': output})
 
 
+
+# #COMMENT (USER)
+# # @app.route('/profile/commentUser/', methods=['GET', 'POST'])
+# @app.route('/profile/commentUser/<int:user_id>', methods=['GET', 'POST'])
+# def comment(user_id):
+#
+#     if user_id == current_user.id:
+#         comments = UserCommentAssociation.query.filter((UserCommentAssociation.user_idCommentee == current_user.id))
+#         x = []
+#         for c in comments:
+#             s = User.query.filter_by(id=c.user_idCommenter).first()
+#             x.append(s.first_name + ' ' + s.last_name)
+#         return jsonify({'message': 'ok', 'comments': comments, 'name': x,'currrent_user': current_user})
+#     else:
+#         user = User.query.filter_by(id=user_id).first()
+#         otheruserId = user_id
+#         comments = UserCommentAssociation.query.filter((UserCommentAssociation.user_idCommentee == user_id))
+#         xs = []
+#         for c in comments:
+#             s = User.query.filter_by(id=c.user_idCommenter).first()
+#             xs.append(s.first_name + ' ' + s.last_name)
+#         if request.method == 'POST':
+#             comment = request.form['comment']
+#             commentOld = UserCommentAssociation.query.filter((UserCommentAssociation.user_idCommentee == otheruserId) & (
+#                 UserCommentAssociation.user_idCommenterter == current_user.id)).first()
+#
+#             if commentOld is not None:
+#                 commentOld.comment = comment
+#                 db.session.commit()
+#
+#             else:
+#                 newCommenter = UserCommentAssociation(current_user.id, otheruserId,comment)
+#                 db.session.add(newCommenter)
+#                 db.session.commit()
+#             return jsonify({'message': 'ok', 'user_id': user_id})
+#         return jsonify({'message': 'ok', 'user': user, 'comments': comments, 'name': xs, 'currrent_user': current_user})
+#
+
+#COMMENT (BOOK)
+# @app.route('/commentBook/', methods=['POST', 'GET'])
+@app.route('/commentBook/<int:book_id>', methods=['POST'])
+def commentbook(book_id):
+
+    data = request.get_json()
+
+    newComment = BookCommentAssociation(comment=data['comment'])
+
+    bcomment = BookCommentAssociation.query.filter(BookCommentAssociation.book_id == book_id).first()
+
+    if bcomment is not None:
+        db.session.add(newComment)
+        db.session.commit()
+        return jsonify({'message': 'comment posted!'})
+    else:
+        return jsonify({'message': 'cant post comment :(', 'book_id': book_id})
+
+
 # @app.route('/ratings/<int:book_id>', methods=['POST'])
 # def ratings(book_id):
 #
@@ -320,6 +374,7 @@ def viewbooks(current_user):
 #     if rateOld is None:
 #         rateOld.rating = rate
 #         db.session.commit()
+
 
 if __name__ == '__main__':
     app.run (debug=True)
