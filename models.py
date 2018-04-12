@@ -23,6 +23,8 @@ class User(UserMixin, db.Model):
     contact_number = db.Column(db.String(11))
     birth_date = db.Column(db.DATE, nullable=False)
     gender = db.Column(db.String(6), nullable=False)
+    longitude = db.Column(db.FLOAT, nullable=False)
+    latitude = db.Column(db.FLOAT, nullable=False)
     profpic = db.Column(db.TEXT)
     bookshelf_user = db.relationship('Bookshelf', uselist=False, backref='user_bookshelf')
     borrow_bookshelfs = db.relationship('BorrowsAssociation', backref='user_borrow')
@@ -32,7 +34,7 @@ class User(UserMixin, db.Model):
     user_interest = db.relationship('InterestAssociation', backref='user_interest')
 
 
-    def __init__(self, username='', password='', first_name='', last_name='', contact_number='', birth_date='', gender='', profpic=''):
+    def __init__(self, username='', password='', first_name='', last_name='', contact_number='', birth_date='', gender='',longitude='', latitude='',profpic=''):
         self.username = username
         self.password = password
         self.first_name = first_name
@@ -40,6 +42,8 @@ class User(UserMixin, db.Model):
         self.contact_number = contact_number
         self.birth_date = birth_date
         self.gender = gender
+        self.longitude = longitude
+        self.latitude = latitude
         self.profpic = profpic
 
 
