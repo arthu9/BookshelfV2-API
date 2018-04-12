@@ -5,8 +5,9 @@ from flask_login import UserMixin
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:mvjunetwo@127.0.0.1:5432/bookshelf'
-engine = sqlalchemy.create_engine('postgresql://postgres:mvjunetwo@127.0.0.1:5432/bookshelf')
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:pagararea1096@127.0.0.1:5432/bookshelf'
+engine = sqlalchemy.create_engine('postgresql://postgres:pagararea1096@127.0.0.1:5432/bookshelf')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'thisisthesecretkey'
 
@@ -28,6 +29,7 @@ class User(UserMixin, db.Model):
     bookshelf_user = db.relationship('Bookshelf', uselist=False, backref='user_bookshelf')
     borrow_bookshelfs = db.relationship('BorrowsAssociation', backref='user_borrow')
     userRateBooks = db.relationship('BookRateAssociation', backref='user_raterBooks')
+    userCommentBooks = db.relationship('BookCommentAssociation', backref='user_CommenterBooks')
     wishlists_bookshelf = db.relationship('Wishlist', backref='user_wishlist')
     user_interest = db.relationship('InterestAssociation', backref='user_interest')
 
@@ -77,6 +79,7 @@ class Books(db.Model):
     publisher = db.relationship('Publisher', backref='bookPublish')
     booksInGenre = db.relationship('HasGenreAssociation', backref='books_genre')
     rateBooks = db.relationship('BookRateAssociation', backref='books_rateBooks')
+    commentBooks = db.relationship('BookCommentAssociation', backref='books_commentBooks')
     borrowcount = db.Column(db.Integer, default=0)
 
     def __init__(self, title='',description='', edition='', year_published='', isbn='', types='', publisher_id=''):
@@ -222,6 +225,7 @@ class Wishlist(db.Model):
         self.shelf_id = shelf_id
         self.bookid = bookid
 
+# Rates (book)
 class BookRateAssociation(db.Model):
     __tablename__ = 'bookRate'
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -250,7 +254,7 @@ class BookRateTotal(db.Model):
         self.bookRated = bookRated
         self.totalRate = totalRate
 
-
+# Rates (user)
 class UserRateAssociation(db.Model):
     __tablename__ = 'userRate'
     rate_id = db.Column(db.Integer, primary_key=True)
@@ -277,6 +281,36 @@ class UserRateTotal(db.Model):
         self.userRatee = userRatee
         self.userRater = userRater
         self.totalRate = totalRate
+
+
+# Comment (Book)--------------------------------
+class BookCommentAssociation(db.Model):
+    __tablename__ = 'bookComment'
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    book_id = db.Column(db.Integer, db.ForeignKey('books.book_id'), primary_key=True)
+    comment = db.Column(db.TEXT)
+    user = db.relationship('User', backref='user_booksComment')
+    books = db.relationship('Books', backref='bookComment')
+
+    def __init__(self, user_id='', book_id='', comment=''):
+        self.user_id = user_id
+        self.book_id = book_id
+        self.comment = comment
+
+# Comment (User)
+class UserCommentAssociation(db.Model):
+    __tablename__ = 'userComment'
+    comment_id = db.Column(db.Integer, primary_key=True)
+    user_idCommenter = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_idCommentee = db.Column(db.Integer, db.ForeignKey('user.id'))
+    comment = db.Column(db.TEXT)
+
+    def __init__(self, user_idCommenter='', user_idCommentee='', comment=''):
+        self.user_idCommenter = user_idCommenter
+        self.user_idCommentee = user_idCommentee
+        self.comment = comment
+
+
 
 # class Message(db.Model):
 #     __tablename__ = 'message'
