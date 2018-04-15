@@ -111,7 +111,7 @@ class ContainsAsscociation(db.Model):
 class Category(db.Model):
     __tablename__ = 'category'
     category_id = db.Column(db.Integer, primary_key=True)
-    book_id = db.Column(db.Integer, db.ForeignKey('books.book_id'))
+    book_id = db.Column(db.Integer, db.ForeignKey('books.book_id'), unique=True)
     categories = db.Column(db.String(30))
     books = db.relationship('Books', backref='books_cat')
 
