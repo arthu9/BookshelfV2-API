@@ -215,6 +215,28 @@ def viewbook(current_user):
     return jsonify({'book': output})
 
 
+#COMMENT (BOOK)
+@app.route('/comment-book/<int:current_user>/<int:book_id>', methods=['GET', 'POST'])
+# @app.route('/comment-book', methods=['POST'])
+def commentbook(current_user, book_id):
+
+    data = request.get_json()
+
+    comment = BookCommentAssociation(comment=data['comment'])
+
+    # rateOld = BookRateAssociation.query.filter((BookRateAssociation.user_id == current_user.id) & (BookRateAssociation.book_id == book_id)).first()
+
+    new_comment = BookCommentAssociation.query.filter((BookCommentAssociation.user_id == current_user.id) & (BookCommentAssociation.book_id == book_id)).first()
+
+    if new_comment is not None:
+        db.session.add(comment)
+        db.session.commit()
+        return jsonify({'message': 'comment posted!'})
+    else:
+        return jsonify({'message': 'cant post comment :(', 'book_id': book_id})
+
+
+
 @app.route('/user/addbook', methods=['POST'])
 @token_required
 def addbook(current_user):
@@ -249,7 +271,7 @@ def addbook(current_user):
 
         publisher = Publisher.query.filter(Publisher.publisher_name == data['publisher_name']).first()
         publisher_id = publisher.publisher_id
-        book = Books(title = data['title'],edition = data['edition'], year_published = data['year'], isbn =data['isbn'], types =data['types'], publisher_id= publisher_id)
+        book = Books(title=data['title'], edition=data['edition'], year_published=data['year'], isbn=data['isbn'], types=data['types'], publisher_id=publisher_id)
         db.session.add(book)
         db.session.commit()
 
@@ -315,60 +337,43 @@ def category():
 
 
 
-# #COMMENT (USER)
-# # @app.route('/profile/commentUser/', methods=['GET', 'POST'])
-# @app.route('/profile/commentUser/<int:user_id>', methods=['GET', 'POST'])
-# def comment(user_id):
-#
-#     if user_id == current_user.id:
-#         comments = UserCommentAssociation.query.filter((UserCommentAssociation.user_idCommentee == current_user.id))
-#         x = []
-#         for c in comments:
-#             s = User.query.filter_by(id=c.user_idCommenter).first()
-#             x.append(s.first_name + ' ' + s.last_name)
-#         return jsonify({'message': 'ok', 'comments': comments, 'name': x,'currrent_user': current_user})
-#     else:
-#         user = User.query.filter_by(id=user_id).first()
-#         otheruserId = user_id
-#         comments = UserCommentAssociation.query.filter((UserCommentAssociation.user_idCommentee == user_id))
-#         xs = []
-#         for c in comments:
-#             s = User.query.filter_by(id=c.user_idCommenter).first()
-#             xs.append(s.first_name + ' ' + s.last_name)
-#         if request.method == 'POST':
-#             comment = request.form['comment']
-#             commentOld = UserCommentAssociation.query.filter((UserCommentAssociation.user_idCommentee == otheruserId) & (
-#                 UserCommentAssociation.user_idCommenterter == current_user.id)).first()
-#
-#             if commentOld is not None:
-#                 commentOld.comment = comment
-#                 db.session.commit()
-#
-#             else:
-#                 newCommenter = UserCommentAssociation(current_user.id, otheruserId,comment)
-#                 db.session.add(newCommenter)
-#                 db.session.commit()
-#             return jsonify({'message': 'ok', 'user_id': user_id})
-#         return jsonify({'message': 'ok', 'user': user, 'comments': comments, 'name': xs, 'currrent_user': current_user})
-#
+#COMMENT (USER)
+# @app.route('/profile/comment-user/', methods=['GET', 'POST'])
+@app.route('/profile/comment-user/<int:user_id>', methods=['GET', 'POST'])
+def comment(current_user, user_id):
 
-#COMMENT (BOOK)
-# @app.route('/commentBook/', methods=['POST', 'GET'])
-@app.route('/commentBook/<int:book_id>', methods=['POST'])
-def commentbook(book_id):
-
-    data = request.get_json()
-
-    newComment = BookCommentAssociation(comment=data['comment'])
-
-    bcomment = BookCommentAssociation.query.filter(BookCommentAssociation.book_id == book_id).first()
-
-    if bcomment is not None:
-        db.session.add(newComment)
-        db.session.commit()
-        return jsonify({'message': 'comment posted!'})
+    if user_id == current_user.id:
+        comments = UserCommentAssociation.query.filter((UserCommentAssociation.user_idCommentee == current_user.id))
+        x = []
+        for c in comments:
+            s = User.query.filter_by(id=c.user_idCommenter).first()
+            x.append(s.first_name + ' ' + s.last_name)
+        return jsonify({'message': 'ok', 'comments': comments, 'name': x,'currrent_user': current_user})
     else:
-        return jsonify({'message': 'cant post comment :(', 'book_id': book_id})
+        user = User.query.filter_by(id=user_id).first()
+        otheruserId = user_id
+        comments = UserCommentAssociation.query.filter((UserCommentAssociation.user_idCommentee == user_id))
+        xs = []
+        for c in comments:
+            s = User.query.filter_by(id=c.user_idCommenter).first()
+            xs.append(s.first_name + ' ' + s.last_name)
+        if request.method == 'POST':
+            comment = request.form['comment']
+            commentOld = UserCommentAssociation.query.filter((UserCommentAssociation.user_idCommentee == otheruserId) & (
+                UserCommentAssociation.user_idCommenterter == current_user.id)).first()
+
+            if commentOld is not None:
+                commentOld.comment = comment
+                db.session.commit()
+
+            else:
+                newCommenter = UserCommentAssociation(current_user.id, otheruserId,comment)
+                db.session.add(newCommenter)
+                db.session.commit()
+            return jsonify({'message': 'ok', 'user_id': user_id})
+        return jsonify({'message': 'ok', 'user': user, 'comments': comments, 'name': xs, 'currrent_user': current_user})
+
+
 
 
 # @app.route('/ratings/<int:book_id>', methods=['POST'])
@@ -389,4 +394,4 @@ def commentbook(book_id):
 
 
 if __name__ == '__main__':
-    app.run (debug=True)
+    app.run(debug=True)
