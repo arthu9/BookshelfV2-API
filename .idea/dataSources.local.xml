@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="dataSourceStorageLocal">
-    <data-source name="PostgreSQL - bookshelf@localhost" uuid="e1243add-5afe-4c5e-84d4-afbebe1bd601">
+    <data-source name="bookshelf2@localhost" uuid="af2c3841-a303-4bc6-8500-d8b272a03dab">
+      <database-info product="PostgreSQL" version="9.6.2" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.1.1">
+        <identifier-quote-string>&quot;</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
       <secret-storage>master_key</secret-storage>
       <user-name>postgres</user-name>
-      <introspection-scope>bookshelf:pg_catalog,postgres,public</introspection-scope>
-      <resolve-scope>bookshelf:postgres,public</resolve-scope>
-    </data-source>
-    <data-source name="PostgreSQL - bookshelf@localhost [2]" uuid="a663f039-e7e7-4046-9682-6f9070475237">
-      <secret-storage>master_key</secret-storage>
-      <user-name>postgres</user-name>
-      <introspection-scope>bookshelf:pg_catalog,postgres,public</introspection-scope>
-      <resolve-scope>bookshelf:postgres,public</resolve-scope>
+      <introspection-schemas>bookshelf2:public</introspection-schemas>
     </data-source>
   </component>
 </project>
