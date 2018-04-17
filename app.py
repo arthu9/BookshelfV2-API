@@ -416,5 +416,5 @@ def comment(current_user, user_id):
 #         db.session.commit()
 
 
-if __name__ == '__main__':
-    app.run(debug=True)
+# if __name__ == '__main__':
+#     app.run(debug=True)
