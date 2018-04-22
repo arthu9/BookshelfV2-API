@@ -41,7 +41,7 @@ def token_required(f):
     return decorated
 
 
-@app.route('/useraccounts', methods=['GET'])
+@app.route('/users', methods=['GET'])
 def get_all_user_accounts():
     # if not current_user.admin:
     #     return jsonify({'message' : 'Cannot perform that function!'})
@@ -384,11 +384,34 @@ def viewbooks(current_user):
 
         return jsonify({'book': output})
 
+@app.route('/category/<string:category>/', methods=['GET'])
+def category(category):
 
-@app.route('/')
-def category():
-    return 0
+    books = Books.query.join(Category).filter(Category.categories == category).filter(Books.book_id == Category.book_id).all()
+    # filter_by(firstname.like(search_var1),lastname.like(search_var2))
+    #
+    # q = (db.session.query(Category, Books)
+    #      .join(Books)
+    #      .join(Category)
+    #      .filter(Category.categories == category)
+    #      .filter(Books.book_id == Category.book_id)
+    #      .all())
 
+    output = []
+
+    for book in books:
+        user_data = {}
+        user_data['title'] = book.title
+        user_data['description'] = book.description
+        user_data['edition'] = book.edition
+        user_data['year'] = book.year_published
+        user_data['isbn'] = book.isbn
+        user_data['types'] = book.types
+        user_data['publisher_id'] = book.publisher_id
+        output.append(user_data)
+
+
+    return jsonify({'book': output})
 
 # COMMENT (USER)
 # @app.route('/profile/comment-user/', methods=['GET', 'POST'])
