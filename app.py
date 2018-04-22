@@ -1,12 +1,11 @@
 from flask import Flask, jsonify, request, make_response
 from flask_sqlalchemy import SQLAlchemy
-import uuid
 from werkzeug.security import generate_password_hash, check_password_hash
-import jwt
-import datetime
+import jwt, os, datetime, uuid
 from functools import wraps
 from flask_httpauth import HTTPBasicAuth
 from models import *
+from app import app
 
 
 auth = HTTPBasicAuth()
@@ -204,4 +203,5 @@ def viewbooks(id):
 
 
 if __name__ == '__main__':
-    app.run (debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
