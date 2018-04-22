@@ -1,0 +1,13 @@
+*.pyc
+*.log
+*.pdf
+
+*.py~
+*.txt~
+
+.idea/
+
+tmp/
+.cache
+.DS_Store
+venv/
