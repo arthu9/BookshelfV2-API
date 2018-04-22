@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f9742630-e476-47d0-bae0-402c029a8511" name="Default" comment="" />
+    <list default="true" id="f9742630-e476-47d0-bae0-402c029a8511" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
     <ignored path="BookshelfV2-API.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -723,7 +725,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="369" y="33" width="794" height="688" extended-state="1" />
+    <frame x="369" y="33" width="794" height="688" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32932332" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
