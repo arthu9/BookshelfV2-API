@@ -22,10 +22,8 @@ Werkzeug==0.14.1
 cryptography==1.7.2
 decorator==4.2.1
 itsdangerous==0.24
-jwt==0.5.2
-jwcrypto==0.4.2
-pip==9.0.2
 psycopg2==2.7.4
-python-jwt==3.0.0
-setuptools==39.0.1
+setuptools==20.3
 validators==0.12.1
+pip==10.0.1
+jwt==0.5.2
