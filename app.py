@@ -1,21 +1,22 @@
 from flask import jsonify, request, make_response
-from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
-from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask import Flask
 from config import *
-from app import app
-
-app = Flask(__name__)
-db = SQLAlchemy(app)
-
 from sqlalchemy import cast
 from werkzeug.security import generate_password_hash, check_password_hash
->>>>>>> master:app/app.py
 from functools import wraps
+
+import os
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:mvjunetwo@127.0.0.1:5432/bookshelf'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = SQLALCHEMY_TRACK_MODIFICATIONS
+app.config['SECRET_KEY'] = SECRET_KEY
+
 from models import *
 
-auth = HTTPBasicAuth()
+db = SQLAlchemy(app)
 
 
 def token_required(f):
@@ -189,14 +190,6 @@ def search(shelf_id, item):
         output.append(user_data)
 
     return jsonify({'book': output})
-
-
-# @app.route('/user/<int:id>/bookshelf/', methods=['GET'])
-# def viewbooks(id):
-#
-# <<<<<<< HEAD
-#     books = ContainsAsscociation.query.join(Bookshelf).filter_by(bookshelf_id = id).all()
-# =======
 
 @app.route('/user/bookshelf/search', methods=['GET', 'POST'])
 @token_required
