@@ -1,10 +1,7 @@
-from flask import Flask, jsonify, request, make_response, render_template
-from flask_sqlalchemy import SQLAlchemy
+from flask import jsonify, request, make_response
 from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
-import datetime
 from functools import wraps
-from flask_httpauth import HTTPBasicAuth
 from models import *
 from sqlalchemy import cast
 
@@ -337,6 +334,41 @@ def category(category):
 
     return jsonify({'book': output})
 
+@app.route('/category/<string:category>/', methods=['GET'])
+def category(category):
+
+    books = Books.query.join(Category).filter(Category.categories == category).filter(Books.book_id == Category.book_id).all()
+    # filter_by(firstname.like(search_var1),lastname.like(search_var2))
+    #
+    # q = (db.session.query(Category, Books)
+    #      .join(Books)
+    #      .join(Category)
+    #      .filter(Category.categories == category)
+    #      .filter(Books.book_id == Category.book_id)
+    #      .all())
+
+    output = []
+
+    for book in books:
+        user_data = {}
+        user_data['title'] = book.title
+        user_data['description'] = book.description
+        user_data['edition'] = book.edition
+        user_data['year'] = book.year_published
+        user_data['isbn'] = book.isbn
+        user_data['types'] = book.types
+        user_data['publisher_id'] = book.publisher_id
+        output.append(user_data)
+
+
+    return jsonify({'book': output})
+
+@app.route('/user/wishlist', methods=['POST'])
+@token_required
+def addbook(current_user):
+
+
+    return jsonify({'message':'wishlist added'})
 
 # #COMMENT (USER)
 # # @app.route('/profile/commentUser/', methods=['GET', 'POST'])
