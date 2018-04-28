@@ -1,4 +1,5 @@
 from flask import jsonify, request, make_response
+from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -10,8 +11,8 @@ db = SQLAlchemy(app)
 
 from sqlalchemy import cast
 from werkzeug.security import generate_password_hash, check_password_hash
+>>>>>>> master:app/app.py
 from functools import wraps
-from flask_httpauth import HTTPBasicAuth
 from models import *
 
 auth = HTTPBasicAuth()
@@ -411,6 +412,95 @@ def category(category):
 
     return jsonify({'book': output})
 
+
+@app.route('/category/<string:category>/', methods=['GET'])
+def category(category):
+
+    books = Books.query.join(Category).filter(Category.categories == category).filter(Books.book_id == Category.book_id).all()
+    # filter_by(firstname.like(search_var1),lastname.like(search_var2))
+    #
+    # q = (db.session.query(Category, Books)
+    #      .join(Books)
+    #      .join(Category)
+    #      .filter(Category.categories == category)
+    #      .filter(Books.book_id == Category.book_id)
+    #      .all())
+
+    output = []
+
+    for book in books:
+        user_data = {}
+        user_data['title'] = book.title
+        user_data['description'] = book.description
+        user_data['edition'] = book.edition
+        user_data['year'] = book.year_published
+        user_data['isbn'] = book.isbn
+        user_data['types'] = book.types
+        user_data['publisher_id'] = book.publisher_id
+        output.append(user_data)
+
+
+    return jsonify({'book': output})
+
+@app.route('/user/wishlist', methods=['POST'])
+@token_required
+def addbook(current_user):
+
+
+    return jsonify({'message':'wishlist added'})
+
+# #COMMENT (USER)
+# # @app.route('/profile/commentUser/', methods=['GET', 'POST'])
+# @app.route('/profile/commentUser/<int:user_id>', methods=['GET', 'POST'])
+# def comment(user_id):
+#
+#     if user_id == current_user.id:
+#         comments = UserCommentAssociation.query.filter((UserCommentAssociation.user_idCommentee == current_user.id))
+#         x = []
+#         for c in comments:
+#             s = User.query.filter_by(id=c.user_idCommenter).first()
+#             x.append(s.first_name + ' ' + s.last_name)
+#         return jsonify({'message': 'ok', 'comments': comments, 'name': x,'currrent_user': current_user})
+#     else:
+#         user = User.query.filter_by(id=user_id).first()
+#         otheruserId = user_id
+#         comments = UserCommentAssociation.query.filter((UserCommentAssociation.user_idCommentee == user_id))
+#         xs = []
+#         for c in comments:
+#             s = User.query.filter_by(id=c.user_idCommenter).first()
+#             xs.append(s.first_name + ' ' + s.last_name)
+#         if request.method == 'POST':
+#             comment = request.form['comment']
+#             commentOld = UserCommentAssociation.query.filter((UserCommentAssociation.user_idCommentee == otheruserId) & (
+#                 UserCommentAssociation.user_idCommenterter == current_user.id)).first()
+#
+#             if commentOld is not None:
+#                 commentOld.comment = comment
+#                 db.session.commit()
+#
+#             else:
+#                 newCommenter = UserCommentAssociation(current_user.id, otheruserId,comment)
+#                 db.session.add(newCommenter)
+#                 db.session.commit()
+#             return jsonify({'message': 'ok', 'user_id': user_id})
+#         return jsonify({'message': 'ok', 'user': user, 'comments': comments, 'name': xs, 'currrent_user': current_user})
+#
+
+#COMMENT (BOOK)
+# @app.route('/commentBook/', methods=['POST', 'GET'])
+@app.route('/commentBook/<int:book_id>', methods=['POST'])
+def commentbook(book_id):
+
+    data = request.get_json()
+
+    newComment = BookCommentAssociation(comment=data['comment'])
+
+    bcomment = BookCommentAssociation.query.filter(BookCommentAssociation.book_id == book_id).first()
+
+    if bcomment is not None:
+        db.session.add(newComment)
+        db.session.commit()
+        return jsonify({'message': 'comment posted!'})
 # COMMENT (USER)
 # @app.route('/profile/comment-user/', methods=['GET', 'POST'])
 @app.route('/profile/comment-user/<int:user_id>', methods=['GET', 'POST'])
