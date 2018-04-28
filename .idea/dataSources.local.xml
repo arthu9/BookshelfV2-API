@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="dataSourceStorageLocal">
-    <data-source name="PostgreSQL - bookshelf@localhost" uuid="e1243add-5afe-4c5e-84d4-afbebe1bd601">
-      <user-name>postgres</user-name>
-    </data-source>
+    <data-source name="PostgreSQL - bookshelf@localhost" uuid="e1243add-5afe-4c5e-84d4-afbebe1bd601" />
     <data-source name="PostgreSQL - bookshelf@localhost [2]" uuid="a663f039-e7e7-4046-9682-6f9070475237" />
   </component>
 </project>
