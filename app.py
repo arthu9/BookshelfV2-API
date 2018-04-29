@@ -66,14 +66,11 @@ def get_all_user_accounts():
     return jsonify({'users', output})
 
 
-@app.route('/user/info/<id>', methods=['GET'])
+@app.route('/user/info', methods=['GET'])
 @token_required
-def get_one_user(id):
-    # if not current_user.admin:
+def get_one_user(current_user):
 
-    #     return jsonify({'message' : 'Cannot perform that function!'})
-
-    user = User.query.filter_by(id=id).first()
+    user = User.query.filter_by(id =current_user).first()
 
     if not user:
         return jsonify({'message': 'No user found!'})
@@ -191,13 +188,6 @@ def search(shelf_id, item):
 
     return jsonify({'book': output})
 
-
-# @app.route('/user/<int:id>/bookshelf/', methods=['GET'])
-# def viewbooks(id):
-#
-# <<<<<<< HEAD
-#     books = ContainsAsscociation.query.join(Bookshelf).filter_by(bookshelf_id = id).all()
-# =======
 
 @app.route('/user/bookshelf/search', methods=['GET', 'POST'])
 @token_required
