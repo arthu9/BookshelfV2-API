@@ -89,7 +89,7 @@ def get_one_user(current_user):
     user_data['gender'] = user.gender
     user_data['profpic'] = user.profpic
 
-    return jsonify({'user': user_data})
+    return jsonify({'information': user_data})
 
 
 @app.route('/signup', methods=['POST'])
@@ -160,6 +160,7 @@ def login():
         return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic Realm="Login Required!"'})
 
     if check_password_hash(user.password, auth.password):
+      
         token = jwt.encode({'id': user.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)},
                            app.config['SECRET_KEY'])
 
@@ -168,25 +169,28 @@ def login():
     return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic Realm="Login Required!"'})
 
 
-@app.route('/bookshelf/<int:shelf_id>/search/<string:item>', methods=['GET'])
-def search(shelf_id, item):
-    item = '%' + item + '%'
-    books = ContainsAsscociation.query.join(Books).filter(
-        (ContainsAsscociation.shelf_id.like(shelf_id)) & ((Books.title.like(item)) | (
-            Books.year_published.like(item)) | (Books.types.like(item)) | Books.edition.like(str(item)) | (
-                                                              Books.isbn.like(item)))).all()
+@app.route('/search', methods=['GET', 'POST'])
+def search():
+
+    data = request.get_json()
+    item = '%' + data['item'] + '%'
+
+
+    books = Books.query.filter(((Books.title.like(item)) | (Books.year_published.like(item)) | (Books.types.like(item)) | cast(Books.edition, sqlalchemy.String).like(str(item)) | (Books.isbn.like(item)))).all()
 
     if books is None:
-        return jsonify({'message': 'No book found!'})
+        return jsonify({'message':'No book found!'})
 
     output = []
 
     for book in books:
         user_data = {}
-        user_data['shelf_id'] = book.shelf_id
-        user_data['book_id'] = book.book_id
-        user_data['quantity'] = book.quantity
-        user_data['availability'] = book.availability
+        user_data['title'] = book.title
+        user_data['description'] = book.description
+        user_data['year_published'] = book.year_published
+        user_data['isbn'] = book.isbn
+        user_data['types'] = book.types
+        user_data['publisher_id'] = book.publisher_id
         output.append(user_data)
 
     return jsonify({'book': output})
