@@ -89,7 +89,7 @@ def get_one_user(id):
     user_data['gender'] = user.gender
     user_data['profpic'] = user.profpic
 
-    return jsonify({'user': user_data})
+    return jsonify({'information': user_data})
 
 
 @app.route('/signup', methods=['POST'])
@@ -160,6 +160,7 @@ def login():
         return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic Realm="Login Required!"'})
 
     if check_password_hash(user.password, auth.password):
+      
         token = jwt.encode({'id': user.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)},
                            app.config['SECRET_KEY'])
 
