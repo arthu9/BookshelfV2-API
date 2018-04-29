@@ -66,14 +66,14 @@ def get_all_user_accounts():
     return jsonify({'users', output})
 
 
-@app.route('/user/info/<id>', methods=['GET'])
+@app.route('/user/info', methods=['GET'])
 @token_required
-def get_one_user(id):
+def get_one_user(current_user):
     # if not current_user.admin:
 
     #     return jsonify({'message' : 'Cannot perform that function!'})
 
-    user = User.query.filter_by(id=id).first()
+    user = User.query.filter_by(id=current_user).first()
 
     if not user:
         return jsonify({'message': 'No user found!'})
@@ -194,6 +194,7 @@ def search():
         output.append(user_data)
 
     return jsonify({'book': output})
+
 
 @app.route('/user/bookshelf/search', methods=['GET', 'POST'])
 @token_required
