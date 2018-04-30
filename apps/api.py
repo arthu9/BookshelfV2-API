@@ -1,23 +1,5 @@
-from flask import jsonify, request, make_response
-import jwt
-from flask_sqlalchemy import SQLAlchemy
-from flask import Flask
-from config import *
-from sqlalchemy import cast
-from werkzeug.security import generate_password_hash, check_password_hash
-from functools import wraps
-
-import os
-
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:mvjunetwo@127.0.0.1:5432/bookshelf'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = SQLALCHEMY_TRACK_MODIFICATIONS
-app.config['SECRET_KEY'] = SECRET_KEY
-
+from apps import *
 from models import *
-
-db = SQLAlchemy(app)
-
 
 def token_required(f):
     @wraps(f)
@@ -147,26 +129,24 @@ def create_user():
 #
 #     return ({'message' : 'The user has been deleted!'})
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    auth = request.get_json()
+    auth = request.authorization
 
     if not auth or not auth.username or not auth.password:
-        return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic Realm="Login Required!"'})
+        return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
 
     user = User.query.filter_by(username=auth.username).first()
 
     if not user:
-        return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic Realm="Login Required!"'})
+        return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
 
     if check_password_hash(user.password, auth.password):
-      
-        token = jwt.encode({'id': user.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)},
-                           app.config['SECRET_KEY'])
+        token = jwt.encode({'id': user.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
 
-        return jsonify({'token': token.decode('UTF-8'), 'username': user})
+        return jsonify({'token': token.decode('UTF-8')})
 
-    return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic Realm="Login Required!"'})
+    return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
 
 
 @app.route('/search', methods=['GET', 'POST'])
@@ -174,7 +154,6 @@ def search():
 
     data = request.get_json()
     item = '%' + data['item'] + '%'
-
 
     books = Books.query.filter(((Books.title.like(item)) | (Books.year_published.like(item)) | (Books.types.like(item)) | cast(Books.edition, sqlalchemy.String).like(str(item)) | (Books.isbn.like(item)))).all()
 
@@ -206,7 +185,7 @@ def searchbookshelf(current_user):
     books = Bookshelf.query.filter_by(bookshef_owner=current_user).first()
     shelf_id = books.bookshelf_id
 
-    books = ContainsAsscociation.query.join(Books).filter(
+    books = Books.query.join(ContainsAsscociation).filter(
         (cast(shelf_id, sqlalchemy.String).like(item)) & ((Books.title.like(item)) | (
             Books.year_published.like(item)) | (Books.types.like(item)) | cast(Books.edition, sqlalchemy.String).like(
             item) | (Books.isbn.like(item)))).all()
@@ -411,38 +390,38 @@ def category(category):
     return jsonify({'book': output})
 
 
-@app.route('/category/<string:category>/', methods=['GET'])
-def category(category):
-
-    books = Books.query.join(Category).filter(Category.categories == category).filter(Books.book_id == Category.book_id).all()
-    # filter_by(firstname.like(search_var1),lastname.like(search_var2))
-    #
-    # q = (db.session.query(Category, Books)
-    #      .join(Books)
-    #      .join(Category)
-    #      .filter(Category.categories == category)
-    #      .filter(Books.book_id == Category.book_id)
-    #      .all())
-
-    output = []
-
-    for book in books:
-        user_data = {}
-        user_data['title'] = book.title
-        user_data['description'] = book.description
-        user_data['edition'] = book.edition
-        user_data['year'] = book.year_published
-        user_data['isbn'] = book.isbn
-        user_data['types'] = book.types
-        user_data['publisher_id'] = book.publisher_id
-        output.append(user_data)
+# @app.route('/category/<string:category>/', methods=['GET'])
+# def category(category):
+#
+#     books = Books.query.join(Category).filter(Category.categories == category).filter(Books.book_id == Category.book_id).all()
+#     # filter_by(firstname.like(search_var1),lastname.like(search_var2))
+#     #
+#     # q = (db.session.query(Category, Books)
+#     #      .join(Books)
+#     #      .join(Category)
+#     #      .filter(Category.categories == category)
+#     #      .filter(Books.book_id == Category.book_id)
+#     #      .all())
+#
+#     output = []
+#
+#     for book in books:
+#         user_data = {}
+#         user_data['title'] = book.title
+#         user_data['description'] = book.description
+#         user_data['edition'] = book.edition
+#         user_data['year'] = book.year_published
+#         user_data['isbn'] = book.isbn
+#         user_data['types'] = book.types
+#         user_data['publisher_id'] = book.publisher_id
+#         output.append(user_data)
 
 
     return jsonify({'book': output})
 
 @app.route('/user/wishlist', methods=['POST'])
 @token_required
-def addbook(current_user):
+def wishlist(current_user):
 
 
     return jsonify({'message':'wishlist added'})
@@ -487,7 +466,7 @@ def addbook(current_user):
 #COMMENT (BOOK)
 # @app.route('/commentBook/', methods=['POST', 'GET'])
 @app.route('/commentBook/<int:book_id>', methods=['POST'])
-def commentbook(book_id):
+def commentbook1(book_id):
 
     data = request.get_json()
 
@@ -537,9 +516,3 @@ def comment(current_user, user_id):
 
 # @app.route('/addbok/<int:id>')
 # def addbook(id):
-
-
-if __name__ == '__main__':
-    # app.run(debug=True)
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)

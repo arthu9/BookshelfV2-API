@@ -1,19 +1,5 @@
-from flask_sqlalchemy import SQLAlchemy
-from flask import Flask
-import sqlalchemy, datetime
 from flask_login import UserMixin
-from app import app
-import os
-
-
-app = Flask(__name__)
-
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:mvjunetwo@127.0.0.1:5432/bookshelf'
-# engine = sqlalchemy.create_engine('postgresql://postgres:pagararea1096@127.0.0.1:5432/bookshelf')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = 'thisisthesecretkey'
-
-db = SQLAlchemy(app)
+from apps import *
 
 class User(UserMixin, db.Model):
     __tablename__ = 'user'
@@ -25,8 +11,8 @@ class User(UserMixin, db.Model):
     contact_number = db.Column(db.String(11))
     birth_date = db.Column(db.DATE, nullable=False)
     gender = db.Column(db.String(6), nullable=False)
-    longitude = db.Column(db.FLOAT, nullable=False)
-    latitude = db.Column(db.FLOAT, nullable=False)
+    longitude = db.Column(db.FLOAT)
+    latitude = db.Column(db.FLOAT)
     profpic = db.Column(db.TEXT)
     bookshelf_user = db.relationship('Bookshelf', uselist=False, backref='user_bookshelf')
     borrow_bookshelfs = db.relationship('BorrowsAssociation', backref='user_borrow')
@@ -36,7 +22,7 @@ class User(UserMixin, db.Model):
     user_interest = db.relationship('InterestAssociation', backref='user_interest')
 
     def __init__(self, username='', password='', first_name='', last_name='', contact_number='', birth_date='',
-                 gender='', longitude='', latitude='', profpic=''):
+                 gender='', profpic=''):
         self.username = username
         self.password = password
         self.first_name = first_name
@@ -44,8 +30,8 @@ class User(UserMixin, db.Model):
         self.contact_number = contact_number
         self.birth_date = birth_date
         self.gender = gender
-        self.longitude = longitude
-        self.latitude = latitude
+        # self.longitude = longitude
+        # self.latitude = latitude
         self.profpic = profpic
 
 
@@ -216,16 +202,19 @@ class BorrowsAssociation(db.Model):
 
 
 class Wishlist(db.Model):
-    __tablename__ = "wishlist"
+    __tablename__ = "Wishlist"
     wishlist_id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    shelf_id = db.Column(db.Integer, db.ForeignKey('bookshelf.bookshelf_id'))
     bookId = db.Column(db.Integer)
     user = db.relationship('User', backref='wishlist_user')
     bookshelf = db.relationship('Bookshelf', backref='bookshelf_wishlist')
 
+
     def __init__(self, user_id='', bookid=''):
         self.user_id = user_id
         self.bookid = bookid
+
 
 
 # Rates (book)
