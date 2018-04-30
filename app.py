@@ -161,7 +161,7 @@ def searchbookshelf(current_user):
     books = Bookshelf.query.filter_by(bookshef_owner = current_user).first()
     shelf_id = books.bookshelf_id
 
-    books = ContainsAsscociation.query.join(Books).filter((cast(shelf_id, sqlalchemy.String).like(item)) & ((Books.title.like(item)) | (
+    books = Books.query.join(ContainsAsscociation).filter((cast(shelf_id, sqlalchemy.String).like(item)) & ((Books.title.like(item)) | (
         Books.year_published.like(item)) | (Books.types.like(item)) | cast(Books.edition, sqlalchemy.String).like(item) | (Books.isbn.like(item)))).all()
 
     if books is None:
