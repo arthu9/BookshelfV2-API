@@ -437,7 +437,16 @@ def category(category):
 
 @app.route('/user/wishlist', methods=['POST'])
 @token_required
-def addbook(current_user):
+def wishlist(current_user):
+
+    data = request.get_json()
+
+    book = Books.query.filter((Books.title == data['title']) & (Books.edition == data['edition']) & (Books.year_published == data['year']) & (
+                    Books.isbn == data['isbn'])).first()
+    if book is None:
+        newPublisher = Publisher(publisher_name=data['publisher_name'])
+        db.session.add(newPublisher)
+        db.session.commit()
 
 
     return jsonify({'message':'wishlist added'})
