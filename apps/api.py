@@ -432,7 +432,6 @@ def wishlist(current_user):
         db.session.add(newPublisher)
         db.session.commit()
 
-
     return jsonify({'message':'wishlist added'})
 
 # #COMMENT (USER)
