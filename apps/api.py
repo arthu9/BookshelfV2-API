@@ -45,7 +45,7 @@ def get_all_user_accounts():
         user_data['profpic'] = user.profpic
         output.append(user_data)
 
-    return jsonify({'users', output})
+    return jsonify({'users': output})
 
 
 @app.route('/user/info', methods=['GET'])
@@ -522,5 +522,47 @@ def comment(current_user, user_id):
             return jsonify({'message': 'ok', 'user_id': user_id})
         return jsonify({'message': 'ok', 'user': user, 'comments': comments, 'name': xs, 'currrent_user': current_user})
 
-# @app.route('/addbok/<int:id>')
-# def addbook(id):
+
+
+# @app.route('/rateBook/<int:book_id>', methods=['POST', 'GET'])
+# def ratebook(book_id):
+#
+#     data = request.get_json()
+#
+#     current_user = User.query.filter_by(id=id).first()
+#
+#     rate = BookRateAssociation(rating=data['rating'])
+#
+#     rateOld = BookRateAssociation.query.filter((BookRateAssociation.user_id == current_user.id) & (BookRateAssociation.book_id == book_id)).first()
+#     if rateOld is not None:
+#         rateOld.rating = rate
+#         db.session.commit()
+#
+#     else:
+#         newRater = BookRateAssociation(current_user.id, book_id, rate)
+#         db.session.add(newRater)
+#         db.session.commit()
+#         return jsonify({'message': 'rate added!', 'ratings': rate})
+
+
+@app.route('/ratebook/<int:book_id>', methods=['POST', 'GET'])
+def ratebook(book_id):
+    data = request.get_json()
+
+    rate = BookRateAssociation(rating=data['rating'])
+
+    current_user = User.query.filter_by(id=data['id']).first()
+
+    rateOld = BookRateAssociation.query.filter(
+        (BookRateAssociation.user_id == current_user.id) & (BookRateAssociation.book_id == book_id)).first()
+
+    if rateOld is not None:
+        rateOld.rating = rate
+        db.session.add(rate)
+        db.session.commit()
+        return jsonify({'message': 'rate added!'})
+    else:
+        newRater = BookRateAssociation(current_user.id, book_id, rate)
+        db.session.add(newRater)
+        db.session.commit()
+        return jsonify({'message': 'already rated!'})
