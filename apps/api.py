@@ -420,7 +420,7 @@ def category(category):
 
     return jsonify({'book': output})
 
-@app.route('/user/wishlist', methods=['POST'])
+@app.route('/user/AddWishlist/', methods=['POST'])
 @token_required
 def wishlist(current_user):
 
@@ -430,13 +430,46 @@ def wishlist(current_user):
     shelf_id = books.bookshelf_id
 
     book = Wishlist.query.filter_by(bookId=data['book_id']).first()
+
     if book is None:
         newWishlist = Wishlist(user_id=current_user, shelf_id=shelf_id, bookId=data['book_id'])
         db.session.add(newWishlist)
         db.session.commit()
         return jsonify({'message': 'wishlist added'})
     else:
-        return jsonify({'message': 'this book is already in the wishlist'})
+        return jsonify({'message': 'this book is already in the wishlist'})\
+
+@app.route('/user/Wishlists', methods=['GET'])
+@token_required
+def diplayWishlist(current_user):
+
+
+    Book = Books.query.join(Wishlist).filter(user_id=current_user).all()
+
+    # q = (db.session.query(Books, Bookshelf, ContainsAsscociation, Author)
+    #      .filter(Bookshelf.bookshef_owner == id)
+    #      .filter(ContainsAsscociation.shelf_id == Bookshelf.bookshelf_id)
+    #      .filter(Books.book_id == ContainsAsscociation.book_id)
+    #      .filter(Author.author_id == Books.publisher_id)
+    #      .all())
+
+    output = []
+
+    for book in Book:
+        user_data = {}
+        user_data['title'] = book.title
+        user_data['description'] = book.description
+        user_data['edition'] = book.edition
+        user_data['year'] = book.year_published
+        user_data['isbn'] = book.isbn
+        user_data['types'] = book.types
+        user_data['publisher_id'] = book.publisher_id
+        output.append(user_data)
+
+    return jsonify({'book': output})
+
+
+
 
 # #COMMENT (USER)
 # # @app.route('/profile/commentUser/', methods=['GET', 'POST'])
