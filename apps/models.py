@@ -211,10 +211,10 @@ class Wishlist(db.Model):
     bookshelf = db.relationship('Bookshelf', backref='bookshelf_wishlist')
 
 
-    def __init__(self, user_id='', bookid=''):
+    def __init__(self, user_id='', shelf_id='',bookId=''):
         self.user_id = user_id
-        self.bookid = bookid
-
+        self.shelf_id = shelf_id
+        self.bookId = bookId
 
 
 # Rates (book)

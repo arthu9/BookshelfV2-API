@@ -14,7 +14,8 @@ def token_required(f):
 
         try:
             data = jwt.decode(token, app.config['SECRET_KEY'])
-            current_user = User.query.filter_by(id=data['id']).first()
+            current = User.query.filter_by(id=data['id']).first()
+            current_user = current.id
         except:
             return jsonify({'message': 'Token is invalid!'}), 401
 
@@ -142,7 +143,7 @@ def login():
         return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
 
     if check_password_hash(user.password, auth.password):
-        token = jwt.encode({'id': user.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
+        token = jwt.encode({'id': user.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(days=30)}, app.config['SECRET_KEY'])
 
         return jsonify({'token': token.decode('UTF-8')})
 
@@ -425,14 +426,17 @@ def wishlist(current_user):
 
     data = request.get_json()
 
-    book = Books.query.filter((Books.title == data['title']) & (Books.edition == data['edition']) & (Books.year_published == data['year']) & (
-                    Books.isbn == data['isbn'])).first()
-    if book is None:
-        newPublisher = Publisher(publisher_name=data['publisher_name'])
-        db.session.add(newPublisher)
-        db.session.commit()
+    books = Bookshelf.query.filter_by(bookshef_owner=current_user).first()
+    shelf_id = books.bookshelf_id
 
-    return jsonify({'message':'wishlist added'})
+    book = Wishlist.query.filter_by(bookId=data['book_id']).first()
+    if book is None:
+        newWishlist = Wishlist(user_id=current_user, shelf_id=shelf_id, bookId=data['book_id'])
+        db.session.add(newWishlist)
+        db.session.commit()
+        return jsonify({'message': 'wishlist added'})
+    else:
+        return jsonify({'message': 'this book is already in the wishlist'})
 
 # #COMMENT (USER)
 # # @app.route('/profile/commentUser/', methods=['GET', 'POST'])
