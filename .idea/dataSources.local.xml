@@ -3,11 +3,5 @@
   <component name="dataSourceStorageLocal">
     <data-source name="PostgreSQL - bookshelf@localhost" uuid="3363791e-b69f-4ad1-b843-dc3e08c94183" />
     <data-source name="PostgreSQL - bookshelf@localhost [2]" uuid="5e8e91a9-adae-4dfe-a732-1bf296a97f03" />
-    <data-source name="PostgreSQL - bookshelf@localhost [3]" uuid="a483a8b3-f235-46ac-aa63-903bf4d0aa45">
-      <secret-storage>master_key</secret-storage>
-      <user-name>postgres</user-name>
-      <introspection-scope>bookshelf:public,pg_catalog,postgres</introspection-scope>
-      <resolve-scope>bookshelf:public,postgres</resolve-scope>
-    </data-source>
   </component>
 </project>
