@@ -351,7 +351,4 @@ class ActLogs(db.Model):
         self.bookid = bookid
 
 
-<<<<<<< HEAD:apps/models.py
 db.create_all()
-=======
->>>>>>> deploy:apps/models.py
