@@ -10,8 +10,8 @@
     <data-source name="PostgreSQL - bookshelf@localhost [2]" uuid="5e8e91a9-adae-4dfe-a732-1bf296a97f03">
       <secret-storage>master_key</secret-storage>
       <user-name>postgres</user-name>
-      <introspection-scope>bookshelf:public,pg_catalog,postgres</introspection-scope>
-      <resolve-scope>bookshelf:public,postgres</resolve-scope>
+      <introspection-scope>bookshelf:pg_catalog,postgres,public</introspection-scope>
+      <resolve-scope>bookshelf:postgres,public</resolve-scope>
     </data-source>
   </component>
 </project>
