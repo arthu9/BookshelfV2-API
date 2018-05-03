@@ -19,20 +19,11 @@ SQLAlchemy-Searchable==1.0.3
 SQLAlchemy-Utils==0.33.1
 WTForms==2.1
 Werkzeug==0.14.1
-<<<<<<< HEAD
-=======
-typing==3.6.4
->>>>>>> deploy
 cryptography==1.7.2
 decorator==4.2.1
 itsdangerous==0.24
 psycopg2==2.7.4
-<<<<<<< HEAD
 setuptools==20.3
 validators==0.12.1
 pip==10.0.1
 jwt==0.5.2
-=======
-validators==0.12.1
-Flask_Cors==3.0.3
->>>>>>> deploy

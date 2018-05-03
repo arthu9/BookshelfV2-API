@@ -208,29 +208,6 @@ def searchbookshelf(current_user):
     return jsonify({'book': output})
 
 
-<<<<<<< HEAD:apps/api.py
-=======
-@app.route('/book/info/<int:book_id>', methods=['GET'])
-def bookInfo(book_id):
-
-    book = Books.query.filter_by(book_id=book_id).first()
-
-    if not book:
-        return jsonify({'message': 'No such book!'})
-
-    user_data = {}
-    user_data['title'] = book.title
-    user_data['description'] = book.description
-    user_data['year_published'] = book.year_published
-    user_data['isbn'] = book.isbn
-    user_data['types'] = book.types
-    user_data['publisher_id'] = book.publisher_id
-
-    return jsonify({'book': user_data})
-
-
-
->>>>>>> deploy:apps/api.py
 @app.route('/user/bookshelf', methods=['GET'])
 @token_required
 def viewbook(current_user):
@@ -382,25 +359,6 @@ def viewbooks(current_user):
             output.append(user_data)
 
         return jsonify({'book': output})
-
-@app.route('/book/<int:book_id>', methods=['GET'])
-def bookDetail(book_id):
-
-    books = Books.query.filter(book_id == book_id).first()
-
-    if books is None:
-        return jsonify({'message': 'No book found!'})
-
-    user_data = {}
-    user_data['title'] = books.title
-    user_data['description'] = books.description
-    user_data['edition'] = books.edition
-    user_data['year'] = books.year_published
-    user_data['isbn'] = books.isbn
-    user_data['types'] = books.types
-    user_data['publisher_id'] = books.publisher_id
-
-    return jsonify({'book': user_data})
 
 @app.route('/category/<string:category>/', methods=['GET'])
 def category(category):
