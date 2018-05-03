@@ -90,6 +90,14 @@ def create_user():
     if user is None:
         db.session.add(new_user)
         db.session.commit()
+
+        user = User.query.filter_by(username=data['username']).first()
+        current_user = user.id
+
+        new_bookshelf = Bookshelf(bookshef_owner=current_user)
+        db.session.add(new_bookshelf)
+        db.session.commit()
+
         return jsonify({'message': 'New user created!'})
     else:
         return jsonify({'message': 'username already created'})
