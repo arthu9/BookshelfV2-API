@@ -351,4 +351,4 @@ class ActLogs(db.Model):
         self.bookid = bookid
 
 
-db.create_all()
+# db.create_all()
