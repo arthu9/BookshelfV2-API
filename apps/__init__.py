@@ -32,7 +32,7 @@ from apps import api
 #    conn = engine.connect()
 #    conn.execute("commit")
 #    conn.execute("create database bookshelf")
-#    conn.close()A
+#    conn.close()
 
 #def createTables():
 db.create_all()
