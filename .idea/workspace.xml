@@ -2,6 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f9742630-e476-47d0-bae0-402c029a8511" name="Default" comment="deleted redundunt">
+<<<<<<< HEAD
+=======
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.ids" afterPath="$PROJECT_DIR$/.idea/dataSources.ids" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" />
+>>>>>>> sign-up
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path=".idea/dataSources.local.xml" />
@@ -13,12 +18,20 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
+<<<<<<< HEAD
     <SUITE FILE_PATH="coverage/BookshelfV2-API$run.coverage" NAME="run Coverage Results" MODIFIED="1525435903534" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/BookshelfV2-API$models.coverage" NAME="models Coverage Results" MODIFIED="1525098385845" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/BookshelfV2-API$BookshelfV2_API.coverage" NAME="BookshelfV2-API Coverage Results" MODIFIED="1525099010599" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/BookshelfV2-API$app.coverage" NAME="app Coverage Results" MODIFIED="1525104153184" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/apps" />
     <SUITE FILE_PATH="coverage/BookshelfV2-API$api.coverage" NAME="api Coverage Results" MODIFIED="1525425037352" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/apps" />
     <SUITE FILE_PATH="coverage/BookshelfV2-API$models__1_.coverage" NAME="models (1) Coverage Results" MODIFIED="1525106780082" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/apps" />
+=======
+    <SUITE FILE_PATH="coverage/BookshelfV2-API$run.coverage" NAME="run Coverage Results" MODIFIED="1525356440164" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/BookshelfV2-API$models.coverage" NAME="models Coverage Results" MODIFIED="1525098385845" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/BookshelfV2-API$BookshelfV2_API.coverage" NAME="BookshelfV2-API Coverage Results" MODIFIED="1525099010599" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/BookshelfV2-API$app.coverage" NAME="app Coverage Results" MODIFIED="1525104153184" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/apps" />
+    <SUITE FILE_PATH="coverage/BookshelfV2-API$models__1_.coverage" NAME="models (1) Coverage Results" MODIFIED="1525355648389" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/apps" />
+>>>>>>> sign-up
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -35,6 +48,63 @@
         <option name="myItemId" />
         <option name="myItemType" value="com.intellij.database.view.DatabaseStructure$Root" />
       </PATH_ELEMENT>
+<<<<<<< HEAD
+=======
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PostgreSQL - bookshelf@localhost" />
+        <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
+      </PATH_ELEMENT>
+    </PATH>
+    <PATH>
+      <PATH_ELEMENT>
+        <option name="myItemId" />
+        <option name="myItemType" value="com.intellij.database.view.DatabaseStructure$Root" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PostgreSQL - bookshelf@localhost" />
+        <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" />
+        <option name="myItemType" value="com.intellij.database.view.DatabaseStructure$GroupNode" />
+      </PATH_ELEMENT>
+    </PATH>
+    <PATH>
+      <PATH_ELEMENT>
+        <option name="myItemId" />
+        <option name="myItemType" value="com.intellij.database.view.DatabaseStructure$Root" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PostgreSQL - bookshelf@localhost" />
+        <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" />
+        <option name="myItemType" value="com.intellij.database.view.DatabaseStructure$GroupNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="user" />
+        <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
+      </PATH_ELEMENT>
+    </PATH>
+    <PATH>
+      <PATH_ELEMENT>
+        <option name="myItemId" />
+        <option name="myItemType" value="com.intellij.database.view.DatabaseStructure$Root" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PostgreSQL - bookshelf@localhost" />
+        <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" />
+        <option name="myItemType" value="com.intellij.database.view.DatabaseStructure$GroupNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="bookshelf" />
+        <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
+      </PATH_ELEMENT>
+>>>>>>> sign-up
     </PATH>
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
@@ -43,31 +113,55 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+<<<<<<< HEAD
       <file leaf-file-name="run.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/run.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="85">
               <caret line="5" column="38" selection-start-line="5" selection-start-column="38" selection-end-line="5" selection-end-column="38" />
+=======
+      <file leaf-file-name="requirements.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/requirements.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="204">
+              <caret line="12" column="5" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="12" />
+>>>>>>> sign-up
               <folding />
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file leaf-file-name="requirements.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/requirements.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="459">
               <caret line="27" column="17" selection-start-line="27" selection-start-column="17" selection-end-line="27" selection-end-column="17" />
+=======
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+>>>>>>> sign-up
               <folding />
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file leaf-file-name="Procfile" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Procfile">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
               <caret line="0" column="13" selection-start-line="0" selection-start-column="13" selection-end-line="0" selection-end-column="13" />
+=======
+      <file leaf-file-name="run.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/run.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="5" column="39" selection-start-line="5" selection-start-column="39" selection-end-line="5" selection-end-column="39" />
+>>>>>>> sign-up
               <folding />
             </state>
           </provider>
@@ -76,8 +170,13 @@
       <file leaf-file-name="api.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/apps/api.py">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="106">
               <caret line="152" column="17" selection-start-line="152" selection-start-column="12" selection-end-line="152" selection-end-column="17" />
+=======
+            <state relative-caret-position="484">
+              <caret line="109" column="34" selection-start-line="109" selection-start-column="34" selection-end-line="109" selection-end-column="34" />
+>>>>>>> sign-up
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -85,6 +184,7 @@
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -92,11 +192,21 @@
               <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
               <folding>
                 <element signature="e#0#110#0" expanded="true" />
+=======
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/apps/models.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="307">
+              <caret line="42" column="27" selection-start-line="42" selection-start-column="27" selection-end-line="42" selection-end-column="27" />
+              <folding>
+                <element signature="e#0#33#0" expanded="true" />
+>>>>>>> sign-up
               </folding>
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/models.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -104,6 +214,15 @@
               <caret line="7" column="55" selection-start-line="7" selection-start-column="55" selection-end-line="7" selection-end-column="55" />
               <folding>
                 <element signature="e#0#33#0" expanded="true" />
+=======
+      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/apps/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="238">
+              <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#110#0" expanded="true" />
+>>>>>>> sign-up
               </folding>
             </state>
           </provider>
@@ -135,6 +254,7 @@
         <option value="$PROJECT_DIR$/config.py" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/__init__.py" />
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/models.py" />
         <option value="$PROJECT_DIR$/app.py" />
         <option value="$PROJECT_DIR$/apps/app.py" />
@@ -143,6 +263,16 @@
         <option value="$PROJECT_DIR$/apps/__init__.py" />
         <option value="$PROJECT_DIR$/run.py" />
         <option value="$PROJECT_DIR$/requirements.txt" />
+=======
+        <option value="$PROJECT_DIR$/requirements.txt" />
+        <option value="$PROJECT_DIR$/models.py" />
+        <option value="$PROJECT_DIR$/app.py" />
+        <option value="$PROJECT_DIR$/apps/app.py" />
+        <option value="$PROJECT_DIR$/run.py" />
+        <option value="$PROJECT_DIR$/apps/__init__.py" />
+        <option value="$PROJECT_DIR$/apps/api.py" />
+        <option value="$PROJECT_DIR$/apps/models.py" />
+>>>>>>> sign-up
       </list>
     </option>
   </component>
@@ -283,6 +413,7 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
     </configuration>
+<<<<<<< HEAD
     <configuration default="false" name="api" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -301,6 +432,8 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
     </configuration>
+=======
+>>>>>>> sign-up
     <configuration default="true" type="DjangoTestsConfigurationType" factoryName="Django tests">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -527,12 +660,17 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
     </configuration>
+<<<<<<< HEAD
     <list size="6">
+=======
+    <list size="5">
+>>>>>>> sign-up
       <item index="0" class="java.lang.String" itemvalue="Python.BookshelfV2-API" />
       <item index="1" class="java.lang.String" itemvalue="Python.models" />
       <item index="2" class="java.lang.String" itemvalue="Python.app" />
       <item index="3" class="java.lang.String" itemvalue="Python.run" />
       <item index="4" class="java.lang.String" itemvalue="Python.models (1)" />
+<<<<<<< HEAD
       <item index="5" class="java.lang.String" itemvalue="Python.api" />
     </list>
     <recent_temporary>
@@ -542,6 +680,15 @@
         <item index="2" class="java.lang.String" itemvalue="Python.models (1)" />
         <item index="3" class="java.lang.String" itemvalue="Python.app" />
         <item index="4" class="java.lang.String" itemvalue="Python.models" />
+=======
+    </list>
+    <recent_temporary>
+      <list size="4">
+        <item index="0" class="java.lang.String" itemvalue="Python.run" />
+        <item index="1" class="java.lang.String" itemvalue="Python.models (1)" />
+        <item index="2" class="java.lang.String" itemvalue="Python.app" />
+        <item index="3" class="java.lang.String" itemvalue="Python.models" />
+>>>>>>> sign-up
       </list>
     </recent_temporary>
   </component>
@@ -568,13 +715,21 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980332" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
+<<<<<<< HEAD
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6844584" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+=======
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.0" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+>>>>>>> sign-up
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32890365" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
+<<<<<<< HEAD
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21096346" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+=======
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20785597" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+>>>>>>> sign-up
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -628,6 +783,7 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/Procfile">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -640,12 +796,19 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2448">
           <caret line="145" column="57" selection-start-line="145" selection-start-column="57" selection-end-line="145" selection-end-column="57" />
+=======
+    <entry file="file://$PROJECT_DIR$/apps/api.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1530">
+          <caret line="90" column="32" selection-start-line="90" selection-start-column="32" selection-end-line="90" selection-end-column="32" />
+>>>>>>> sign-up
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/apps/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -660,12 +823,19 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="1" column="18" selection-start-line="1" selection-start-column="18" selection-end-line="1" selection-end-column="18" />
+=======
+    <entry file="file://$PROJECT_DIR$/apps/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="578">
+          <caret line="34" column="30" selection-start-line="34" selection-start-column="30" selection-end-line="34" selection-end-column="30" />
+>>>>>>> sign-up
           <folding>
             <element signature="e#0#33#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/requirements.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
@@ -696,13 +866,43 @@
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
+=======
+    <entry file="dbDummy://dbtable:/25de825d/205daf16-3fac-4b5f-bbe1-955a52da041a/bookshelf.public.bookshelf">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://dbtable:/25de825d/205daf16-3fac-4b5f-bbe1-955a52da041a/bookshelf.public.bookshelf">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+>>>>>>> sign-up
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="391">
           <caret line="23" column="15" selection-start-line="23" selection-start-column="15" selection-end-line="23" selection-end-column="15" />
+=======
+        <state relative-caret-position="374">
+          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+>>>>>>> sign-up
           <folding>
             <element signature="e#0#110#0" expanded="true" />
           </folding>
@@ -721,6 +921,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+<<<<<<< HEAD
+=======
+          <folding />
+>>>>>>> sign-up
         </state>
       </provider>
     </entry>
@@ -744,7 +948,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="255">
+=======
+        <state relative-caret-position="391">
+>>>>>>> sign-up
           <caret line="23" column="15" selection-start-line="23" selection-start-column="15" selection-end-line="23" selection-end-column="15" />
           <folding>
             <element signature="e#0#110#0" expanded="true" />
@@ -776,6 +984,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="18" selection-start-line="0" selection-start-column="18" selection-end-line="0" selection-end-column="18" />
+<<<<<<< HEAD
+=======
+          <folding>
+            <element signature="e#0#33#0" expanded="true" />
+          </folding>
+>>>>>>> sign-up
         </state>
       </provider>
     </entry>
@@ -783,6 +997,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+<<<<<<< HEAD
+=======
+          <folding />
+>>>>>>> sign-up
         </state>
       </provider>
     </entry>
@@ -830,10 +1048,33 @@
     <entry file="file://$PROJECT_DIR$/config.py" />
     <entry file="file://$PROJECT_DIR$/models.py" />
     <entry file="file://$PROJECT_DIR$/app.py" />
+<<<<<<< HEAD
+=======
+    <entry file="file://$PROJECT_DIR$/requirements.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="5" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+>>>>>>> sign-up
     <entry file="file://C:/Python27/Lib/site-packages/flask_sqlalchemy/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
           <caret line="539" column="0" selection-start-line="539" selection-start-column="0" selection-end-line="539" selection-end-column="0" />
+<<<<<<< HEAD
+=======
+          <folding />
+>>>>>>> sign-up
         </state>
       </provider>
     </entry>
@@ -871,6 +1112,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
@@ -918,14 +1160,97 @@
           <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
           <folding>
             <element signature="e#0#110#0" expanded="true" />
+=======
+    <entry file="file://$PROJECT_DIR$/run.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="39" selection-start-line="5" selection-start-column="39" selection-end-line="5" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/ef0c2e2f-35b7-412e-a0d1-de9bf1f32e72/console.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#110#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://dbtable:/25de825d/205daf16-3fac-4b5f-bbe1-955a52da041a/bookshelf.public.user">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/205daf16-3fac-4b5f-bbe1-955a52da041a/console.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://dbtable:/25de825d/205daf16-3fac-4b5f-bbe1-955a52da041a/bookshelf.public.bookshelf">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://dbtable:/25de825d/205daf16-3fac-4b5f-bbe1-955a52da041a/bookshelf.public.bookshelf">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="307">
+          <caret line="42" column="27" selection-start-line="42" selection-start-column="27" selection-end-line="42" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#33#0" expanded="true" />
+>>>>>>> sign-up
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/api.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="106">
           <caret line="152" column="17" selection-start-line="152" selection-start-column="12" selection-end-line="152" selection-end-column="17" />
+=======
+        <state relative-caret-position="484">
+          <caret line="109" column="34" selection-start-line="109" selection-start-column="34" selection-end-line="109" selection-end-column="34" />
+>>>>>>> sign-up
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>

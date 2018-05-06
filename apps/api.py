@@ -16,6 +16,7 @@ def token_required(f):
             data = jwt.decode(token, app.config['SECRET_KEY'])
             current = User.query.filter_by(username=data['username']).first()
             current_user = current.id
+
         except:
             return jsonify({'message': 'Token is invalid!'}), 401
 
@@ -91,6 +92,14 @@ def create_user():
     if user is None:
         db.session.add(new_user)
         db.session.commit()
+
+        user = User.query.filter_by(username=data['username']).first()
+        current_user = user.id
+
+        new_bookshelf = Bookshelf(bookshef_owner=current_user)
+        db.session.add(new_bookshelf)
+        db.session.commit()
+
         return jsonify({'message': 'New user created!'})
     else:
         return jsonify({'message': 'username already created'})
@@ -268,15 +277,19 @@ def commentbook(current_user, book_id):
 @token_required
 def addbook(current_user):
 
+
     data = request.get_json()
 
     book = Books.query.filter((Books.title == data['title']) & (Books.edition == data['edition']) & (Books.year_published == data['year']) & (Books.isbn == data['isbn'])).first()
+
     publisher = Publisher.query.filter(Publisher.publisher_name == data['publisher_name']).first()
     author = Author.query.filter(
         (Author.author_first_name == data['author_fname']) & (Author.author_last_name == data['author_lname'])).first()
     if (book is None) or (publisher is None) or (author is None):
         if publisher is None:
-            newPublisher = Publisher(publisher_name= data['publisher_name'])
+
+            newPublisher = Publisher(publisher_name=data['publisher_name'])
+
             db.session.add(newPublisher)
             db.session.commit()
             publisher_id = Publisher.query.filter((Publisher.publisher_name == data['publisher_name'])).first()
@@ -285,7 +298,9 @@ def addbook(current_user):
                 db.session.add(author)
                 db.session.commit()
             elif author is not None:
+
                 auth_id = Author.query.filter((Author.author_first_name == data['author_fname']) and (Author.author_last_name == data['author_lname'])).first()
+
         elif publisher is not None:
             publisher_id = Publisher.query.filter((Publisher.publisher_name == data['publisher_name'])).first()
             if author is None:
@@ -294,11 +309,13 @@ def addbook(current_user):
                 db.session.commit()
             elif author is not None:
                 auth_id = Author.query.filter((Author.author_first_name == data['author_fname']) and (
+
                     Author.author_last_name == data['author_lname'])).first()
 
         publisher = Publisher.query.filter(Publisher.publisher_name == data['publisher_name']).first()
         publisher_id = publisher.publisher_id
         book = Books(title = data['title'],edition = data['edition'], year_published = data['year'], isbn =data['isbn'], types =data['types'], publisher_id= publisher_id)
+
         db.session.add(book)
         db.session.commit()
 
@@ -320,7 +337,9 @@ def addbook(current_user):
         bookshelf = Bookshelf.query.filter_by(bookshef_owner=current_user).first()
         shelf_id = bookshelf.bookshelf_id
 
+
         bookquantity = ContainsAsscociation.query.filter((ContainsAsscociation.shelf_id == shelf_id) & (ContainsAsscociation.book_id == book.book_id)).first()
+
         if bookquantity is None:
             contain = ContainsAsscociation(shelf_id, book.book_id, 1, 'YES')
             db.session.add(contain)
@@ -330,7 +349,8 @@ def addbook(current_user):
             bookquantity.quantity = int(curQuant + 1)
             db.session.commit()
 
-    return jsonify({'message': 'New book counted!'})
+        return jsonify({'message': 'New book counted!'})
+
 
 # {"title": "new book","edition": "20", "year": "2018", "isbn": "SEVENTEEN", "types": "HARD" , "publisher_name":"DK", "author_fname": "SEANNE", "author_lname": "CANOY"}
 

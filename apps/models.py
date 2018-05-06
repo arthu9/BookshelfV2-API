@@ -45,8 +45,7 @@ class Bookshelf(db.Model):
     wishlist_users = db.relation('Wishlist', backref='bookshelfwish')
     purchase = db.relationship('PurchaseAssociation', backref='books_purchase')
 
-    def __init__(self, bookshelf_id='', bookshef_owner=''):
-        self.bookshelf_id = bookshelf_id
+    def __init__(self, bookshef_owner=''):
         self.bookshef_owner = bookshef_owner
 
 
@@ -349,5 +348,4 @@ class ActLogs(db.Model):
         self.shelf_id = shelf_id
         self.status = status
         self.bookid = bookid
-
 
