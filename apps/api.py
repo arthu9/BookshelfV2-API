@@ -158,7 +158,6 @@ def login():
 
     return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
 
-
 @app.route('/search', methods=['GET', 'POST'])
 def search():
 
