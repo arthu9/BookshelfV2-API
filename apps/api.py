@@ -411,9 +411,9 @@ def wishlist(current_user):
 
 
 #COMMENT (BOOK)
-@token_required
 # @app.route('/commentBook/', methods=['POST', 'GET'])
 @app.route('/comment-book/<int:book_id>', methods=['POST'])
+@token_required
 def commentbook(book_id):
     data = request.get_json()
     get_id = BookCommentAssociation.query.filter(BookCommentAssociation.book_id == book_id).first()
