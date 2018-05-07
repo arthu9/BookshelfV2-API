@@ -429,10 +429,10 @@ def wishlist(current_user, book_id):
     books = Bookshelf.query.filter_by(bookshef_owner=current_user).first()
     shelf_id = books.bookshelf_id
 
-    book = Wishlist.query.filter_by(bookId=data['book_id']).first()
+    book = Wishlist.query.filter_by(bookId=book_id).first()
 
     if book is None:
-        newWishlist = Wishlist(user_id=current_user, shelf_id=shelf_id, bookId=data['book_id'])
+        newWishlist = Wishlist(user_id=current_user, shelf_id=shelf_id, bookId=book_id)
         db.session.add(newWishlist)
         db.session.commit()
         return jsonify({'message': 'wishlist added'})
