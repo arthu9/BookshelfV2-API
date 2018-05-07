@@ -411,7 +411,6 @@ def wishlist(current_user):
 
 
 # COMMENT (BOOK)
-# @app.route('/commentBook/', methods=['POST', 'GET'])
 @app.route('/comment-book', methods=['POST'])
 @token_required
 def commentbook(current_user):
