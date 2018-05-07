@@ -548,29 +548,6 @@ def comment(current_user, user_id):
 #         return jsonify({'message': 'rate added!', 'ratings': rate})
 
 
-@app.route('/rateBook/<int:book_id>', methods=['POST'])
-@token_required
-def ratebook(current_user, book_id):
-    data = request.get_json()
-
-    rate = BookRateAssociation(rating=data['rating'])
-
-    # current_user = User.query.filter_by(id=data['user_id']).first()
-
-    rateOld = BookRateAssociation.query.filter(
-        (BookRateAssociation.user_id == int(current_user.id)) & (BookRateAssociation.book_id == book_id)).first()
-
-    if rateOld is not None:
-        rateOld.rating = rate
-        db.session.add(rate)
-        db.session.commit()
-        return jsonify({'message': 'rate added!'})
-    else:
-        newRater = BookRateAssociation(current_user.id, book_id, rate)
-        db.session.add(newRater)
-        db.session.commit()
-        return jsonify({'message': 'already rated!'})
-
 
 # @app.route('/rateBook/<int:book_id>', methods=['POST', 'GET'])
 # def ratebook(book_id):
@@ -650,3 +627,28 @@ def ratebook(current_user, book_id):
 #             db.session.add(newRateTot)
 #             db.session.commit()
 #         return jsonify({'message': 'Success!'})
+
+
+
+# @app.route('/rate-book/<int:book_id>', methods=['POST'])
+# @token_required
+# def ratebook(current_user, book_id):
+#     data = request.get_json()
+#
+#     # current_user = User.query.filter_by(id=data['user_id']).first()
+#
+#     rateOld = BookRateAssociation.query.filter(
+#         (BookRateAssociation.user_id == int(current_user.id)) & (BookRateAssociation.book_id == book_id)).first()
+#
+#     rate = BookRateAssociation(rating=data['rating'])
+#
+#     if rateOld is not None:
+#         rateOld.rating = rate
+#         db.session.add(rate)
+#         db.session.commit()
+#         return jsonify({'message': 'rate added!'})
+    # else:
+    #     newRater = BookRateAssociation(current_user.id, book_id, rate)
+    #     db.session.add(newRater)
+    #     db.session.commit()
+    #     return jsonify({'message': 'already rated!'})
