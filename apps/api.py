@@ -315,6 +315,9 @@ def addbook(current_user):
         db.session.add(book)
         db.session.commit()
 
+        auth_id = Author.query.filter((Author.author_first_name == data['author_fname']) and (
+        Author.author_last_name == data['author_lname'])).first()
+
         written = WrittenByAssociation(auth_id.author_id, book.book_id)
         db.session.add(written)
         db.session.commit()

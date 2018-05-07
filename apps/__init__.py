@@ -23,7 +23,6 @@ app.config['SECRET_KEY'] = 'thisissecret'
 app.secret_key = os.urandom(24)
 
 #rttr
-
 from apps import api
 
 
@@ -35,11 +34,9 @@ from apps import api
 #    conn.close()
 
 #def createTables():
-
 # db.create_all()
 
 
 
 #createDB()
 #createTables()
-
