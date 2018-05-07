@@ -1,5 +1,11 @@
 
+*.ids
+*.xml
+*.xml
+*.xml
+.idea/dataSources.ids
 *.xml
 *.ids
 *.xml
+*.ids
 *.xml

@@ -16,6 +16,7 @@ def token_required(f):
             data = jwt.decode(token, app.config['SECRET_KEY'])
             current = User.query.filter_by(id=data['id']).first()
             current_user = current.id
+
         except:
             return jsonify({'message': 'Token is invalid!'}), 401
 
@@ -81,16 +82,21 @@ def create_user():
 
     hashed_password = generate_password_hash(data['password'], method='sha256')
 
-    new_user = User(username=data['username'], password=hashed_password, first_name=data['first_name'],
-                    last_name=data['last_name'],
-                    contact_number=data['contact_number'], birth_date=data['birth_date'], gender=data['gender'],
-                    profpic=data['profpic'])
+    new_user = User(username=data['username'], password=hashed_password, first_name=data['first_name'],last_name=data['last_name'],contact_number=data['contact_number'], birth_date=data['birth_date'], gender=data['gender'], address=data['address'],profpic=data['profpic'])
 
     user = User.query.filter_by(username=data['username']).first()
 
     if user is None:
         db.session.add(new_user)
         db.session.commit()
+
+        user = User.query.filter_by(username=data['username']).first()
+        current_user = user.id
+
+        new_bookshelf = Bookshelf(bookshef_owner=current_user)
+        db.session.add(new_bookshelf)
+        db.session.commit()
+
         return jsonify({'message': 'New user created!'})
     else:
         return jsonify({'message': 'username already created'})
@@ -143,12 +149,11 @@ def login():
         return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
 
     if check_password_hash(user.password, auth.password):
-        token = jwt.encode({'id': user.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(days=30)}, app.config['SECRET_KEY'])
+        token = jwt.encode({'id': user.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
 
         return jsonify({'token': token.decode('UTF-8')})
 
     return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
-
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
@@ -267,17 +272,20 @@ def commentbook(current_user, book_id):
 @app.route('/user/addbook', methods=['POST'])
 @token_required
 def addbook(current_user):
+
+
     data = request.get_json()
 
-    book = Books.query.filter(
-        (Books.title == data['title']) & (Books.edition == data['edition']) & (Books.year_published == data['year']) & (
-                    Books.isbn == data['isbn'])).first()
+    book = Books.query.filter((Books.title == data['title']) & (Books.edition == data['edition']) & (Books.year_published == data['year']) & (Books.isbn == data['isbn'])).first()
+
     publisher = Publisher.query.filter(Publisher.publisher_name == data['publisher_name']).first()
     author = Author.query.filter(
         (Author.author_first_name == data['author_fname']) & (Author.author_last_name == data['author_lname'])).first()
     if (book is None) or (publisher is None) or (author is None):
         if publisher is None:
+
             newPublisher = Publisher(publisher_name=data['publisher_name'])
+
             db.session.add(newPublisher)
             db.session.commit()
             publisher_id = Publisher.query.filter((Publisher.publisher_name == data['publisher_name'])).first()
@@ -286,8 +294,9 @@ def addbook(current_user):
                 db.session.add(author)
                 db.session.commit()
             elif author is not None:
-                auth_id = Author.query.filter((Author.author_first_name == data['author_fname']) and (
-                            Author.author_last_name == data['author_lname'])).first()
+
+                auth_id = Author.query.filter((Author.author_first_name == data['author_fname']) and (Author.author_last_name == data['author_lname'])).first()
+
         elif publisher is not None:
             publisher_id = Publisher.query.filter((Publisher.publisher_name == data['publisher_name'])).first()
             if author is None:
@@ -296,12 +305,13 @@ def addbook(current_user):
                 db.session.commit()
             elif author is not None:
                 auth_id = Author.query.filter((Author.author_first_name == data['author_fname']) and (
-                        Author.author_last_name == data['author_lname'])).first()
+
+                    Author.author_last_name == data['author_lname'])).first()
 
         publisher = Publisher.query.filter(Publisher.publisher_name == data['publisher_name']).first()
         publisher_id = publisher.publisher_id
-        book = Books(title=data['title'], edition=data['edition'], year_published=data['year'], isbn=data['isbn'],
-                     types=data['types'], publisher_id=publisher_id)
+        book = Books(title = data['title'],edition = data['edition'], year_published = data['year'], isbn =data['isbn'], types =data['types'], publisher_id= publisher_id)
+
         db.session.add(book)
         db.session.commit()
 
@@ -323,8 +333,9 @@ def addbook(current_user):
         bookshelf = Bookshelf.query.filter_by(bookshef_owner=current_user).first()
         shelf_id = bookshelf.bookshelf_id
 
-        bookquantity = ContainsAsscociation.query.filter(
-            (ContainsAsscociation.shelf_id == shelf_id) & (ContainsAsscociation.book_id == book.book_id)).first()
+
+        bookquantity = ContainsAsscociation.query.filter((ContainsAsscociation.shelf_id == shelf_id) & (ContainsAsscociation.book_id == book.book_id)).first()
+
         if bookquantity is None:
             contain = ContainsAsscociation(shelf_id, book.book_id, 1, 'YES')
             db.session.add(contain)
@@ -334,7 +345,7 @@ def addbook(current_user):
             bookquantity.quantity = int(curQuant + 1)
             db.session.commit()
 
-    return jsonify({'message': 'New book counted!'})
+        return jsonify({'message': 'New book counted!'})
 
 
 # {"title": "new book","edition": "20", "year": "2018", "isbn": "SEVENTEEN", "types": "HARD" , "publisher_name":"DK", "author_fname": "SEANNE", "author_lname": "CANOY"}
@@ -420,56 +431,20 @@ def category(category):
 
     return jsonify({'book': output})
 
-@app.route('/user/AddWishlist/<int:book_id>', methods=['POST'])
+@app.route('/user/wishlist', methods=['POST'])
 @token_required
-def wishlist(current_user, book_id):
+def wishlist(current_user):
 
     data = request.get_json()
 
-    books = Bookshelf.query.filter_by(bookshef_owner=current_user).first()
-    shelf_id = books.bookshelf_id
-
-    book = Wishlist.query.filter_by(bookId=book_id).first()
-
+    book = Books.query.filter((Books.title == data['title']) & (Books.edition == data['edition']) & (Books.year_published == data['year']) & (
+                    Books.isbn == data['isbn'])).first()
     if book is None:
-        newWishlist = Wishlist(user_id=current_user, shelf_id=shelf_id, bookId=book_id)
-        db.session.add(newWishlist)
+        newPublisher = Publisher(publisher_name=data['publisher_name'])
+        db.session.add(newPublisher)
         db.session.commit()
-        return jsonify({'message': 'wishlist added'})
-    else:
-        return jsonify({'message': 'this book is already in the wishlist'})\
 
-@app.route('/user/Wishlists', methods=['GET'])
-@token_required
-def diplayWishlist(current_user):
-
-
-    Book = Books.query.join(Wishlist).filter(user_id=current_user).all()
-
-    # q = (db.session.query(Books, Bookshelf, ContainsAsscociation, Author)
-    #      .filter(Bookshelf.bookshef_owner == id)
-    #      .filter(ContainsAsscociation.shelf_id == Bookshelf.bookshelf_id)
-    #      .filter(Books.book_id == ContainsAsscociation.book_id)
-    #      .filter(Author.author_id == Books.publisher_id)
-    #      .all())
-
-    output = []
-
-    for book in Book:
-        user_data = {}
-        user_data['title'] = book.title
-        user_data['description'] = book.description
-        user_data['edition'] = book.edition
-        user_data['year'] = book.year_published
-        user_data['isbn'] = book.isbn
-        user_data['types'] = book.types
-        user_data['publisher_id'] = book.publisher_id
-        output.append(user_data)
-
-    return jsonify({'book': output})
-
-
-
+    return jsonify({'message':'wishlist added'})
 
 # #COMMENT (USER)
 # # @app.route('/profile/commentUser/', methods=['GET', 'POST'])
