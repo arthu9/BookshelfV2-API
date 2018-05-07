@@ -203,13 +203,14 @@ class Wishlist(db.Model):
     wishlist_id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     shelf_id = db.Column(db.Integer, db.ForeignKey('bookshelf.bookshelf_id'))
-    bookId = db.Column(db.Integer)
+    bookid = db.Column(db.Integer)
     user = db.relationship('User', backref='wishlist_user')
     bookshelf = db.relationship('Bookshelf', backref='bookshelf_wishlist')
 
 
-    def __init__(self, user_id='', bookid=''):
+    def __init__(self, user_id='',shelf_id='', bookid=''):
         self.user_id = user_id
+        self.shelf_id = shelf_id
         self.bookid = bookid
 
 

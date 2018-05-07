@@ -431,20 +431,53 @@ def category(category):
 
     return jsonify({'book': output})
 
-@app.route('/user/wishlist', methods=['POST'])
+@app.route('/user/AddWishlist/<int:book_id>', methods=['POST'])
 @token_required
-def wishlist(current_user):
+def wishlist(current_user, book_id):
 
     data = request.get_json()
 
-    book = Books.query.filter((Books.title == data['title']) & (Books.edition == data['edition']) & (Books.year_published == data['year']) & (
-                    Books.isbn == data['isbn'])).first()
-    if book is None:
-        newPublisher = Publisher(publisher_name=data['publisher_name'])
-        db.session.add(newPublisher)
-        db.session.commit()
+    books = Bookshelf.query.filter_by(bookshef_owner=current_user).first()
+    shelf_id = books.bookshelf_id
 
-    return jsonify({'message':'wishlist added'})
+    book = Wishlist.query.filter_by(bookId=book_id).first()
+
+    if book is None:
+        newWishlist = Wishlist(user_id=current_user, shelf_id=shelf_id, bookid=book_id)
+        db.session.add(newWishlist)
+        db.session.commit()
+        return jsonify({'message': 'wishlist added'})
+    else:
+        return jsonify({'message': 'this book is already in the wishlist'})\
+
+@app.route('/user/Wishlists', methods=['GET'])
+@token_required
+def diplayWishlist(current_user):
+
+
+    Book = Books.query.join(Wishlist).filter(user_id=current_user).all()
+
+    # q = (db.session.query(Books, Bookshelf, ContainsAsscociation, Author)
+    #      .filter(Bookshelf.bookshef_owner == id)
+    #      .filter(ContainsAsscociation.shelf_id == Bookshelf.bookshelf_id)
+    #      .filter(Books.book_id == ContainsAsscociation.book_id)
+    #      .filter(Author.author_id == Books.publisher_id)
+    #      .all())
+
+    output = []
+
+    for book in Book:
+        user_data = {}
+        user_data['title'] = book.title
+        user_data['description'] = book.description
+        user_data['edition'] = book.edition
+        user_data['year'] = book.year_published
+        user_data['isbn'] = book.isbn
+        user_data['types'] = book.types
+        user_data['publisher_id'] = book.publisher_id
+        output.append(user_data)
+
+    return jsonify({'book': output})
 
 # #COMMENT (USER)
 # # @app.route('/profile/commentUser/', methods=['GET', 'POST'])
