@@ -35,7 +35,9 @@ from apps import api
 #    conn.close()
 
 #def createTables():
-db.create_all()
+
+# db.create_all()
+
 
 #createDB()
 #createTables()
