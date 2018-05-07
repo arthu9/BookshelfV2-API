@@ -440,7 +440,7 @@ def wishlist(current_user, book_id):
     books = Bookshelf.query.filter_by(bookshef_owner=current_user).first()
     shelf_id = books.bookshelf_id
 
-    book = Wishlist.query.filter_by(bookId=book_id).first()
+    book = Wishlist.query.filter_by(bookid=book_id).first()
 
     if book is None:
         newWishlist = Wishlist(user_id=current_user, shelf_id=shelf_id, bookid=book_id)
