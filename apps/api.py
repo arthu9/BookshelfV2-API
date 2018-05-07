@@ -420,9 +420,9 @@ def category(category):
 
     return jsonify({'book': output})
 
-@app.route('/user/AddWishlist/', methods=['POST'])
+@app.route('/user/AddWishlist/<int:book_id>', methods=['POST'])
 @token_required
-def wishlist(current_user):
+def wishlist(current_user, book_id):
 
     data = request.get_json()
 
