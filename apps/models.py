@@ -104,7 +104,7 @@ class Category(db.Model):
 
 class Author(db.Model):
     __tablename__ = 'author'
-    author_id = db.Column(db.Integer, db.ForeignKey('author.author_id'), primary_key=True)
+    author_id = db.Column(db.Integer, primary_key=True)
     author_first_name = db.Column(db.String(50))
     author_last_name = db.Column(db.String(50))
     authorBooks = db.relationship('WrittenByAssociation', backref="author_books")
