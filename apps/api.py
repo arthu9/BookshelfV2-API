@@ -426,13 +426,13 @@ def wishlist(current_user, book_id):
 
     data = request.get_json()
 
-    bookshelf = Bookshelf.query.filter_by(bookshef_owner=current_user).first()
-    shelf_id = bookshelf.bookshelf_id
+    books = Bookshelf.query.filter_by(bookshef_owner=current_user).first()
+    shelf_id = books.bookshelf_id
 
-    book = Books.query.join(Wishlist).filter(Wishlist.user_id == current_user).filter(Wishlist.shelf_id == shelf_id).filter(Wishlist.bookid == book_id).first()
+    book = Wishlist.query.filter_by(bookId=data['book_id']).first()
 
     if book is None:
-        newWishlist = Wishlist(user_id=current_user, shelf_id=shelf_id, bookid=book_id)
+        newWishlist = Wishlist(user_id=current_user, shelf_id=shelf_id, bookId=data['book_id'])
         db.session.add(newWishlist)
         db.session.commit()
         return jsonify({'message': 'wishlist added'})
