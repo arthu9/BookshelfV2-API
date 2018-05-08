@@ -541,9 +541,8 @@ def ratebook(current_user, book_id):
         rateOld.rating = data['rating']
         db.session.commit()
         return jsonify({'message': 'rate added!'})
-    else:
-        newRater = BookRateAssociation(current_user, book_id, data['rating'])
-        db.session.add(newRater)
+    elif rateOld is None | current_user is None:
+        db.session.add(rateOld)
         db.session.commit()
         return jsonify({'message': 'already rated!'})
 
