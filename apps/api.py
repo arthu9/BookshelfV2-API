@@ -411,7 +411,7 @@ def wishlist(current_user):
 
 
 # COMMENT (BOOK)
-@app.route('/comment-book', methods=['POST'])
+@app.route('/comment-book',methods=['GET','POST'])
 @token_required
 def commentbook(current_user):
     data = request.get_json()
@@ -422,18 +422,18 @@ def commentbook(current_user):
 
     return jsonify({'message': 'comment posted!'})
 
-# {"bookid":"1","comment":"hala comment ni"}
+# {"bookid":"1","comment":"any comment here"}
 
 
 # COMMENT (USER)
-@app.route('/comment-user/<int:user_idCommentee>', methods=['POST'])
-# @token_required
+@app.route('/comment-user/<int:user_idCommentee>', methods=['GET','POST'])
+@token_required
 def commentuser(current_user, user_idCommentee):
     data = request.get_json()
     # get_id = User.query.filter_by(id=data['id']).first()
     # get_id = User.query.filter_by(User.book_id == book_id).first()
 
-    new_comment = UserCommentAssociation(user_idCommenter=current_user, user_idCommentee=user_idCommentee, comment=data['comment'])
+    new_comment = UserCommentAssociation(user_idCommenter=int(current_user.id), user_idCommentee=user_idCommentee, comment=data['comment'])
     db.session.add(new_comment)
     db.session.commit()
 

@@ -276,7 +276,8 @@ class UserRateTotal(db.Model):
         self.totalRate = totalRate
 
 
-# Comment (Book)--------------------------------
+# Comment (Book)
+# add comment_id here as primary key
 class BookCommentAssociation(db.Model):
     __tablename__ = 'bookComment'
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
