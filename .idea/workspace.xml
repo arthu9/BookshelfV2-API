@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f9742630-e476-47d0-bae0-402c029a8511" name="Default" comment="deleted redundunt">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/dataSources/af2c3841-a303-4bc6-8500-d8b272a03dab.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/dataSources/f0a743e2-ed49-4ac1-a79d-65b16d185ac6.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" />
+    <list default="true" id="f9742630-e476-47d0-bae0-402c029a8511" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/__init__.py" afterPath="$PROJECT_DIR$/apps/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/api.py" afterPath="$PROJECT_DIR$/apps/api.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/config.py" afterPath="$PROJECT_DIR$/apps/config.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/models.py" afterPath="$PROJECT_DIR$/apps/models.py" />
     </list>
     <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -560,6 +554,14 @@
       <option name="presentableId" value="Default" />
       <updated>1524418354356</updated>
     </task>
+    <task id="LOCAL-00001" summary="comment- merge">
+      <created>1525860580105</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1525860580105</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -623,6 +625,10 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="comment- merge" />
+    <option name="LAST_COMMIT_MESSAGE" value="comment- merge" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
