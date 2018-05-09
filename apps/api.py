@@ -49,6 +49,27 @@ def get_all_user_accounts():
 
     return jsonify({'users', output})
 
+@app.route('/books', methods=['GET'])
+def all_books():
+    # if not current_user.admin:
+    #     return jsonify({'message' : 'Cannot perform that function!'})
+
+    books = Books.query.all()
+
+    output = []
+
+    for book in books:
+        user_data = {}
+        user_data['title'] = book.title
+        user_data['description'] = book.description
+        user_data['year_published'] = book.year_published
+        user_data['isbn'] = book.isbn
+        user_data['types'] = book.types
+        user_data['publisher_id'] = book.publisher_id
+        output.append(user_data)
+
+    return jsonify({'book': output})
+
 
 @app.route('/user/info', methods=['GET'])
 @token_required
