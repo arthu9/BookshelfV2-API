@@ -11,6 +11,7 @@ class User(UserMixin, db.Model):
     contact_number = db.Column(db.String(11))
     birth_date = db.Column(db.DATE, nullable=False)
     gender = db.Column(db.String(6), nullable=False)
+    address = db.Column(db.String(100))
     profpic = db.Column(db.TEXT)
     bookshelf_user = db.relationship('Bookshelf', uselist=False, backref='user_bookshelf')
     borrow_bookshelfs = db.relationship('BorrowsAssociation', backref='user_borrow')
@@ -20,7 +21,7 @@ class User(UserMixin, db.Model):
     user_interest = db.relationship('InterestAssociation', backref='user_interest')
 
     def __init__(self, username='', password='', first_name='', last_name='', contact_number='', birth_date='',
-                 gender='', profpic=''):
+                 gender='',address='', profpic=''):
         self.username = username
         self.password = password
         self.first_name = first_name
@@ -28,6 +29,7 @@ class User(UserMixin, db.Model):
         self.contact_number = contact_number
         self.birth_date = birth_date
         self.gender = gender
+        self.address = address
         self.profpic = profpic
 
 
@@ -41,14 +43,13 @@ class Bookshelf(db.Model):
     wishlist_users = db.relation('Wishlist', backref='bookshelfwish')
     purchase = db.relationship('PurchaseAssociation', backref='books_purchase')
 
-    def __init__(self, bookshelf_id='', bookshef_owner=''):
-        self.bookshelf_id = bookshelf_id
+    def __init__(self, bookshef_owner=''):
         self.bookshef_owner = bookshef_owner
 
 
 class Books(db.Model):
     __tablename__ = 'books'
-    book_id = db.Column(db.Integer, db.ForeignKey('books.book_id'), primary_key=True)
+    book_id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.TEXT, nullable=False)
     description = db.Column(db.String(500))
     edition = db.Column(db.Integer)
@@ -101,7 +102,7 @@ class Category(db.Model):
 
 class Author(db.Model):
     __tablename__ = 'author'
-    author_id = db.Column(db.Integer, db.ForeignKey('author.author_id'), primary_key=True)
+    author_id = db.Column(db.Integer, primary_key=True)
     author_first_name = db.Column(db.String(50))
     author_last_name = db.Column(db.String(50))
     authorBooks = db.relationship('WrittenByAssociation', backref="author_books")
@@ -202,13 +203,14 @@ class Wishlist(db.Model):
     wishlist_id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     shelf_id = db.Column(db.Integer, db.ForeignKey('bookshelf.bookshelf_id'))
-    bookId = db.Column(db.Integer)
+    bookid = db.Column(db.Integer)
     user = db.relationship('User', backref='wishlist_user')
     bookshelf = db.relationship('Bookshelf', backref='bookshelf_wishlist')
 
 
-    def __init__(self, user_id='', bookid=''):
+    def __init__(self, user_id='',shelf_id='', bookid=''):
         self.user_id = user_id
+        self.shelf_id = shelf_id
         self.bookid = bookid
 
 
@@ -272,8 +274,7 @@ class UserRateTotal(db.Model):
         self.totalRate = totalRate
 
 
-# Comment (Book)
-# add comment_id here as primary key
+# Comment (Book)--------------------------------
 class BookCommentAssociation(db.Model):
     __tablename__ = 'bookComment'
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -347,5 +348,3 @@ class ActLogs(db.Model):
         self.status = status
         self.bookid = bookid
 
-
-# db.create_all()
