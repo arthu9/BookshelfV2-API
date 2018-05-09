@@ -21,7 +21,7 @@ class User(UserMixin, db.Model):
     user_interest = db.relationship('InterestAssociation', backref='user_interest')
 
     def __init__(self, username='', password='', first_name='', last_name='', contact_number='', birth_date='',
-                 gender='',address='', profpic=''):
+                 gender='',address=''):
         self.username = username
         self.password = password
         self.first_name = first_name
@@ -30,7 +30,6 @@ class User(UserMixin, db.Model):
         self.birth_date = birth_date
         self.gender = gender
         self.address = address
-        self.profpic = profpic
 
 
 class Bookshelf(db.Model):
