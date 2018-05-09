@@ -540,59 +540,81 @@ def ratebook(current_user, book_id):
     if rateOld is not None:
         rateOld.rating = data['rating']
         db.session.commit()
-        return jsonify({'message': 'rate added!'})
-    elif rateOld is None | current_user is None:
-        db.session.add(rateOld)
+        return jsonify({'message': 'Rate added!'})
+    else:
+        newRater = BookRateAssociation(current_user.id, book_id, data['rating'])
+        db.session.add(newRater)
         db.session.commit()
-        return jsonify({'message': 'already rated!'})
+        return jsonify({'message': 'New rate added!'})
 
 
-
-@app.route('/rateBook/<int:book_id>', methods=['POST', 'GET'])
+@app.route('/user-rate/<int:user_idRatee>', methods=['POST', 'GET'])
 @token_required
-def ratings(current_user, book_id):
+def rateuser(current_user, user_idRatee):
 
     data = request.get_json()
 
-    rate = BookRateAssociation(rating=data['rating'])
+    rateUser = UserRateAssociation.query.filter(
+        (UserRateAssociation.user_idRater == int(current_user)) & (UserRateAssociation.user_id == user_idRatee)).first()
 
-    rateOld = BookRateAssociation.query.filter((BookRateAssociation.user_id == current_user.id) & (BookRateAssociation.book_id == book_id)).first()
-    if rateOld is not None:
-        rateOld.rating = rate
+    rate = UserRateAssociation(rating=data['rating'])
+
+    if rateUser is not None:
+        rateUser.rating = data['rating']
         db.session.commit()
-        return jsonify({'message': 'rate added!'})
+        return jsonify({'message': 'Rate added!'})
     else:
-        newRater = BookRateAssociation(current_user.id, book_id, rate)
+        newRater = UserRateAssociation(current_user.id, user_idRatee, data['rating'])
         db.session.add(newRater)
         db.session.commit()
+        return jsonify({'message': 'New rate added!'})
 
-        totOld = BookRateTotal.query.filter(BookRateTotal.bookRated == book_id).first()
-        if totOld is not None:
-            rateTot = BookRateAssociation.query.filter(BookRateAssociation.book_id == book_id)
 
-            x = 0
-            count = 0
-            for p in rateTot:
-                r = int(p.rating)
-                x = float(x + r)
-                count = float(count + 1)
-
-            totRate = float(x / count)
-            totOld.totalRate = totRate
-            db.session.commit()
-        else:
-            rateTot = BookRateAssociation.query.filter(BookRateAssociation.book_id == book_id)
-
-            x = 0
-            count = 0
-            for p in rateTot:
-                r = int(p.rating)
-                x = float(x + r)
-                count = float(count + 1)
-
-            totRate = float(x / count)
-
-            newRateTot = BookRateTotal(current_user.id, book_id, totRate)
-            db.session.add(newRateTot)
-            db.session.commit()
-        return jsonify({'message': 'rating added!'})
+# @app.route('/rateBook/<int:book_id>', methods=['POST', 'GET'])
+# @token_required
+# def ratings(current_user, book_id):
+#
+#     data = request.get_json()
+#
+#     rate = BookRateAssociation(rating=data['rating'])
+#
+#     rateOld = BookRateAssociation.query.filter((BookRateAssociation.user_id == current_user.id) & (BookRateAssociation.book_id == book_id)).first()
+#     if rateOld is not None:
+#         rateOld.rating = data['rating']
+#         db.session.commit()
+#         return jsonify({'message': 'rate added!'})
+#     else:
+#         newRater = BookRateAssociation(current_user.id, book_id, rate)
+#         db.session.add(newRater)
+#         db.session.commit()
+#
+#         totOld = BookRateTotal.query.filter(BookRateTotal.bookRated == book_id).first()
+#         if totOld is not None:
+#             rateTot = BookRateAssociation.query.filter(BookRateAssociation.book_id == book_id)
+#
+#             x = 0
+#             count = 0
+#             for p in rateTot:
+#                 r = int(p.rating)
+#                 x = float(x + r)
+#                 count = float(count + 1)
+#
+#             totRate = float(x / count)
+#             totOld.totalRate = totRate
+#             db.session.commit()
+#         else:
+#             rateTot = BookRateAssociation.query.filter(BookRateAssociation.book_id == book_id)
+#
+#             x = 0
+#             count = 0
+#             for p in rateTot:
+#                 r = int(p.rating)
+#                 x = float(x + r)
+#                 count = float(count + 1)
+#
+#             totRate = float(x / count)
+#
+#             newRateTot = BookRateTotal(current_user.id, book_id, totRate)
+#             db.session.add(newRateTot)
+#             db.session.commit()
+#         return jsonify({'message': 'rating added!'})

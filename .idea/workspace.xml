@@ -4,6 +4,7 @@
     <list default="true" id="f9742630-e476-47d0-bae0-402c029a8511" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/api.py" afterPath="$PROJECT_DIR$/apps/api.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/models.py" afterPath="$PROJECT_DIR$/apps/models.py" />
     </list>
     <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -17,7 +18,7 @@
     <SUITE FILE_PATH="coverage/BookshelfV2-API$models__1_.coverage" NAME="models (1) Coverage Results" MODIFIED="1525106780082" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/apps" />
     <SUITE FILE_PATH="coverage/BookshelfV2-API$BookshelfV2_API.coverage" NAME="BookshelfV2-API Coverage Results" MODIFIED="1525099010599" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/BookshelfV2-API$app.coverage" NAME="app Coverage Results" MODIFIED="1525104153184" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/apps" />
-    <SUITE FILE_PATH="coverage/BookshelfV2-API$run.coverage" NAME="run Coverage Results" MODIFIED="1525808191187" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/BookshelfV2-API$run.coverage" NAME="run Coverage Results" MODIFIED="1525849413402" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/BookshelfV2-API$models.coverage" NAME="models Coverage Results" MODIFIED="1525098385845" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="CreatePatchCommitExecutor">
@@ -59,6 +60,24 @@
         <option name="myItemId" />
         <option name="myItemType" value="com.intellij.database.view.DatabaseStructure$Root" />
       </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PostgreSQL - bookshelf@localhost [2]" />
+        <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" />
+        <option name="myItemType" value="com.intellij.database.view.DatabaseStructure$GroupNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="userRate" />
+        <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
+      </PATH_ELEMENT>
+    </PATH>
+    <PATH>
+      <PATH_ELEMENT>
+        <option name="myItemId" />
+        <option name="myItemType" value="com.intellij.database.view.DatabaseStructure$Root" />
+      </PATH_ELEMENT>
     </PATH>
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
@@ -80,8 +99,8 @@
       <file leaf-file-name="api.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/apps/api.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="547" column="0" selection-start-line="547" selection-start-column="0" selection-end-line="547" selection-end-column="0" />
+            <state relative-caret-position="300">
+              <caret line="567" column="32" selection-start-line="567" selection-start-column="32" selection-end-line="567" selection-end-column="32" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -89,17 +108,32 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="bookshelf.public.bookRate" pinned="false" current-in-tab="false">
-        <entry file="dbDummy://dbtable:/81141008/5e8e91a9-adae-4dfe-a732-1bf296a97f03/bookshelf.public.bookRate">
+      <file leaf-file-name="bookshelf.public.userRate" pinned="false" current-in-tab="false">
+        <entry file="dbDummy://dbtable:/81141008/5e8e91a9-adae-4dfe-a732-1bf296a97f03/bookshelf.public.userRate">
+          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+            <state>
+              <filtering enabled="true" />
+            </state>
+          </provider>
           <provider editor-type-id="text-editor">
             <state relative-caret-position="0">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="bookshelf.public.bookRate" pinned="false" current-in-tab="false">
+        <entry file="dbDummy://dbtable:/81141008/5e8e91a9-adae-4dfe-a732-1bf296a97f03/bookshelf.public.bookRate">
           <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
             <state>
               <filtering enabled="true" />
+            </state>
+          </provider>
+          <provider editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -119,8 +153,8 @@
       <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="24" column="32" selection-start-line="24" selection-start-column="32" selection-end-line="24" selection-end-column="32" />
+            <state relative-caret-position="332">
+              <caret line="257" column="0" selection-start-line="257" selection-start-column="0" selection-end-line="257" selection-end-column="0" />
               <folding>
                 <element signature="e#0#33#0" expanded="true" />
               </folding>
@@ -160,8 +194,8 @@
         <option value="$PROJECT_DIR$/apps/app.py" />
         <option value="$PROJECT_DIR$/apps/__init__.py" />
         <option value="$PROJECT_DIR$/apps/config.py" />
-        <option value="$PROJECT_DIR$/apps/models.py" />
         <option value="$PROJECT_DIR$/run.py" />
+        <option value="$PROJECT_DIR$/apps/models.py" />
         <option value="$PROJECT_DIR$/apps/api.py" />
       </list>
     </option>
@@ -203,8 +237,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -647,7 +681,14 @@
       <option name="project" value="LOCAL" />
       <updated>1525807596597</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="modifying book rate">
+      <created>1525809308476</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1525809308476</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -660,7 +701,7 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13909224" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13091482" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.340694" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
@@ -711,16 +752,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/apps/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#33#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/run.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
@@ -929,57 +960,35 @@
         </state>
       </provider>
     </entry>
+    <entry file="dbDummy://dbtable:/81141008/5e8e91a9-adae-4dfe-a732-1bf296a97f03/bookshelf.public.publisher">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://dbtable:/81141008/5e8e91a9-adae-4dfe-a732-1bf296a97f03/bookshelf.public.user">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/run.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
           <caret line="5" column="33" selection-start-line="5" selection-start-column="33" selection-end-line="5" selection-end-column="33" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="dbDummy://dbtable:/81141008/5e8e91a9-adae-4dfe-a732-1bf296a97f03/bookshelf.public.user">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="dbDummy://dbtable:/81141008/5e8e91a9-adae-4dfe-a732-1bf296a97f03/bookshelf.public.publisher">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="dbDummy://dbtable:/81141008/5e8e91a9-adae-4dfe-a732-1bf296a97f03/bookshelf.public.books">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="24" column="32" selection-start-line="24" selection-start-column="32" selection-end-line="24" selection-end-column="32" />
-          <folding>
-            <element signature="e#0#33#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -993,23 +1002,59 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/apps/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="332">
+          <caret line="257" column="0" selection-start-line="257" selection-start-column="0" selection-end-line="257" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#33#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="dbDummy://dbtable:/81141008/5e8e91a9-adae-4dfe-a732-1bf296a97f03/bookshelf.public.bookRate">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
       <provider editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
+    </entry>
+    <entry file="dbDummy://dbtable:/81141008/5e8e91a9-adae-4dfe-a732-1bf296a97f03/bookshelf.public.userRate">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
           <filtering enabled="true" />
         </state>
       </provider>
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://dbtable:/81141008/5e8e91a9-adae-4dfe-a732-1bf296a97f03/bookshelf.public.books">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/api.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="547" column="0" selection-start-line="547" selection-start-column="0" selection-end-line="547" selection-end-column="0" />
+        <state relative-caret-position="300">
+          <caret line="567" column="32" selection-start-line="567" selection-start-column="32" selection-end-line="567" selection-end-column="32" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>

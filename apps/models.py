@@ -250,13 +250,11 @@ class UserRateAssociation(db.Model):
     user_idRater = db.Column(db.Integer, db.ForeignKey('user.id'))
     user_idRatee = db.Column(db.Integer, db.ForeignKey('user.id'))
     rating = db.Column(db.Integer)
-    comment = db.Column(db.TEXT)
 
     def __init__(self, user_idRater='', user_idRatee='', rating='', comment=''):
         self.user_idRater = user_idRater
         self.user_idRatee = user_idRatee
         self.rating = rating
-        self.comment = comment
 
 
 class UserRateTotal(db.Model):
