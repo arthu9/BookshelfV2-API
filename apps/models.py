@@ -11,8 +11,6 @@ class User(UserMixin, db.Model):
     contact_number = db.Column(db.String(11))
     birth_date = db.Column(db.DATE, nullable=False)
     gender = db.Column(db.String(6), nullable=False)
-    # longitude = db.Column(db.FLOAT)
-    # latitude = db.Column(db.FLOAT)
     profpic = db.Column(db.TEXT)
     bookshelf_user = db.relationship('Bookshelf', uselist=False, backref='user_bookshelf')
     borrow_bookshelfs = db.relationship('BorrowsAssociation', backref='user_borrow')
@@ -30,8 +28,6 @@ class User(UserMixin, db.Model):
         self.contact_number = contact_number
         self.birth_date = birth_date
         self.gender = gender
-        # self.longitude = longitude
-        # self.latitude = latitude
         self.profpic = profpic
 
 

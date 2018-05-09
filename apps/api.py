@@ -391,7 +391,7 @@ def category(category):
 #         output.append(user_data)
 
 
-    return jsonify({'book': output})
+    # return jsonify({'book': output})
 
 @app.route('/user/wishlist', methods=['POST'])
 @token_required
