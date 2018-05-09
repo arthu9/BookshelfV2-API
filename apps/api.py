@@ -482,5 +482,34 @@ def diplayWishlist(current_user):
 
     return jsonify({'book': output})
 
+# COMMENT (BOOK)
+@app.route('/comment-book',methods=['GET','POST'])
+@token_required
+def commentbook(current_user):
+    data = request.get_json()
+
+    comment = BookCommentAssociation(user_id=int(current_user.id), book_id=int(data['bookid']),comment=data['comment'])
+    db.session.add(comment)
+    db.session.commit()
+
+    return jsonify({'message': 'comment posted!'})
+
+# {"bookid":"1","comment":"any comment here"}
+
+
+# COMMENT (USER)
+@app.route('/comment-user/<int:user_idCommentee>', methods=['GET','POST'])
+@token_required
+def commentuser(current_user, user_idCommentee):
+    data = request.get_json()
+    # get_id = User.query.filter_by(id=data['id']).first()
+    # get_id = User.query.filter_by(User.book_id == book_id).first()
+
+    new_comment = UserCommentAssociation(user_idCommenter=int(current_user.id), user_idCommentee=user_idCommentee, comment=data['comment'])
+    db.session.add(new_comment)
+    db.session.commit()
+
+    return jsonify({'message': 'comment posted!'})
+
 # @app.route('/addbok/<int:id>')
 # def addbook(id):
