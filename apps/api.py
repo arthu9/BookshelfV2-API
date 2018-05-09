@@ -459,7 +459,6 @@ def diplayWishlist(current_user):
 
 
     Book = Books.query.join(Wishlist).filter(user_id=current_user).all()
-
     # q = (db.session.query(Books, Bookshelf, ContainsAsscociation, Author)
     #      .filter(Bookshelf.bookshef_owner == id)
     #      .filter(ContainsAsscociation.shelf_id == Bookshelf.bookshelf_id)
