@@ -161,20 +161,21 @@ def create_user():
 def login():
     auth = request.authorization
 
-    if not auth or not auth.username or not auth.password:
+    if not auth or not auth['username'] or not auth['password']:
         return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
 
-    user = User.query.filter_by(username=auth.username).first()
+    user = User.query.filter_by(username=auth['username']).first()
 
     if not user:
         return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
 
-    if check_password_hash(user.password, auth.password):
-        token = jwt.encode({'id': user.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=1140)}, app.config['SECRET_KEY'])
+    if check_password_hash(user.password, auth['password']):
+        token = jwt.encode({'id': user.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
 
-        return jsonify({'token': token.decode('UTF-8')})
+        return jsonify({'token': token.decode('UTF-8'), 'username': user.username, 'status': 'ok', 'userid': user.id})
 
-    return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
+    # return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
+
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
