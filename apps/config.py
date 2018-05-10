@@ -1,3 +1,5 @@
+import os
+
 DEBUG = True
 SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:mvjunetwo@127.0.0.1:5432/bookshelf'
 SQLALCHEMY_TRACK_MODIFICATIONS = False
