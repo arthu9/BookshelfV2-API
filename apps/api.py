@@ -533,19 +533,20 @@ def ratebook(current_user, book_id):
     data = request.get_json()
 
     rateOld = BookRateAssociation.query.filter(
-        (BookRateAssociation.user_id == int(current_user)) & (BookRateAssociation.book_id == book_id)).first()
+        (BookRateAssociation.user_id == current_user) & (BookRateAssociation.book_id == book_id)).first()
 
     rate = BookRateAssociation(rating=data['rating'])
 
-    if rateOld is not None:
-        rateOld.rating = data['rating']
-        db.session.commit()
-        return jsonify({'message': 'Rate added!'})
-    else:
-        newRater = BookRateAssociation(int(current_user.id), book_id, data['rating'])
+    if rateOld is None:
+        newRater = BookRateAssociation(current_user, book_id, data['rating'])
         db.session.add(newRater)
         db.session.commit()
         return jsonify({'message': 'New rate added!'})
+    else:
+        rateOld.rating = data['rating']
+        db.session.commit()
+        return jsonify({'message': 'Rate added!'})
+
 
 @app.route('/user-rate/<int:user_idRatee>', methods=['POST', 'GET'])
 @token_required
