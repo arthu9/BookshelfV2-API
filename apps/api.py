@@ -542,11 +542,10 @@ def ratebook(current_user, book_id):
         db.session.commit()
         return jsonify({'message': 'Rate added!'})
     else:
-        newRater = BookRateAssociation(current_user.id, book_id, data['rating'])
+        newRater = BookRateAssociation(int(current_user.id), book_id, data['rating'])
         db.session.add(newRater)
         db.session.commit()
         return jsonify({'message': 'New rate added!'})
-
 
 @app.route('/user-rate/<int:user_idRatee>', methods=['POST', 'GET'])
 @token_required
