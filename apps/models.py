@@ -252,7 +252,7 @@ class UserRateAssociation(db.Model):
     user_idRatee = db.Column(db.Integer, db.ForeignKey('user.id'))
     rating = db.Column(db.Integer)
 
-    def __init__(self, user_idRater='', user_idRatee='', rating='', comment=''):
+    def __init__(self, user_idRater='', user_idRatee='', rating=''):
         self.user_idRater = user_idRater
         self.user_idRatee = user_idRatee
         self.rating = rating

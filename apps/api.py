@@ -555,7 +555,7 @@ def rateuser(current_user, user_idRatee):
     data = request.get_json()
 
     rateUser = UserRateAssociation.query.filter(
-        (UserRateAssociation.user_idRater == int(current_user)) & (UserRateAssociation.user_id == user_idRatee)).first()
+        (UserRateAssociation.user_idRater == current_user) & (UserRateAssociation.user_idRatee == user_idRatee)).first()
 
     rate = UserRateAssociation(rating=data['rating'])
 
@@ -564,7 +564,7 @@ def rateuser(current_user, user_idRatee):
         db.session.commit()
         return jsonify({'message': 'Rate added!'})
     else:
-        newRater = UserRateAssociation(current_user.id, user_idRatee, data['rating'])
+        newRater = UserRateAssociation(current_user, user_idRatee, data['rating'])
         db.session.add(newRater)
         db.session.commit()
         return jsonify({'message': 'New rate added!'})
