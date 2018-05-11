@@ -28,8 +28,6 @@ class User(UserMixin, db.Model):
         self.contact_number = contact_number
         self.birth_date = birth_date
         self.gender = gender
-        # self.longitude = longitude
-        # self.latitude = latitude
         self.profpic = profpic
 
 
