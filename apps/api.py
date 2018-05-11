@@ -545,7 +545,7 @@ def ratebook(current_user, book_id):
     else:
         rateOld.rating = data['rating']
         db.session.commit()
-        return jsonify({'message': 'Rate added!'})
+        return jsonify({'message': 'Rate updated!'})
 
 
 @app.route('/user-rate/<int:user_idRatee>', methods=['POST', 'GET'])
@@ -562,7 +562,7 @@ def rateuser(current_user, user_idRatee):
     if rateUser is not None:
         rateUser.rating = data['rating']
         db.session.commit()
-        return jsonify({'message': 'Rate added!'})
+        return jsonify({'message': 'Rate updated!'})
     else:
         newRater = UserRateAssociation(current_user, user_idRatee, data['rating'])
         db.session.add(newRater)
