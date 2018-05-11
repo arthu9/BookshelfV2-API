@@ -218,8 +218,9 @@ class Wishlist(db.Model):
 # Rates (book)
 class BookRateAssociation(db.Model):
     __tablename__ = 'bookRate'
+    id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    book_id = db.Column(db.Integer, db.ForeignKey('books.book_id'), primary_key=True)
+    book_id = db.Column(db.Integer, db.ForeignKey('books.book_id'))
     rating = db.Column(db.Integer)
     user = db.relationship('User', backref='user_booksRate')
     books = db.relationship('Books', backref='bookRate')
