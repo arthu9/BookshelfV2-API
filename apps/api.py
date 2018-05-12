@@ -96,6 +96,28 @@ def get_one_user(current_user):
 
     return jsonify({'information': user_data})
 
+@app.route('/search/user', methods=['GET'])
+def saerch_user():
+
+    data = request.get_json()
+    item = '%' + data['item'] + '%'
+
+    user = Books.query.filter((User.username.like(item)) |(User.first_name.like(item)) |(User.last_name.like(item))).all()
+
+    if not user:
+        return jsonify({'message': 'No user found!'})
+
+    user_data = {}
+    user_data['id'] = user.id
+    user_data['username'] = user.username
+    user_data['first_name'] = user.first_name
+    user_data['last_name'] = user.last_name
+    user_data['contact_number'] = user.contact_number
+    user_data['birth_date'] = user.birth_date
+    user_data['gender'] = user.gender
+    user_data['profpic'] = user.profpic
+
+    return jsonify({'information': user_data})
 
 @app.route('/signup', methods=['POST'])
 def create_user():
