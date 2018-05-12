@@ -31,6 +31,11 @@ class User(UserMixin, db.Model):
         self.gender = gender
         self.address = address
 
+class Token(db.Model):
+    __tablename__ = 'token'
+    id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    token = db.Column(db.VARCHAR(50), primary_key=True)
+    ttl = db.Column()
 
 class Bookshelf(db.Model):
     __tablename__ = 'bookshelf'
