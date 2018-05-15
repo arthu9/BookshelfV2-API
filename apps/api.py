@@ -118,6 +118,13 @@ def create_user():
         db.session.add(new_bookshelf)
         db.session.commit()
 
+        token = jwt.encode({'id': current_user, 'exp': datetime.datetime.utcnow() + datetime.timedelta(days=(30*365))},
+                           app.config['SECRET_KEY'])
+
+        new_token = Token(id= current_user, token = token.decode('UTF-8'), TTL= datetime.datetime.utcnow() + datetime.timedelta(days=(30*365)) )
+        db.session.add(new_token)
+        db.session.commit()
+
         return jsonify({'message': 'New user created!'})
     else:
         return jsonify({'message': 'username already created'})
