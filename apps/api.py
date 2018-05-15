@@ -170,9 +170,15 @@ def login():
         return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
 
     if check_password_hash(user.password, data['password']):
-        return 'naay token'
+        user = User.query.filter_by(username=data['username']).first()
+
+        tokenQ = Token.query.filter_by(id=user.id).first()
+        token = tokenQ.token
+
+        return jsonify({'token': token})
 
     return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
+
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
