@@ -157,22 +157,20 @@ def create_user():
 #
 #     return ({'message' : 'The user has been deleted!'})
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['POST'])
 def login():
-    auth = request.authorization
+    data = request.get_json()
 
-    if not auth or not auth.username or not auth.password:
+    if not data or not data['username'] or not data['password']:
         return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
 
-    user = User.query.filter_by(username=auth.username).first()
+    user = User.query.filter_by(username=data['username']).first()
 
     if not user:
         return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
 
-    if check_password_hash(user.password, auth.password):
-        token = jwt.encode({'id': user.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
-
-        return jsonify({'token': token.decode('UTF-8')})
+    if check_password_hash(user.password, data['password']):
+        return 'naay token'
 
     return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
 
