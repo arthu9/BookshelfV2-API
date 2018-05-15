@@ -34,8 +34,13 @@ class User(UserMixin, db.Model):
 class Token(db.Model):
     __tablename__ = 'token'
     id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    token = db.Column(db.VARCHAR(50), primary_key=True)
-    ttl = db.Column()
+    token = db.Column(db.String(25),primary_key=True)
+    TTL =db.Column(db.DateTime)
+
+    def __init__(self, id ='', token ='', TTL = ''):
+        self.id = id
+        self.token = token
+        self.TTL = TTL
 
 class Bookshelf(db.Model):
     __tablename__ = 'bookshelf'
