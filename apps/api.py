@@ -118,6 +118,13 @@ def create_user():
         db.session.add(new_bookshelf)
         db.session.commit()
 
+        token = jwt.encode({'id': current_user, 'exp': datetime.datetime.utcnow() + datetime.timedelta(days=(30*365))},
+                           app.config['SECRET_KEY'])
+
+        new_token = Token(id= current_user, token = token.decode('UTF-8'), TTL= datetime.datetime.utcnow() + datetime.timedelta(days=(30*365)) )
+        db.session.add(new_token)
+        db.session.commit()
+
         return jsonify({'message': 'New user created!'})
     else:
         return jsonify({'message': 'username already created'})
@@ -166,13 +173,19 @@ def login():
 
     user = User.query.filter_by(username=data['username']).first()
 
+
     if not user:
         return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
 
     if check_password_hash(user.password, data['password']):
-        return 'naay token'
+        user = User.query.filter_by(username=data['username']).first()
 
-    return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
+        tokenQ = Token.query.filter_by(id=user.id).first()
+        token = tokenQ.token
+
+        return jsonify({'token': token})
+
+
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
@@ -457,7 +470,6 @@ def diplayWishlist(current_user):
 
 
     Book = Books.query.join(Wishlist).filter(user_id=current_user).all()
-
     # q = (db.session.query(Books, Bookshelf, ContainsAsscociation, Author)
     #      .filter(Bookshelf.bookshef_owner == id)
     #      .filter(ContainsAsscociation.shelf_id == Bookshelf.bookshelf_id)
@@ -479,6 +491,35 @@ def diplayWishlist(current_user):
         output.append(user_data)
 
     return jsonify({'book': output})
+
+# COMMENT (BOOK)
+@app.route('/comment-book',methods=['GET','POST'])
+@token_required
+def commentbook(current_user):
+    data = request.get_json()
+
+    comment = BookCommentAssociation(user_id=int(current_user.id), book_id=int(data['bookid']),comment=data['comment'])
+    db.session.add(comment)
+    db.session.commit()
+
+    return jsonify({'message': 'comment posted!'})
+
+# {"bookid":"1","comment":"any comment here"}
+
+
+# COMMENT (USER)
+@app.route('/comment-user/<int:user_idCommentee>', methods=['GET','POST'])
+@token_required
+def commentuser(current_user, user_idCommentee):
+    data = request.get_json()
+    # get_id = User.query.filter_by(id=data['id']).first()
+    # get_id = User.query.filter_by(User.book_id == book_id).first()
+
+    new_comment = UserCommentAssociation(user_idCommenter=int(current_user.id), user_idCommentee=user_idCommentee, comment=data['comment'])
+    db.session.add(new_comment)
+    db.session.commit()
+
+    return jsonify({'message': 'comment posted!'})
 
 # @app.route('/addbok/<int:id>')
 # def addbook(id):
