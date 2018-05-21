@@ -34,7 +34,7 @@ class User(UserMixin, db.Model):
 class Token(db.Model):
     __tablename__ = 'token'
     id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    token = db.Column(db.String(25),primary_key=True)
+    token = db.Column(db.String(125),primary_key=True)
     TTL =db.Column(db.DateTime)
 
     def __init__(self, id ='', token ='', TTL = ''):
