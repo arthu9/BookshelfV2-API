@@ -54,7 +54,7 @@ class Books(db.Model):
     description = db.Column(db.String(500))
     edition = db.Column(db.Integer)
     year_published = db.Column(db.String(4))
-    isbn = db.Column(db.String(20))
+    isbn = db.Column(db.String(20), nullable=False, unique=True) 
     types = db.Column(db.String(20))
     publisher_id = db.Column(db.Integer, db.ForeignKey('publisher.publisher_id'))
     bookshelfBooks = db.relationship('ContainsAsscociation', backref='books_contains')
