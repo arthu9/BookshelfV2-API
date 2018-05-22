@@ -12,7 +12,7 @@ class User(UserMixin, db.Model):
     birth_date = db.Column(db.DATE, nullable=False)
     gender = db.Column(db.String(6), nullable=False)
     address = db.Column(db.String(100))
-    profpic = db.Column(db.TEXT)
+    profpic = db.Column(db.LargeBinary)
     bookshelf_user = db.relationship('Bookshelf', uselist=False, backref='user_bookshelf')
     borrow_bookshelfs = db.relationship('BorrowsAssociation', backref='user_borrow')
     userRateBooks = db.relationship('BookRateAssociation', backref='user_raterBooks')
