@@ -26,6 +26,7 @@ def token_required(f):
 
 
 @app.route('/users', methods=['GET'])
+@token_required
 def get_all_user_accounts():
     # if not current_user.admin:
     #     return jsonify({'message' : 'Cannot perform that function!'})
@@ -47,7 +48,7 @@ def get_all_user_accounts():
         user_data['profpic'] = user.profpic
         output.append(user_data)
 
-    return jsonify({'users', output})
+    return jsonify({'users': output})
 
 @app.route('/books', methods=['GET'])
 def all_books():
@@ -525,4 +526,49 @@ def commentuser(current_user, user_idCommentee):
 @token_required
 def follow():
 
+
     return jsonify({'message': 'comment posted!'})
+
+
+@app.route('/bookrate/<int:book_id>', methods=['POST', 'GET'])
+@token_required
+def ratebook(current_user, book_id):
+
+    data = request.get_json()
+
+    rateOld = BookRateAssociation.query.filter(
+        (BookRateAssociation.user_id == current_user) & (BookRateAssociation.book_id == book_id)).first()
+
+    rate = BookRateAssociation(rating=data['rating'])
+
+    if rateOld is None:
+        newRater = BookRateAssociation(current_user, book_id, data['rating'])
+        db.session.add(newRater)
+        db.session.commit()
+        return jsonify({'message': 'New rate added!'})
+    else:
+        rateOld.rating = data['rating']
+        db.session.commit()
+        return jsonify({'message': 'Rate updated!'})
+
+
+@app.route('/user-rate/<int:user_idRatee>', methods=['POST', 'GET'])
+@token_required
+def rateuser(current_user, user_idRatee):
+
+    data = request.get_json()
+
+    rateUser = UserRateAssociation.query.filter(
+        (UserRateAssociation.user_idRater == current_user) & (UserRateAssociation.user_idRatee == user_idRatee)).first()
+
+    rate = UserRateAssociation(rating=data['rating'])
+
+    if rateUser is not None:
+        rateUser.rating = data['rating']
+        db.session.commit()
+        return jsonify({'message': 'Rate updated!'})
+    else:
+        newRater = UserRateAssociation(current_user, user_idRatee, data['rating'])
+        db.session.add(newRater)
+        db.session.commit()
+        return jsonify({'message': 'New rate added!'})
