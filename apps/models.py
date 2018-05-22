@@ -356,15 +356,3 @@ class ActLogs(db.Model):
         self.status = status
         self.bookid = bookid
 
-
-class Message(db.Model):
-    __tablename__ = 'message'
-    message_id = db.Column(db.Integer, primary_key=True)
-    msgfrom = db.Column(db.Integer, db.ForeignKey('user.id'))
-    msgto = db.Column(db.Integer, db.ForeignKey('user.id'))
-    message = db.Column(db.TEXT)
-
-    def __init__(self, msgfrom='', msgto='', message=''):
-        self.msgfrom = msgfrom
-        self.msgto = msgto
-        self.message = message
