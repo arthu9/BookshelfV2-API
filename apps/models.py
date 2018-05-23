@@ -361,22 +361,22 @@ class ActLogs(db.Model):
 class Follow(db.Model):
     __tablename__ = 'follow'
     follow_id = db.Column(db.Integer, primary_key=True)
-    user_idRater = db.Column(db.Integer, db.ForeignKey('user.id'))
-    user_idRatee = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_idFollower = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_idFollowee = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-    def __init__(self, user_idRater='', user_idRatee='', rating='', comment=''):
-        self.user_idRater = user_idRater
-        self.user_idRatee = user_idRatee
+    def __init__(self, user_idFollower='', user_idFollowee=''):
+        self.user_idFollower = user_idFollower
+        self.user_idFollowee = user_idFollowee
 
 
 class FollowTotal(db.Model):
     __tablename__ = 'userRateTotal'
     follow_id = db.Column(db.Integer, db.ForeignKey('follow_id'), primary_key=True)
-    userRatee = db.Column(db.Integer, db.ForeignKey('user.id'))
-    userRater = db.Column(db.Integer, db.ForeignKey('user.id'))
+    userFollower = db.Column(db.Integer, db.ForeignKey('user.id'))
+    userFollowee = db.Column(db.Integer, db.ForeignKey('user.id'))
     numberFollow = db.Column(db.Integer)
 
-    def __init__(self, userRatee='', userRater='', totalRate=''):
-        self.userRatee = userRatee
-        self.userRater = userRater
-        self.totalRate = totalRate
+    def __init__(self, userFollowee='', userFollower='', totalFollower=''):
+        self.userFollower = userFollower
+        self.userFollowee = userFollowee
+        self.totalFollower = totalFollower
