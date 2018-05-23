@@ -121,7 +121,7 @@ def create_user():
         token = jwt.encode({'id': current_user, 'exp': datetime.datetime.utcnow() + datetime.timedelta(days=(30*365))},
                            app.config['SECRET_KEY'])
 
-        new_token = Token(id= current_user, token = token.decode('UTF-8'), TTL= datetime.datetime.utcnow() + datetime.timedelta(days=(30*365)) )
+        new_token = Token(id= current_user, token = token.decode('UTF-8'), TTL=datetime.datetime.utcnow() + datetime.timedelta(days=(30*365)) )
         db.session.add(new_token)
         db.session.commit()
 
@@ -493,7 +493,7 @@ def diplayWishlist(current_user):
     return jsonify({'book': output})
 
 # COMMENT (BOOK)
-@app.route('/comment-book',methods=['GET','POST'])
+@app.route('/comment-book',methods=['POST'])
 @token_required
 def commentbook(current_user):
     data = request.get_json()
@@ -507,8 +507,8 @@ def commentbook(current_user):
 # {"bookid":"1","comment":"any comment here"}
 
 
-# COMMENT (USER)
-@app.route('/comment-user/<int:user_idCommentee>', methods=['GET','POST'])
+# COMMENT(USER)
+@app.route('/comment-user/<int:user_idCommentee>', methods=['POST'])
 @token_required
 def commentuser(current_user, user_idCommentee):
     data = request.get_json()
@@ -521,8 +521,24 @@ def commentuser(current_user, user_idCommentee):
 
     return jsonify({'message': 'comment posted!'})
 
-@app.route('/follow', methods=['POST'])
-@token_required
-def follow():
 
-    return jsonify({'message': 'comment posted!'})
+
+@app.route('/follow', methods=['GET', 'POST'])
+@token_required
+def follow(current_user):
+    user = User.query.filter_by(id=current_user).first()
+    # user = User.query.filter_by(username=username).first()
+    if user is None:
+        return jsonify({'message': 'user not found'})
+        # flash('User {} not found.'.format(username))
+        # return redirect(url_for('index'))
+    if user == current_user:
+        return jsonify({'message': 'you cant follow yourself!'})
+    current_user.follow(user)
+    db.session.commit()
+    return jsonify({'message': 'Followed!'})
+    # flash('You are following {}!'.format(username))
+    # return redirect(url_for('user', username=username))
+
+# @app.route('/addbok/<int:id>')
+# def addbook(id):
