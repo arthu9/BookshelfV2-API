@@ -21,7 +21,7 @@ class User(UserMixin, db.Model):
     user_interest = db.relationship('InterestAssociation', backref='user_interest')
 
     def __init__(self, username='', password='', first_name='', last_name='', contact_number='', birth_date='',
-                 gender='',address=''):
+                 gender='',address='', profpic=''):
         self.username = username
         self.password = password
         self.first_name = first_name
@@ -30,11 +30,13 @@ class User(UserMixin, db.Model):
         self.birth_date = birth_date
         self.gender = gender
         self.address = address
+        self.profpic = profpic
+
 
 class Token(db.Model):
     __tablename__ = 'token'
     id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    token = db.Column(db.String(25),primary_key=True)
+    token = db.Column(db.String(125),primary_key=True)
     TTL =db.Column(db.DateTime)
 
     def __init__(self, id ='', token ='', TTL = ''):
@@ -227,18 +229,17 @@ class Wishlist(db.Model):
 # Rates (book)
 class BookRateAssociation(db.Model):
     __tablename__ = 'bookRate'
+    id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    book_id = db.Column(db.Integer, db.ForeignKey('books.book_id'), primary_key=True)
+    book_id = db.Column(db.Integer, db.ForeignKey('books.book_id'))
     rating = db.Column(db.Integer)
-    comment = db.Column(db.TEXT)
     user = db.relationship('User', backref='user_booksRate')
     books = db.relationship('Books', backref='bookRate')
 
-    def __init__(self, user_id='', book_id='', rating='', comment=''):
+    def __init__(self, user_id='', book_id='', rating=''):
         self.user_id = user_id
         self.book_id = book_id
         self.rating = rating
-        self.comment = comment
 
 
 class BookRateTotal(db.Model):
@@ -261,13 +262,11 @@ class UserRateAssociation(db.Model):
     user_idRater = db.Column(db.Integer, db.ForeignKey('user.id'))
     user_idRatee = db.Column(db.Integer, db.ForeignKey('user.id'))
     rating = db.Column(db.Integer)
-    comment = db.Column(db.TEXT)
 
-    def __init__(self, user_idRater='', user_idRatee='', rating='', comment=''):
+    def __init__(self, user_idRater='', user_idRatee='', rating=''):
         self.user_idRater = user_idRater
         self.user_idRatee = user_idRatee
         self.rating = rating
-        self.comment = comment
 
 
 class UserRateTotal(db.Model):
