@@ -119,7 +119,7 @@ class Author(db.Model):
     author_name = db.Column(db.String(50))
     authorBooks = db.relationship('WrittenByAssociation', backref="author_books")
 
-    def __init__(self, author_name='', author_last_name=''):
+    def __init__(self, author_name=''):
         self.author_name = author_name
 
 
