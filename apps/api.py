@@ -26,6 +26,7 @@ def token_required(f):
 
 
 @app.route('/users', methods=['GET'])
+@token_required
 def get_all_user_accounts():
     # if not current_user.admin:
     #     return jsonify({'message' : 'Cannot perform that function!'})
@@ -47,7 +48,7 @@ def get_all_user_accounts():
         user_data['profpic'] = user.profpic
         output.append(user_data)
 
-    return jsonify({'users', output})
+    return jsonify({'users': output})
 
 @app.route('/books', methods=['GET'])
 def all_books():
@@ -103,7 +104,7 @@ def create_user():
 
     hashed_password = generate_password_hash(data['password'], method='sha256')
 
-    new_user = User(username=data['username'], password=hashed_password, first_name=data['first_name'],last_name=data['last_name'],contact_number=data['contact_number'], birth_date=data['birth_date'], gender=data['gender'], address=data['address'],profpic=data['profpic'])
+    new_user = User(username=data['username'], password=hashed_password, first_name=data['first_name'],last_name=data['last_name'],contact_number=data['contact_number'], birth_date=data['birth_date'], gender=data['gender'], address=data['address'])
 
     user = User.query.filter_by(username=data['username']).first()
 
@@ -116,6 +117,13 @@ def create_user():
 
         new_bookshelf = Bookshelf(bookshef_owner=current_user)
         db.session.add(new_bookshelf)
+        db.session.commit()
+
+        token = jwt.encode({'id': current_user, 'exp': datetime.datetime.utcnow() + datetime.timedelta(days=(30*365))},
+                           app.config['SECRET_KEY'])
+
+        new_token = Token(id= current_user, token = token.decode('UTF-8'), TTL= datetime.datetime.utcnow() + datetime.timedelta(days=(30*365)) )
+        db.session.add(new_token)
         db.session.commit()
 
         return jsonify({'message': 'New user created!'})
@@ -157,24 +165,28 @@ def create_user():
 #
 #     return ({'message' : 'The user has been deleted!'})
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['POST'])
 def login():
-    auth = request.authorization
+    data = request.get_json()
 
-    if not auth or not auth.username or not auth.password:
+    if not data or not data['username'] or not data['password']:
         return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
 
-    user = User.query.filter_by(username=auth.username).first()
+    user = User.query.filter_by(username=data['username']).first()
+
 
     if not user:
         return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
 
-    if check_password_hash(user.password, auth.password):
-        token = jwt.encode({'id': user.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
+    if check_password_hash(user.password, data['password']):
+        user = User.query.filter_by(username=data['username']).first()
 
-        return jsonify({'token': token.decode('UTF-8')})
+        tokenQ = Token.query.filter_by(id=user.id).first()
+        token = tokenQ.token
 
-    return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
+        return jsonify({'token': token})
+
+
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
@@ -267,27 +279,6 @@ def viewbook(current_user):
         output.append(user_data)
 
     return jsonify({'book': output})
-
-
-# COMMENT (BOOK)
-@app.route('/comment-book/<int:current_user>/<int:book_id>', methods=['GET', 'POST'])
-# @app.route('/comment-book', methods=['POST'])
-def commentbook(current_user, book_id):
-    data = request.get_json()
-
-    comment = BookCommentAssociation(comment=data['comment'])
-
-    # rateOld = BookRateAssociation.query.filter((BookRateAssociation.user_id == current_user.id) & (BookRateAssociation.book_id == book_id)).first()
-
-    new_comment = BookCommentAssociation.query.filter(
-        (BookCommentAssociation.user_id == current_user.id) & (BookCommentAssociation.book_id == book_id)).first()
-
-    if new_comment is not None:
-        db.session.add(comment)
-        db.session.commit()
-        return jsonify({'message': 'comment posted!'})
-    else:
-        return jsonify({'message': 'cant post comment :(', 'book_id': book_id})
 
 
 @app.route('/user/addbook', methods=['POST'])
@@ -453,7 +444,7 @@ def category(category):
 #         output.append(user_data)
 
 
-    return jsonify({'book': output})
+    # return jsonify({'book': output})
 
 @app.route('/user/AddWishlist/<int:book_id>', methods=['POST'])
 @token_required
@@ -480,7 +471,6 @@ def diplayWishlist(current_user):
 
 
     Book = Books.query.join(Wishlist).filter(user_id=current_user).all()
-
     # q = (db.session.query(Books, Bookshelf, ContainsAsscociation, Author)
     #      .filter(Bookshelf.bookshef_owner == id)
     #      .filter(ContainsAsscociation.shelf_id == Bookshelf.bookshelf_id)
@@ -503,93 +493,82 @@ def diplayWishlist(current_user):
 
     return jsonify({'book': output})
 
-# #COMMENT (USER)
-# # @app.route('/profile/commentUser/', methods=['GET', 'POST'])
-# @app.route('/profile/commentUser/<int:user_id>', methods=['GET', 'POST'])
-# def comment(user_id):
-#
-#     if user_id == current_user.id:
-#         comments = UserCommentAssociation.query.filter((UserCommentAssociation.user_idCommentee == current_user.id))
-#         x = []
-#         for c in comments:
-#             s = User.query.filter_by(id=c.user_idCommenter).first()
-#             x.append(s.first_name + ' ' + s.last_name)
-#         return jsonify({'message': 'ok', 'comments': comments, 'name': x,'currrent_user': current_user})
-#     else:
-#         user = User.query.filter_by(id=user_id).first()
-#         otheruserId = user_id
-#         comments = UserCommentAssociation.query.filter((UserCommentAssociation.user_idCommentee == user_id))
-#         xs = []
-#         for c in comments:
-#             s = User.query.filter_by(id=c.user_idCommenter).first()
-#             xs.append(s.first_name + ' ' + s.last_name)
-#         if request.method == 'POST':
-#             comment = request.form['comment']
-#             commentOld = UserCommentAssociation.query.filter((UserCommentAssociation.user_idCommentee == otheruserId) & (
-#                 UserCommentAssociation.user_idCommenterter == current_user.id)).first()
-#
-#             if commentOld is not None:
-#                 commentOld.comment = comment
-#                 db.session.commit()
-#
-#             else:
-#                 newCommenter = UserCommentAssociation(current_user.id, otheruserId,comment)
-#                 db.session.add(newCommenter)
-#                 db.session.commit()
-#             return jsonify({'message': 'ok', 'user_id': user_id})
-#         return jsonify({'message': 'ok', 'user': user, 'comments': comments, 'name': xs, 'currrent_user': current_user})
-#
+# COMMENT (BOOK)
+@app.route('/comment-book',methods=['GET','POST'])
+@token_required
+def commentbook(current_user):
+    data = request.get_json()
 
-#COMMENT (BOOK)
-# @app.route('/commentBook/', methods=['POST', 'GET'])
-@app.route('/commentBook/<int:book_id>', methods=['POST'])
-def commentbook1(book_id):
+    comment = BookCommentAssociation(user_id=int(current_user.id), book_id=int(data['bookid']),comment=data['comment'])
+    db.session.add(comment)
+    db.session.commit()
+
+    return jsonify({'message': 'comment posted!'})
+
+# {"bookid":"1","comment":"any comment here"}
+
+
+# COMMENT (USER)
+@app.route('/comment-user/<int:user_idCommentee>', methods=['GET','POST'])
+@token_required
+def commentuser(current_user, user_idCommentee):
+    data = request.get_json()
+    # get_id = User.query.filter_by(id=data['id']).first()
+    # get_id = User.query.filter_by(User.book_id == book_id).first()
+
+    new_comment = UserCommentAssociation(user_idCommenter=int(current_user.id), user_idCommentee=user_idCommentee, comment=data['comment'])
+    db.session.add(new_comment)
+    db.session.commit()
+
+    return jsonify({'message': 'comment posted!'})
+
+@app.route('/follow', methods=['POST'])
+@token_required
+def follow():
+
+
+    return jsonify({'message': 'comment posted!'})
+
+
+@app.route('/bookrate/<int:book_id>', methods=['POST', 'GET'])
+@token_required
+def ratebook(current_user, book_id):
 
     data = request.get_json()
 
-    newComment = BookCommentAssociation(comment=data['comment'])
+    rateOld = BookRateAssociation.query.filter(
+        (BookRateAssociation.user_id == current_user) & (BookRateAssociation.book_id == book_id)).first()
 
-    bcomment = BookCommentAssociation.query.filter(BookCommentAssociation.book_id == book_id).first()
+    rate = BookRateAssociation(rating=data['rating'])
 
-    if bcomment is not None:
-        db.session.add(newComment)
+    if rateOld is None:
+        newRater = BookRateAssociation(current_user, book_id, data['rating'])
+        db.session.add(newRater)
         db.session.commit()
-        return jsonify({'message': 'comment posted!'})
-# COMMENT (USER)
-# @app.route('/profile/comment-user/', methods=['GET', 'POST'])
-@app.route('/profile/comment-user/<int:user_id>', methods=['GET', 'POST'])
-def comment(current_user, user_id):
-    if user_id == current_user.id:
-        comments = UserCommentAssociation.query.filter((UserCommentAssociation.user_idCommentee == current_user.id))
-        x = []
-        for c in comments:
-            s = User.query.filter_by(id=c.user_idCommenter).first()
-            x.append(s.first_name + ' ' + s.last_name)
-        return jsonify({'message': 'ok', 'comments': comments, 'name': x, 'currrent_user': current_user})
+        return jsonify({'message': 'New rate added!'})
     else:
-        user = User.query.filter_by(id=user_id).first()
-        otheruserId = user_id
-        comments = UserCommentAssociation.query.filter((UserCommentAssociation.user_idCommentee == user_id))
-        xs = []
-        for c in comments:
-            s = User.query.filter_by(id=c.user_idCommenter).first()
-            xs.append(s.first_name + ' ' + s.last_name)
-        if request.method == 'POST':
-            comment = request.form['comment']
-            commentOld = UserCommentAssociation.query.filter(
-                (UserCommentAssociation.user_idCommentee == otheruserId) & (
-                        UserCommentAssociation.user_idCommenterter == current_user.id)).first()
+        rateOld.rating = data['rating']
+        db.session.commit()
+        return jsonify({'message': 'Rate updated!'})
 
-            if commentOld is not None:
-                commentOld.comment = comment
-                db.session.commit()
 
-            else:
-                newCommenter = UserCommentAssociation(current_user.id, otheruserId, comment)
-                db.session.add(newCommenter)
-                db.session.commit()
-            return jsonify({'message': 'ok', 'user_id': user_id})
-        return jsonify({'message': 'ok', 'user': user, 'comments': comments, 'name': xs, 'currrent_user': current_user})
+@app.route('/user-rate/<int:user_idRatee>', methods=['POST', 'GET'])
+@token_required
+def rateuser(current_user, user_idRatee):
 
-# @app.route('/addbok/<int:id>')
-# def addbook(id):
+    data = request.get_json()
+
+    rateUser = UserRateAssociation.query.filter(
+        (UserRateAssociation.user_idRater == current_user) & (UserRateAssociation.user_idRatee == user_idRatee)).first()
+
+    rate = UserRateAssociation(rating=data['rating'])
+
+    if rateUser is not None:
+        rateUser.rating = data['rating']
+        db.session.commit()
+        return jsonify({'message': 'Rate updated!'})
+    else:
+        newRater = UserRateAssociation(current_user, user_idRatee, data['rating'])
+        db.session.add(newRater)
+        db.session.commit()
+        return jsonify({'message': 'New rate added!'})

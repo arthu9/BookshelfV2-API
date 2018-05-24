@@ -9,4 +9,14 @@
 *.xml
 *.ids
 *.xml
+
+apps/__init__.pyc
+apps/api.pyc
+apps/models.pyc
+apps/models.pyc
+*.pyc
+*.xml
+*.xml
+*.xml
+*.xml
 *.xml

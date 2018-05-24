@@ -33,6 +33,17 @@ class User(UserMixin, db.Model):
         self.profpic = profpic
 
 
+class Token(db.Model):
+    __tablename__ = 'token'
+    id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    token = db.Column(db.String(125),primary_key=True)
+    TTL =db.Column(db.DateTime)
+
+    def __init__(self, id ='', token ='', TTL = ''):
+        self.id = id
+        self.token = token
+        self.TTL = TTL
+
 class Bookshelf(db.Model):
     __tablename__ = 'bookshelf'
     bookshelf_id = db.Column(db.Integer, primary_key=True)
@@ -218,18 +229,17 @@ class Wishlist(db.Model):
 # Rates (book)
 class BookRateAssociation(db.Model):
     __tablename__ = 'bookRate'
+    id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    book_id = db.Column(db.Integer, db.ForeignKey('books.book_id'), primary_key=True)
+    book_id = db.Column(db.Integer, db.ForeignKey('books.book_id'))
     rating = db.Column(db.Integer)
-    comment = db.Column(db.TEXT)
     user = db.relationship('User', backref='user_booksRate')
     books = db.relationship('Books', backref='bookRate')
 
-    def __init__(self, user_id='', book_id='', rating='', comment=''):
+    def __init__(self, user_id='', book_id='', rating=''):
         self.user_id = user_id
         self.book_id = book_id
         self.rating = rating
-        self.comment = comment
 
 
 class BookRateTotal(db.Model):
@@ -252,13 +262,11 @@ class UserRateAssociation(db.Model):
     user_idRater = db.Column(db.Integer, db.ForeignKey('user.id'))
     user_idRatee = db.Column(db.Integer, db.ForeignKey('user.id'))
     rating = db.Column(db.Integer)
-    comment = db.Column(db.TEXT)
 
-    def __init__(self, user_idRater='', user_idRatee='', rating='', comment=''):
+    def __init__(self, user_idRater='', user_idRatee='', rating=''):
         self.user_idRater = user_idRater
         self.user_idRatee = user_idRatee
         self.rating = rating
-        self.comment = comment
 
 
 class UserRateTotal(db.Model):
