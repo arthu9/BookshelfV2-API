@@ -269,14 +269,12 @@ def commentbook(current_user, book_id):
 @token_required
 def addbook(current_user):
 
-
     data = request.get_json()
 
     book = Books.query.filter((Books.title == data['title']) & (Books.edition == data['edition']) & (Books.year_published == data['year']) & (Books.isbn == data['isbn'])).first()
 
     publisher = Publisher.query.filter(Publisher.publisher_name == data['publisher_name']).first()
-    author = Author.query.filter(
-        (Author.author_first_name == data['author_fname']) & (Author.author_last_name == data['author_lname'])).first()
+    author = Author.query.filter((Author.author_name == data['author_name'])).first()
     if (book is None) or (publisher is None) or (author is None):
         if publisher is None:
 
@@ -286,23 +284,21 @@ def addbook(current_user):
             db.session.commit()
             publisher_id = Publisher.query.filter((Publisher.publisher_name == data['publisher_name'])).first()
             if author is None:
-                author = Author(data['author_fname'], data['author_lname'])
+                author = Author(data['author_name'])
                 db.session.add(author)
                 db.session.commit()
             elif author is not None:
 
-                auth_id = Author.query.filter((Author.author_first_name == data['author_fname']) and (Author.author_last_name == data['author_lname'])).first()
+                auth_id = Author.query.filter((Author.author_name == data['author_name'])).first()
 
         elif publisher is not None:
             publisher_id = Publisher.query.filter((Publisher.publisher_name == data['publisher_name'])).first()
             if author is None:
-                authbook = Author(data['author_fname'], data['author_lname'])
+                authbook = Author(data['author_name'])
                 db.session.add(authbook)
                 db.session.commit()
             elif author is not None:
-                auth_id = Author.query.filter((Author.author_first_name == data['author_fname']) and (
-
-                    Author.author_last_name == data['author_lname'])).first()
+                auth_id = Author.query.filter((Author.author_name == data['author_name'])).first()
 
         publisher = Publisher.query.filter(Publisher.publisher_name == data['publisher_name']).first()
         publisher_id = publisher.publisher_id
@@ -311,8 +307,7 @@ def addbook(current_user):
         db.session.add(book)
         db.session.commit()
 
-        auth_id = Author.query.filter((Author.author_first_name == data['author_fname']) and (
-        Author.author_last_name == data['author_lname'])).first()
+        auth_id = Author.query.filter((Author.author_name == data['author_name'])).first()
 
         written = WrittenByAssociation(auth_id.author_id, book.book_id)
         db.session.add(written)
