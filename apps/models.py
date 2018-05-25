@@ -358,3 +358,26 @@ class ActLogs(db.Model):
         self.status = status
         self.bookid = bookid
 
+
+class Follow(db.Model):
+    __tablename__ = 'follow'
+    follow_id = db.Column(db.Integer, primary_key=True)
+    user_idFollower = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_idFollowee = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    def __init__(self, user_idFollower='', user_idFollowee=''):
+        self.user_idFollower = user_idFollower
+        self.user_idFollowee = user_idFollowee
+
+
+class FollowTotal(db.Model):
+    __tablename__ = 'followTotal'
+    follow_id = db.Column(db.Integer, db.ForeignKey('follow.follow_id'), primary_key=True)
+    userFollower = db.Column(db.Integer, db.ForeignKey('user.id'))
+    userFollowee = db.Column(db.Integer, db.ForeignKey('user.id'))
+    numberFollow = db.Column(db.Integer)
+
+    def __init__(self, userFollowee='', userFollower='', totalFollower=''):
+        self.userFollower = userFollower
+        self.userFollowee = userFollowee
+        self.totalFollower = totalFollower
