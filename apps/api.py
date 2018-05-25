@@ -522,7 +522,6 @@ def commentuser(current_user, user_idCommentee):
     return jsonify({'message': 'comment posted!'})
 
 
-
 @app.route('/follow', methods=['GET', 'POST'])
 @token_required
 def follow(current_user):
