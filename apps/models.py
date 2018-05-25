@@ -369,8 +369,8 @@ class Follow(db.Model):
 
 
 class FollowTotal(db.Model):
-    __tablename__ = 'userRateTotal'
-    follow_id = db.Column(db.Integer, db.ForeignKey('follow_id'), primary_key=True)
+    __tablename__ = 'followTotal'
+    follow_id = db.Column(db.Integer, db.ForeignKey('follow.follow_id'), primary_key=True)
     userFollower = db.Column(db.Integer, db.ForeignKey('user.id'))
     userFollowee = db.Column(db.Integer, db.ForeignKey('user.id'))
     numberFollow = db.Column(db.Integer)
