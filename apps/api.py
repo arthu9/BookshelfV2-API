@@ -516,8 +516,7 @@ def commentuser(current_user, user_idCommentee):
 
     return jsonify({'message': 'comment posted!'})
 
-
-@app.route('/follow', methods=['GET', 'POST'])
+@app.route('/follow', methods=['POST'])
 @token_required
 def follow(current_user):
     user = User.query.filter_by(id=current_user).first()
@@ -534,5 +533,24 @@ def follow(current_user):
     # flash('You are following {}!'.format(username))
     # return redirect(url_for('user', username=username))
 
-# @app.route('/addbok/<int:id>')
-# def addbook(id):
+
+@app.route('/user-rate/<int:user_idRatee>', methods=['POST', 'GET'])
+@token_required
+def rateuser(current_user, user_idRatee):
+
+    data = request.get_json()
+
+    rateUser = UserRateAssociation.query.filter(
+        (UserRateAssociation.user_idRater == current_user) & (UserRateAssociation.user_idRatee == user_idRatee)).first()
+
+    rate = UserRateAssociation(rating=data['rating'])
+
+    if rateUser is not None:
+        rateUser.rating = data['rating']
+        db.session.commit()
+        return jsonify({'message': 'Rate updated!'})
+    else:
+        newRater = UserRateAssociation(current_user, user_idRatee, data['rating'])
+        db.session.add(newRater)
+        db.session.commit()
+        return jsonify({'message': 'New rate added!'})
