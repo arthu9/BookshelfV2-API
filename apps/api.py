@@ -516,7 +516,7 @@ def commentuser(current_user, user_idCommentee):
 
     return jsonify({'message': 'comment posted!'})
 
-@app.route('/follow', methods=['POST'])
+@app.route('/follow/', methods=['POST'])
 @token_required
 def follow(current_user):
     user = User.query.filter_by(id=current_user).first()
@@ -532,6 +532,24 @@ def follow(current_user):
     return jsonify({'message': 'Followed!'})
     # flash('You are following {}!'.format(username))
     # return redirect(url_for('user', username=username))
+
+@app.route('/unfollow/<username>', methods=['POST'])
+@token_required
+def unfollow(current_user, username):
+    user = User.query.filter_by(username=username).first()
+    if user is None:
+        return jsonify({'message': 'not found'})
+        # flash('User {} not found.'.format(username))
+        # return redirect(url_for('index'))
+    if user == current_user:
+        return jsonify({'message': 'you cant unfollow yourself!'})
+        # flash('You cannot unfollow yourself!')
+        # return redirect(url_for('user', username=username))
+    current_user.unfollow(user)
+    db.session.commit()
+    return jsonify({'message': 'unfollow successful'})
+    # flash('You are not following {}.'.format(username))
+    return redirect(url_for('user', username=username))
 
 
 @app.route('/user-rate/<int:user_idRatee>', methods=['POST', 'GET'])

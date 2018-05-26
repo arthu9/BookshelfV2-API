@@ -282,7 +282,7 @@ class UserRateTotal(db.Model):
         self.totalRate = totalRate
 
 
-# Comment (Book)--------------------------------
+# Comment (Book)
 class BookCommentAssociation(db.Model):
     __tablename__ = 'bookComment'
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -381,3 +381,45 @@ class FollowTotal(db.Model):
         self.userFollower = userFollower
         self.userFollowee = userFollowee
         self.totalFollower = totalFollower
+
+
+# follow-follow kuno
+
+followers = db.Table('followers',
+    db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
+    db.Column('followed_id', db.Integer, db.ForeignKey('user.id'))
+)
+
+followed = db.relationship(
+    'User', secondary=followers,
+    primaryjoin=(followers.c.follower_id == id),
+    secondaryjoin=(followers.c.followed_id == id),
+    backref=db.backref('followers', lazy='dynamic'), lazy='dynamic')
+
+
+def follow(self, user):
+    if not self.is_following(user):
+        self.followed.append(user)
+
+
+def unfollow(self, user):
+    if self.is_following(user):
+        self.followed.remove(user)
+
+
+def is_following(self, user):
+    return self.followed.filter(
+        followers.c.followed_id == user.id).count() > 0
+
+ # def followed_posts(self):
+ #        return Post.query.join(
+ #            followers, (followers.c.followed_id == Post.user_id)).filter(
+ #                followers.c.follower_id == self.id).order_by(
+ #                    Post.timestamp.desc())
+
+def followed_posts(self):
+    followed = Post.query.join(
+        followers, (followers.c.followed_id == Post.user_id)).filter(
+        followers.c.follower_id == self.id)
+    own = Post.query.filter_by(user_id=self.id)
+    return followed.union(own).order_by(Post.timestamp.desc())
