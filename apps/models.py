@@ -19,6 +19,10 @@ class User(UserMixin, db.Model):
     userCommentBooks = db.relationship('BookCommentAssociation', backref='user_CommenterBooks')
     wishlists_bookshelf = db.relationship('Wishlist', backref='user_wishlist')
     user_interest = db.relationship('InterestAssociation', backref='user_interest')
+    followed = db.relationship('User', secondary='FollowersAssociation',
+        primaryjoin=('FollowersAssociation.c.follower_id' == 'id'),
+        secondaryjoin=('FollowersAssociation.c.followed_id' == 'id'),
+        backref=db.backref('followers', lazy='dynamic'), lazy='dynamic')
 
     def __init__(self, username='', password='', first_name='', last_name='', contact_number='', birth_date='',
                  gender='',address='', profpic=''):
@@ -32,6 +36,25 @@ class User(UserMixin, db.Model):
         self.address = address
         self.profpic = profpic
 
+    def follow(self, user):
+        if not self.is_following(user):
+            self.followed.append(user)
+
+    def unfollow(self, user):
+        if self.is_following(user):
+            self.followed.remove(user)
+
+    def is_following(self, user):
+        return self.followed.filter(
+            FollowersAssociation.c.followed_id == user.id).count() > 0
+
+    # what should i do with this?
+    def followed_posts(self):
+        followed = Post.query.join(
+            FollowersAssociation, (FollowersAssociation.c.followed_id == Post.user_id)).filter(
+            FollowersAssociation.c.follower_id == self.id)
+        own = Post.query.filter_by(user_id=self.id)
+        return followed.union(own).order_by(Post.timestamp.desc())
 
 class Token(db.Model):
     __tablename__ = 'token'
@@ -359,36 +382,39 @@ class ActLogs(db.Model):
         self.bookid = bookid
 
 
-class Follow(db.Model):
-    __tablename__ = 'follow'
+class FollowersAssociation(db.Model):
+    __tablename__ = 'followers'
     follow_id = db.Column(db.Integer, primary_key=True)
-    user_idFollower = db.Column(db.Integer, db.ForeignKey('user.id'))
-    user_idFollowee = db.Column(db.Integer, db.ForeignKey('user.id'))
+    follower_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    followed_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-    def __init__(self, user_idFollower='', user_idFollowee=''):
-        self.user_idFollower = user_idFollower
-        self.user_idFollowee = user_idFollowee
-
-
-class FollowTotal(db.Model):
-    __tablename__ = 'followTotal'
-    follow_id = db.Column(db.Integer, db.ForeignKey('follow.follow_id'), primary_key=True)
-    userFollower = db.Column(db.Integer, db.ForeignKey('user.id'))
-    userFollowee = db.Column(db.Integer, db.ForeignKey('user.id'))
-    numberFollow = db.Column(db.Integer)
-
-    def __init__(self, userFollowee='', userFollower='', totalFollower=''):
-        self.userFollower = userFollower
-        self.userFollowee = userFollowee
-        self.totalFollower = totalFollower
+# class Follow(db.Model):
+#     __tablename__ = 'follow'
+#     follow_id = db.Column(db.Integer, primary_key=True)
+#     user_idFollower = db.Column(db.Integer, db.ForeignKey('user.id'))
+#     user_idFollowee = db.Column(db.Integer, db.ForeignKey('user.id'))
+#
+#     def __init__(self, user_idFollower='', user_idFollowee=''):
+#         self.user_idFollower = user_idFollower
+#         self.user_idFollowee = user_idFollowee
+#
+#
+# class FollowTotal(db.Model):
+#     __tablename__ = 'followTotal'
+#     follow_id = db.Column(db.Integer, db.ForeignKey('follow.follow_id'), primary_key=True)
+#     userFollower = db.Column(db.Integer, db.ForeignKey('user.id'))
+#     userFollowee = db.Column(db.Integer, db.ForeignKey('user.id'))
+#     numberFollow = db.Column(db.Integer)
+#
+#     def __init__(self, userFollowee='', userFollower='', totalFollower=''):
+#         self.userFollower = userFollower
+#         self.userFollowee = userFollowee
+#         self.totalFollower = totalFollower
 
 
 # follow-follow
 
-class FollowersAssociation(db.Model):
-    __tablename__ = 'followers'
-    follower_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    followed_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
 
 
 # followed = db.relationship(
@@ -397,25 +423,13 @@ class FollowersAssociation(db.Model):
 #     secondaryjoin=(followers.c.followed_id == id),
 #     backref=db.backref('followers', lazy='dynamic'), lazy='dynamic')
 #
-# def follow(self, user):
-#     if not self.is_following(user):
-#         self.followed.append(user)
+
 #
-#
-# def unfollow(self, user):
-#     if self.is_following(user):
-#         self.followed.remove(user)
-#
-#
-# def is_following(self, user):
-#     return self.followed.filter(
-#         followers.c.followed_id == user.id).count() > 0
-#
-#  # def followed_posts(self):
-#  #        return Post.query.join(
-#  #            followers, (followers.c.followed_id == Post.user_id)).filter(
-#  #                followers.c.follower_id == self.id).order_by(
-#  #                    Post.timestamp.desc())
+ # def followed_posts(self):
+ #        return Post.query.join(
+ #            followers, (followers.c.followed_id == Post.user_id)).filter(
+ #                followers.c.follower_id == self.id).order_by(
+ #                    Post.timestamp.desc())
 #
 # def followed_posts(self):
 #     followed = Post.query.join(

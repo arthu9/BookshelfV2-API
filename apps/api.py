@@ -129,6 +129,8 @@ def create_user():
     else:
         return jsonify({'message': 'username already created'})
 
+    # {"username": "mauwela", "password": "mauieacut", "first_name": "mauie", "last_name": "acut",
+     # "contact_number": "09758117645", "June 1, 2013", "gender": "female", "address": "tubod iligan city"}
 
 # @app.route('/user/<user_id>', methods=['PUT'])
 # @token_required
@@ -169,13 +171,13 @@ def login():
     data = request.get_json()
 
     if not data or not data['username'] or not data['password']:
-        return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
+        return make_response('Could not verify 1', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
 
     user = User.query.filter_by(username=data['username']).first()
 
 
     if not user:
-        return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
+        return make_response('Could not verify 2', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
 
     if check_password_hash(user.password, data['password']):
         user = User.query.filter_by(username=data['username']).first()
@@ -499,7 +501,7 @@ def commentbook(current_user):
 
     return jsonify({'message': 'comment posted!'})
 
-# {"bookid":"1","comment":"any comment here"}
+# {"bookid":"1","comment":"this is a comment"}
 
 
 # COMMENT(USER)
@@ -516,6 +518,7 @@ def commentuser(current_user, user_idCommentee):
 
     return jsonify({'message': 'comment posted!'})
 
+
 @app.route('/follow/', methods=['POST'])
 @token_required
 def follow(current_user):
@@ -526,12 +529,13 @@ def follow(current_user):
         # flash('User {} not found.'.format(username))
         # return redirect(url_for('index'))
     if user == current_user:
-        return jsonify({'message': 'you cant follow yourself!'})
+        return jsonify({'message': 'you cannot follow yourself!'})
     current_user.follow(user)
     db.session.commit()
     return jsonify({'message': 'Followed!'})
     # flash('You are following {}!'.format(username))
     # return redirect(url_for('user', username=username))
+
 
 @app.route('/unfollow/<username>', methods=['POST'])
 @token_required
@@ -549,7 +553,7 @@ def unfollow(current_user, username):
     db.session.commit()
     return jsonify({'message': 'unfollow successful'})
     # flash('You are not following {}.'.format(username))
-    return redirect(url_for('user', username=username))
+    # return redirect(url_for('user', username=username))
 
 
 @app.route('/user-rate/<int:user_idRatee>', methods=['POST', 'GET'])
