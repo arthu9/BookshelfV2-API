@@ -24,15 +24,15 @@ db = SQLAlchemy(app)
 import apps.api
 
 
-def createDB():
-    engine = sqlalchemy.create_engine('postgresql://postgres:mvjunetwo@localhost') #connects to server
-    conn = engine.connect()
-    conn.execute("commit")
-    conn.execute("create database bookshelf")
-    conn.close()
-
-def createTables():
-    db.create_all()
+# def createDB():
+#     engine = sqlalchemy.create_engine('postgresql://postgres:mvjunetwo@localhost') #connects to server
+#     conn = engine.connect()
+#     conn.execute("commit")
+#     conn.execute("create database bookshelf")
+#     conn.close()
+#
+# def createTables():
+db.create_all()
 
 #createDB()
-createTables()
+# createTables()

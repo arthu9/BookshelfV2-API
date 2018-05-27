@@ -360,7 +360,7 @@ def viewbooks(current_user):
 
         return jsonify({'book': output})
 
-@app.route('/book/<int:book_id>', methods=['GET'])
+@app.route('/book/info/<int:book_id>', methods=['GET'])
 def bookDetail(book_id):
 
     books = Books.query.filter(book_id == book_id).first()
@@ -375,9 +375,23 @@ def bookDetail(book_id):
     user_data['year'] = books.year_published
     user_data['isbn'] = books.isbn
     user_data['types'] = books.types
-    user_data['publisher_id'] = books.publisher_id
+    book_author = WrittenByAssociation.query.filter_by(book_id=books.book_id).first()
+    author = Author.query.filter_by(author_id=book_author.author_id).first()
+    publisher = Publisher.query.filter_by(publisher_id=books.publisher_id).first()
+    user_data['publishers'] = publisher.publisher_name
+    user_data['author_name'] = author.author_name
+    comments = BookCommentAssociation.query.filter_by(book_id=books.book_id).all()
+    output = []
+    for comment in comments:
+        comment_data = {}
+        user = User.query.filter_by(id=comment.user_id).first()
+        comment_data['first_name'] = user.first_name
+        comment_data['last_name'] = user.last_name
+        comment_data['comment'] = comment.comment
+        comment_data['date'] = comment.date
+        output.append(comment_data)
 
-    return jsonify({'book': user_data})
+    return jsonify({'book': user_data, 'comments': output})
 
 @app.route('/category/<string:category>/', methods=['GET'])
 def category(category):

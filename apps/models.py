@@ -11,8 +11,7 @@ class User(UserMixin, db.Model):
     contact_number = db.Column(db.String(11))
     birth_date = db.Column(db.DATE, nullable=False)
     gender = db.Column(db.String(6), nullable=False)
-    longitude = db.Column(db.FLOAT)
-    latitude = db.Column(db.FLOAT)
+    address = db.Column(db.String(100))
     profpic = db.Column(db.TEXT)
     bookshelf_user = db.relationship('Bookshelf', uselist=False, backref='user_bookshelf')
     borrow_bookshelfs = db.relationship('BorrowsAssociation', backref='user_borrow')
@@ -106,13 +105,11 @@ class Category(db.Model):
 class Author(db.Model):
     __tablename__ = 'author'
     author_id = db.Column(db.Integer, db.ForeignKey('author.author_id'), primary_key=True)
-    author_first_name = db.Column(db.String(50))
-    author_last_name = db.Column(db.String(50))
+    author_name = db.Column(db.String(50))
     authorBooks = db.relationship('WrittenByAssociation', backref="author_books")
 
-    def __init__(self, author_first_name='', author_last_name=''):
-        self.author_first_name = author_first_name
-        self.author_last_name = author_last_name
+    def __init__(self, author_name=''):
+        self.author_first_name = author_name
 
 
 class WrittenByAssociation(db.Model):
@@ -220,8 +217,9 @@ class Wishlist(db.Model):
 # Rates (book)
 class BookRateAssociation(db.Model):
     __tablename__ = 'bookRate'
+    comment_id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    book_id = db.Column(db.Integer, db.ForeignKey('books.book_id'), primary_key=True)
+    book_id = db.Column(db.Integer, db.ForeignKey('books.book_id'))
     rating = db.Column(db.Integer)
     comment = db.Column(db.TEXT)
     user = db.relationship('User', backref='user_booksRate')
@@ -282,6 +280,7 @@ class BookCommentAssociation(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     book_id = db.Column(db.Integer, db.ForeignKey('books.book_id'), primary_key=True)
     comment = db.Column(db.TEXT)
+    date = db.Column(db.DATE)
     user = db.relationship('User', backref='user_booksComment')
     books = db.relationship('Books', backref='bookComment')
 

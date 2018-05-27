@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component name="dataSourceStorage">
-  <data-source name="PostgreSQL - bookshelf@localhost" uuid="3363791e-b69f-4ad1-b843-dc3e08c94183">
-    <database-info product="" version="" jdbc-version="" driver-name="" driver-version=""/>
-  </data-source>
-  <data-source name="PostgreSQL - bookshelf@localhost [2]" uuid="5e8e91a9-adae-4dfe-a732-1bf296a97f03">
-    <database-info product="PostgreSQL" version="9.6.0" jdbc-version="4.0" driver-name="PostgreSQL Native Driver" driver-version="PostgreSQL 9.4 JDBC4 (build 1201)">
+  <data-source name="PostgreSQL - bookshelf@localhost" uuid="9902f1a4-bfbd-44d4-abab-0a50beaf26a9">
+    <database-info product="PostgreSQL" version="9.6.0" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.2.2">
       <identifier-quote-string>&quot;</identifier-quote-string>
     </database-info>
     <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact"/>
     <database-model serializer="dbm" rdbms="POSTGRES" format-version="2.6">
       <database id="1" name="bookshelf">
-        <object-id>493984</object-id>
+        <object-id>634025</object-id>
         <visible>1</visible>
       </database>
       <database id="2" name="postgres">
@@ -37,1073 +34,1244 @@
       <database id="9" name="test">
         <object-id>468717</object-id>
       </database>
-      <database id="10" name="bookshelf1">
-        <object-id>469758</object-id>
-      </database>
-      <database id="11" name="book">
+      <database id="10" name="book">
         <object-id>485467</object-id>
       </database>
-      <database id="12" name="bookshelf2">
-        <object-id>493983</object-id>
-      </database>
-      <database id="13" name="boo">
+      <database id="11" name="boo">
         <object-id>502421</object-id>
       </database>
-      <schema id="14" parent="1" name="public">
+      <schema id="12" parent="1" name="public">
         <object-id>2200</object-id>
         <visible>1</visible>
-        <introspection-state-number>3542</introspection-state-number>
-        <introspection-timestamp>2018-05-01.00:27:54.241</introspection-timestamp>
+        <introspection-state-number>3873</introspection-state-number>
+        <introspection-timestamp>2018-05-27.23:58:51.644</introspection-timestamp>
       </schema>
-      <schema id="15" parent="1" name="pg_catalog">
+      <schema id="13" parent="1" name="pg_catalog">
         <object-id>11</object-id>
       </schema>
-      <schema id="16" parent="1" name="pg_toast">
+      <schema id="14" parent="1" name="pg_toast">
         <object-id>99</object-id>
       </schema>
-      <schema id="17" parent="1" name="pg_temp_1">
+      <schema id="15" parent="1" name="pg_temp_1">
         <object-id>11848</object-id>
       </schema>
-      <schema id="18" parent="1" name="pg_toast_temp_1">
+      <schema id="16" parent="1" name="pg_toast_temp_1">
         <object-id>11849</object-id>
       </schema>
-      <schema id="19" parent="1" name="information_schema">
+      <schema id="17" parent="1" name="information_schema">
         <object-id>12113</object-id>
       </schema>
-      <sequence id="20" parent="14" name="actlogs_logs_seq">
-        <object-id>494164</object-id>
-        <state-number>3205</state-number>
+      <sequence id="18" parent="12" name="actlogs_logs_seq">
+        <object-id>634206</object-id>
+        <state-number>3824</state-number>
       </sequence>
-      <sequence id="21" parent="14" name="author_author_id_seq">
-        <object-id>493993</object-id>
-        <state-number>3194</state-number>
+      <sequence id="19" parent="12" name="author_author_id_seq">
+        <object-id>634047</object-id>
+        <state-number>3814</state-number>
       </sequence>
-      <sequence id="22" parent="14" name="bookrateTotal_numRate_seq">
-        <object-id>494079</object-id>
-        <state-number>3200</state-number>
+      <sequence id="20" parent="12" name="bookRate_id_seq">
+        <object-id>634301</object-id>
+        <state-number>3829</state-number>
       </sequence>
-      <sequence id="23" parent="14" name="books_book_id_seq">
-        <object-id>494014</object-id>
-        <state-number>3196</state-number>
+      <sequence id="21" parent="12" name="bookrateTotal_numRate_seq">
+        <object-id>634242</object-id>
+        <state-number>3826</state-number>
       </sequence>
-      <sequence id="24" parent="14" name="bookshelf_bookshelf_id_seq">
-        <object-id>494048</object-id>
-        <state-number>3198</state-number>
+      <sequence id="22" parent="12" name="books_book_id_seq">
+        <object-id>634086</object-id>
+        <state-number>3817</state-number>
       </sequence>
-      <sequence id="25" parent="14" name="borrows_borrowed_seq">
-        <object-id>494112</object-id>
-        <state-number>3202</state-number>
+      <sequence id="23" parent="12" name="bookshelf_bookshelf_id_seq">
+        <object-id>634055</object-id>
+        <state-number>3815</state-number>
       </sequence>
-      <sequence id="26" parent="14" name="category_category_id_seq">
-        <object-id>494151</object-id>
-        <state-number>3204</state-number>
+      <sequence id="24" parent="12" name="borrows_borrowed_seq">
+        <object-id>634275</object-id>
+        <state-number>3828</state-number>
       </sequence>
-      <sequence id="27" parent="14" name="genre_id_genre_seq">
-        <object-id>494182</object-id>
-        <state-number>3206</state-number>
+      <sequence id="25" parent="12" name="category_category_id_seq">
+        <object-id>634260</object-id>
+        <state-number>3827</state-number>
       </sequence>
-      <sequence id="28" parent="14" name="hasInterest_interestId_seq">
-        <object-id>527299</object-id>
-        <state-number>3370</state-number>
+      <sequence id="26" parent="12" name="follow_follow_id_seq">
+        <object-id>634068</object-id>
+        <state-number>3816</state-number>
       </sequence>
-      <sequence id="29" parent="14" name="publisher_publisher_id_seq">
-        <object-id>493985</object-id>
-        <state-number>3193</state-number>
+      <sequence id="27" parent="12" name="genre_id_genre_seq">
+        <object-id>634370</object-id>
+        <state-number>3833</state-number>
       </sequence>
-      <sequence id="30" parent="14" name="purchase_purchase_id_seq">
-        <object-id>527281</object-id>
-        <state-number>3369</state-number>
+      <sequence id="28" parent="12" name="hasInterest_interestId_seq">
+        <object-id>634383</object-id>
+        <state-number>3834</state-number>
       </sequence>
-      <sequence id="31" parent="14" name="user_id_seq">
-        <object-id>494001</object-id>
-        <state-number>3195</state-number>
+      <sequence id="29" parent="12" name="publisher_publisher_id_seq">
+        <object-id>634039</object-id>
+        <state-number>3813</state-number>
       </sequence>
-      <sequence id="32" parent="14" name="userComment_comment_id_seq">
-        <object-id>543731</object-id>
-        <state-number>3472</state-number>
+      <sequence id="30" parent="12" name="purchase_purchase_id_seq">
+        <object-id>634224</object-id>
+        <state-number>3825</state-number>
       </sequence>
-      <sequence id="33" parent="14" name="userRateTotal_numOfRate_seq">
-        <object-id>494030</object-id>
-        <state-number>3197</state-number>
+      <sequence id="31" parent="12" name="user_id_seq">
+        <object-id>634026</object-id>
+        <state-number>3812</state-number>
       </sequence>
-      <sequence id="34" parent="14" name="wishlist_wishlist_id_seq">
-        <object-id>527263</object-id>
-        <state-number>3368</state-number>
+      <sequence id="32" parent="12" name="userComment_comment_id_seq">
+        <object-id>634132</object-id>
+        <state-number>3820</state-number>
       </sequence>
-      <table id="35" parent="14" name="actlogs">
-        <object-id>494166</object-id>
-        <state-number>3205</state-number>
+      <sequence id="33" parent="12" name="userRate_rate_id_seq">
+        <object-id>634153</object-id>
+        <state-number>3821</state-number>
+      </sequence>
+      <sequence id="34" parent="12" name="userRateTotal_numOfRate_seq">
+        <object-id>634114</object-id>
+        <state-number>3819</state-number>
+      </sequence>
+      <sequence id="35" parent="12" name="Wishlist_wishlist_id_seq">
+        <object-id>634334</object-id>
+        <state-number>3831</state-number>
+      </sequence>
+      <table id="36" parent="12" name="actlogs">
+        <object-id>634208</object-id>
+        <state-number>3824</state-number>
       </table>
-      <table id="36" parent="14" name="author">
-        <object-id>493995</object-id>
-        <state-number>3207</state-number>
+      <table id="37" parent="12" name="author">
+        <object-id>634049</object-id>
+        <state-number>3830</state-number>
       </table>
-      <table id="37" parent="14" name="bookComment">
-        <object-id>543752</object-id>
-        <state-number>3473</state-number>
+      <table id="38" parent="12" name="bookComment">
+        <object-id>634352</object-id>
+        <state-number>3873</state-number>
       </table>
-      <table id="38" parent="14" name="bookRate">
-        <object-id>494133</object-id>
-        <state-number>3203</state-number>
+      <table id="39" parent="12" name="bookRate">
+        <object-id>634303</object-id>
+        <state-number>3829</state-number>
       </table>
-      <table id="39" parent="14" name="bookrateTotal">
-        <object-id>494081</object-id>
-        <state-number>3200</state-number>
+      <table id="40" parent="12" name="bookrateTotal">
+        <object-id>634244</object-id>
+        <state-number>3826</state-number>
       </table>
-      <table id="40" parent="14" name="books">
-        <object-id>494016</object-id>
-        <state-number>3473</state-number>
+      <table id="41" parent="12" name="books">
+        <object-id>634088</object-id>
+        <state-number>3835</state-number>
       </table>
-      <table id="41" parent="14" name="bookshelf">
-        <object-id>494050</object-id>
-        <state-number>3369</state-number>
+      <table id="42" parent="12" name="bookshelf">
+        <object-id>634057</object-id>
+        <state-number>3831</state-number>
       </table>
-      <table id="42" parent="14" name="borrows">
-        <object-id>494114</object-id>
-        <state-number>3202</state-number>
+      <table id="43" parent="12" name="borrows">
+        <object-id>634277</object-id>
+        <state-number>3828</state-number>
       </table>
-      <table id="43" parent="14" name="category">
-        <object-id>494153</object-id>
-        <state-number>3204</state-number>
+      <table id="44" parent="12" name="category">
+        <object-id>634262</object-id>
+        <state-number>3827</state-number>
       </table>
-      <table id="44" parent="14" name="contains">
-        <object-id>494097</object-id>
-        <state-number>3201</state-number>
+      <table id="45" parent="12" name="contains">
+        <object-id>634191</object-id>
+        <state-number>3823</state-number>
       </table>
-      <table id="45" parent="14" name="genre">
-        <object-id>494184</object-id>
-        <state-number>3488</state-number>
+      <table id="46" parent="12" name="follow">
+        <object-id>634070</object-id>
+        <state-number>3822</state-number>
       </table>
-      <table id="46" parent="14" name="hasGenre">
-        <object-id>494210</object-id>
-        <state-number>3483</state-number>
+      <table id="47" parent="12" name="followTotal">
+        <object-id>634171</object-id>
+        <state-number>3822</state-number>
       </table>
-      <table id="47" parent="14" name="hasInterest">
-        <object-id>527301</object-id>
-        <state-number>3370</state-number>
+      <table id="48" parent="12" name="genre">
+        <object-id>634372</object-id>
+        <state-number>3835</state-number>
       </table>
-      <table id="48" parent="14" name="publisher">
-        <object-id>493987</object-id>
-        <state-number>3196</state-number>
+      <table id="49" parent="12" name="hasGenre">
+        <object-id>634401</object-id>
+        <state-number>3835</state-number>
       </table>
-      <table id="49" parent="14" name="purchase">
-        <object-id>527283</object-id>
-        <state-number>3369</state-number>
+      <table id="50" parent="12" name="hasInterest">
+        <object-id>634385</object-id>
+        <state-number>3834</state-number>
       </table>
-      <table id="50" parent="14" name="user">
-        <object-id>494003</object-id>
-        <state-number>3473</state-number>
+      <table id="51" parent="12" name="publisher">
+        <object-id>634041</object-id>
+        <state-number>3817</state-number>
       </table>
-      <table id="51" parent="14" name="userComment">
-        <object-id>543733</object-id>
-        <state-number>3472</state-number>
+      <table id="52" parent="12" name="purchase">
+        <object-id>634226</object-id>
+        <state-number>3825</state-number>
       </table>
-      <table id="52" parent="14" name="userRate">
-        <object-id>494061</object-id>
-        <state-number>3199</state-number>
+      <table id="53" parent="12" name="token">
+        <object-id>634104</object-id>
+        <state-number>3818</state-number>
       </table>
-      <table id="53" parent="14" name="userRateTotal">
-        <object-id>494032</object-id>
-        <state-number>3197</state-number>
+      <table id="54" parent="12" name="user">
+        <object-id>634028</object-id>
+        <state-number>3834</state-number>
       </table>
-      <table id="54" parent="14" name="wishlist">
-        <object-id>527265</object-id>
-        <state-number>3368</state-number>
+      <table id="55" parent="12" name="userComment">
+        <object-id>634134</object-id>
+        <state-number>3820</state-number>
       </table>
-      <table id="55" parent="14" name="writtenBy">
-        <object-id>494195</object-id>
-        <state-number>3207</state-number>
+      <table id="56" parent="12" name="userRate">
+        <object-id>634155</object-id>
+        <state-number>3821</state-number>
       </table>
-      <column id="56" parent="35" name="logs">
-        <state-number>3205</state-number>
+      <table id="57" parent="12" name="userRateTotal">
+        <object-id>634116</object-id>
+        <state-number>3819</state-number>
+      </table>
+      <table id="58" parent="12" name="Wishlist">
+        <object-id>634336</object-id>
+        <state-number>3831</state-number>
+      </table>
+      <table id="59" parent="12" name="writtenBy">
+        <object-id>634319</object-id>
+        <state-number>3830</state-number>
+      </table>
+      <column id="60" parent="36" name="logs">
+        <state-number>3824</state-number>
         <mandatory>1</mandatory>
         <data-type>integer|0</data-type>
         <default-expression>nextval(&apos;actlogs_logs_seq&apos;::regclass)</default-expression>
       </column>
-      <column id="57" parent="35" name="user_id">
-        <state-number>3205</state-number>
+      <column id="61" parent="36" name="user_id">
+        <state-number>3824</state-number>
         <data-type>integer|0</data-type>
       </column>
-      <column id="58" parent="35" name="shelf_id">
-        <state-number>3205</state-number>
+      <column id="62" parent="36" name="shelf_id">
+        <state-number>3824</state-number>
         <data-type>integer|0</data-type>
       </column>
-      <column id="59" parent="35" name="date">
-        <state-number>3205</state-number>
+      <column id="63" parent="36" name="date">
+        <state-number>3824</state-number>
         <data-type>timestamp|0</data-type>
       </column>
-      <column id="60" parent="35" name="status">
-        <state-number>3205</state-number>
+      <column id="64" parent="36" name="status">
+        <state-number>3824</state-number>
         <data-type>integer|0</data-type>
       </column>
-      <column id="61" parent="35" name="bookid">
-        <state-number>3205</state-number>
+      <column id="65" parent="36" name="bookid">
+        <state-number>3824</state-number>
         <data-type>integer|0</data-type>
       </column>
-      <index id="62" parent="35" name="actlogs_pkey">
-        <object-id>494170</object-id>
+      <index id="66" parent="36" name="actlogs_pkey">
+        <object-id>634212</object-id>
         <columns>logs</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="63" parent="35" name="actlogs_pkey">
-        <object-id>494171</object-id>
+      <key id="67" parent="36" name="actlogs_pkey">
+        <object-id>634213</object-id>
         <columns>logs</columns>
         <underlying-index>actlogs_pkey</underlying-index>
         <primary>1</primary>
       </key>
-      <foreign-key id="64" parent="35" name="actlogs_user_id_fkey">
-        <object-id>494172</object-id>
+      <foreign-key id="68" parent="36" name="actlogs_user_id_fkey">
+        <object-id>634214</object-id>
         <columns>user_id</columns>
         <ref-key>~.user.user_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="65" parent="35" name="actlogs_shelf_id_fkey">
-        <object-id>494177</object-id>
+      <foreign-key id="69" parent="36" name="actlogs_shelf_id_fkey">
+        <object-id>634219</object-id>
         <columns>shelf_id</columns>
         <ref-key>~.bookshelf.bookshelf_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="66" parent="36" name="author_id">
-        <state-number>3194</state-number>
+      <column id="70" parent="37" name="author_id">
+        <state-number>3814</state-number>
         <mandatory>1</mandatory>
         <data-type>integer|0</data-type>
         <default-expression>nextval(&apos;author_author_id_seq&apos;::regclass)</default-expression>
       </column>
-      <column id="67" parent="36" name="author_first_name">
-        <state-number>3194</state-number>
+      <column id="71" parent="37" name="author_name">
+        <state-number>3814</state-number>
         <data-type>varchar(50)|0</data-type>
       </column>
-      <column id="68" parent="36" name="author_last_name">
-        <state-number>3194</state-number>
-        <data-type>varchar(50)|0</data-type>
-      </column>
-      <index id="69" parent="36" name="author_pkey">
-        <object-id>493999</object-id>
+      <index id="72" parent="37" name="author_pkey">
+        <object-id>634053</object-id>
         <columns>author_id</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="70" parent="36" name="author_pkey">
-        <object-id>494000</object-id>
+      <key id="73" parent="37" name="author_pkey">
+        <object-id>634054</object-id>
         <columns>author_id</columns>
         <underlying-index>author_pkey</underlying-index>
         <primary>1</primary>
       </key>
-      <column id="71" parent="37" name="user_id">
-        <state-number>3473</state-number>
+      <column id="74" parent="38" name="user_id">
+        <state-number>3832</state-number>
         <data-type>integer|0</data-type>
       </column>
-      <column id="72" parent="37" name="book_id">
-        <state-number>3473</state-number>
+      <column id="75" parent="38" name="book_id">
+        <state-number>3832</state-number>
         <mandatory>1</mandatory>
         <data-type>integer|0</data-type>
       </column>
-      <column id="73" parent="37" name="comment">
-        <state-number>3473</state-number>
+      <column id="76" parent="38" name="date">
+        <state-number>3832</state-number>
+        <data-type>date|0</data-type>
+      </column>
+      <column id="77" parent="38" name="comment">
+        <state-number>3832</state-number>
         <data-type>text|0</data-type>
       </column>
-      <index id="74" parent="37" name="bookComment_pkey">
-        <object-id>543758</object-id>
-        <columns>book_id</columns>
-        <desc-columns></desc-columns>
-        <unique>1</unique>
-      </index>
-      <key id="75" parent="37" name="bookComment_pkey">
-        <object-id>543759</object-id>
-        <columns>book_id</columns>
-        <underlying-index>bookComment_pkey</underlying-index>
-        <primary>1</primary>
-      </key>
-      <foreign-key id="76" parent="37" name="bookComment_user_id_fkey">
-        <object-id>543760</object-id>
+      <column id="78" parent="38" name="comment_id">
+        <state-number>3873</state-number>
+        <data-type>integer|0</data-type>
+      </column>
+      <foreign-key id="79" parent="38" name="bookComment_user_id_fkey">
+        <object-id>634360</object-id>
         <columns>user_id</columns>
         <ref-key>~.user.user_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="77" parent="37" name="bookComment_book_id_fkey">
-        <object-id>543765</object-id>
+      <foreign-key id="80" parent="38" name="bookComment_book_id_fkey">
+        <object-id>634365</object-id>
         <columns>book_id</columns>
         <ref-key>~.books.books_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="78" parent="38" name="user_id">
-        <state-number>3203</state-number>
+      <column id="81" parent="39" name="id">
+        <state-number>3829</state-number>
         <mandatory>1</mandatory>
         <data-type>integer|0</data-type>
+        <default-expression>nextval(&apos;&quot;bookRate_id_seq&quot;&apos;::regclass)</default-expression>
       </column>
-      <column id="79" parent="38" name="book_id">
-        <state-number>3203</state-number>
-        <mandatory>1</mandatory>
+      <column id="82" parent="39" name="user_id">
+        <state-number>3829</state-number>
         <data-type>integer|0</data-type>
       </column>
-      <column id="80" parent="38" name="rating">
-        <state-number>3203</state-number>
+      <column id="83" parent="39" name="book_id">
+        <state-number>3829</state-number>
         <data-type>integer|0</data-type>
       </column>
-      <column id="81" parent="38" name="comment">
-        <state-number>3203</state-number>
-        <data-type>text|0</data-type>
+      <column id="84" parent="39" name="rating">
+        <state-number>3829</state-number>
+        <data-type>integer|0</data-type>
       </column>
-      <index id="82" parent="38" name="bookRate_pkey">
-        <object-id>494139</object-id>
-        <columns>user_id
-book_id</columns>
+      <index id="85" parent="39" name="bookRate_pkey">
+        <object-id>634307</object-id>
+        <columns>id</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="83" parent="38" name="bookRate_pkey">
-        <object-id>494140</object-id>
-        <columns>user_id
-book_id</columns>
+      <key id="86" parent="39" name="bookRate_pkey">
+        <object-id>634308</object-id>
+        <columns>id</columns>
         <underlying-index>bookRate_pkey</underlying-index>
         <primary>1</primary>
       </key>
-      <foreign-key id="84" parent="38" name="bookRate_user_id_fkey">
-        <object-id>494141</object-id>
+      <foreign-key id="87" parent="39" name="bookRate_user_id_fkey">
+        <object-id>634309</object-id>
         <columns>user_id</columns>
         <ref-key>~.user.user_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="85" parent="38" name="bookRate_book_id_fkey">
-        <object-id>494146</object-id>
+      <foreign-key id="88" parent="39" name="bookRate_book_id_fkey">
+        <object-id>634314</object-id>
         <columns>book_id</columns>
         <ref-key>~.books.books_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="86" parent="39" name="numRate">
-        <state-number>3200</state-number>
+      <column id="89" parent="40" name="numRate">
+        <state-number>3826</state-number>
         <mandatory>1</mandatory>
         <data-type>integer|0</data-type>
         <default-expression>nextval(&apos;&quot;bookrateTotal_numRate_seq&quot;&apos;::regclass)</default-expression>
       </column>
-      <column id="87" parent="39" name="userRater">
-        <state-number>3200</state-number>
+      <column id="90" parent="40" name="userRater">
+        <state-number>3826</state-number>
         <data-type>integer|0</data-type>
       </column>
-      <column id="88" parent="39" name="bookRated">
-        <state-number>3200</state-number>
+      <column id="91" parent="40" name="bookRated">
+        <state-number>3826</state-number>
         <data-type>integer|0</data-type>
       </column>
-      <column id="89" parent="39" name="totalRate">
-        <state-number>3200</state-number>
+      <column id="92" parent="40" name="totalRate">
+        <state-number>3826</state-number>
         <data-type>double precision|0</data-type>
       </column>
-      <index id="90" parent="39" name="bookrateTotal_pkey">
-        <object-id>494085</object-id>
+      <index id="93" parent="40" name="bookrateTotal_pkey">
+        <object-id>634248</object-id>
         <columns>numRate</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="91" parent="39" name="bookrateTotal_pkey">
-        <object-id>494086</object-id>
+      <key id="94" parent="40" name="bookrateTotal_pkey">
+        <object-id>634249</object-id>
         <columns>numRate</columns>
         <underlying-index>bookrateTotal_pkey</underlying-index>
         <primary>1</primary>
       </key>
-      <foreign-key id="92" parent="39" name="bookrateTotal_userRater_fkey">
-        <object-id>494087</object-id>
+      <foreign-key id="95" parent="40" name="bookrateTotal_userRater_fkey">
+        <object-id>634250</object-id>
         <columns>userRater</columns>
         <ref-key>~.user.user_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="93" parent="39" name="bookrateTotal_bookRated_fkey">
-        <object-id>494092</object-id>
+      <foreign-key id="96" parent="40" name="bookrateTotal_bookRated_fkey">
+        <object-id>634255</object-id>
         <columns>bookRated</columns>
         <ref-key>~.books.books_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="94" parent="40" name="book_id">
-        <state-number>3196</state-number>
+      <column id="97" parent="41" name="book_id">
+        <state-number>3817</state-number>
         <mandatory>1</mandatory>
         <data-type>integer|0</data-type>
         <default-expression>nextval(&apos;books_book_id_seq&apos;::regclass)</default-expression>
       </column>
-      <column id="95" parent="40" name="title">
-        <state-number>3196</state-number>
+      <column id="98" parent="41" name="title">
+        <state-number>3817</state-number>
         <mandatory>1</mandatory>
         <data-type>text|0</data-type>
       </column>
-      <column id="96" parent="40" name="edition">
-        <state-number>3196</state-number>
+      <column id="99" parent="41" name="description">
+        <state-number>3817</state-number>
+        <data-type>varchar(500)|0</data-type>
+      </column>
+      <column id="100" parent="41" name="edition">
+        <state-number>3817</state-number>
         <data-type>integer|0</data-type>
       </column>
-      <column id="97" parent="40" name="year_published">
-        <state-number>3196</state-number>
+      <column id="101" parent="41" name="year_published">
+        <state-number>3817</state-number>
         <data-type>varchar(4)|0</data-type>
       </column>
-      <column id="98" parent="40" name="isbn">
-        <state-number>3196</state-number>
+      <column id="102" parent="41" name="isbn">
+        <state-number>3817</state-number>
+        <mandatory>1</mandatory>
         <data-type>varchar(20)|0</data-type>
       </column>
-      <column id="99" parent="40" name="types">
-        <state-number>3196</state-number>
+      <column id="103" parent="41" name="types">
+        <state-number>3817</state-number>
         <data-type>varchar(20)|0</data-type>
       </column>
-      <column id="100" parent="40" name="publisher_id">
-        <state-number>3196</state-number>
+      <column id="104" parent="41" name="date_published">
+        <state-number>3817</state-number>
+        <data-type>date|0</data-type>
+      </column>
+      <column id="105" parent="41" name="book_cover">
+        <state-number>3817</state-number>
+        <data-type>bytea|0</data-type>
+      </column>
+      <column id="106" parent="41" name="publisher_id">
+        <state-number>3817</state-number>
         <data-type>integer|0</data-type>
       </column>
-      <column id="101" parent="40" name="borrowcount">
-        <state-number>3196</state-number>
+      <column id="107" parent="41" name="borrowcount">
+        <state-number>3817</state-number>
         <data-type>integer|0</data-type>
       </column>
-      <column id="102" parent="40" name="description">
-        <state-number>3365</state-number>
-        <data-type>text|0</data-type>
-      </column>
-      <index id="103" parent="40" name="books_pkey">
-        <object-id>494023</object-id>
+      <index id="108" parent="41" name="books_pkey">
+        <object-id>634095</object-id>
         <columns>book_id</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="104" parent="40" name="books_pkey">
-        <object-id>494024</object-id>
+      <index id="109" parent="41" name="books_isbn_key">
+        <object-id>634097</object-id>
+        <columns>isbn</columns>
+        <desc-columns></desc-columns>
+        <unique>1</unique>
+      </index>
+      <key id="110" parent="41" name="books_pkey">
+        <object-id>634096</object-id>
         <columns>book_id</columns>
         <underlying-index>books_pkey</underlying-index>
         <primary>1</primary>
       </key>
-      <foreign-key id="105" parent="40" name="books_publisher_id_fkey">
-        <object-id>494025</object-id>
+      <key id="111" parent="41" name="books_isbn_key">
+        <object-id>634098</object-id>
+        <columns>isbn</columns>
+        <underlying-index>books_isbn_key</underlying-index>
+      </key>
+      <foreign-key id="112" parent="41" name="books_publisher_id_fkey">
+        <object-id>634099</object-id>
         <columns>publisher_id</columns>
         <ref-key>~.publisher.publisher_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="106" parent="41" name="bookshelf_id">
-        <state-number>3198</state-number>
+      <column id="113" parent="42" name="bookshelf_id">
+        <state-number>3815</state-number>
         <mandatory>1</mandatory>
         <data-type>integer|0</data-type>
         <default-expression>nextval(&apos;bookshelf_bookshelf_id_seq&apos;::regclass)</default-expression>
       </column>
-      <column id="107" parent="41" name="bookshef_owner">
-        <state-number>3198</state-number>
+      <column id="114" parent="42" name="bookshef_owner">
+        <state-number>3815</state-number>
         <data-type>integer|0</data-type>
       </column>
-      <index id="108" parent="41" name="bookshelf_pkey">
-        <object-id>494054</object-id>
+      <index id="115" parent="42" name="bookshelf_pkey">
+        <object-id>634061</object-id>
         <columns>bookshelf_id</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="109" parent="41" name="bookshelf_pkey">
-        <object-id>494055</object-id>
+      <key id="116" parent="42" name="bookshelf_pkey">
+        <object-id>634062</object-id>
         <columns>bookshelf_id</columns>
         <underlying-index>bookshelf_pkey</underlying-index>
         <primary>1</primary>
       </key>
-      <foreign-key id="110" parent="41" name="bookshelf_bookshef_owner_fkey">
-        <object-id>494056</object-id>
+      <foreign-key id="117" parent="42" name="bookshelf_bookshef_owner_fkey">
+        <object-id>634063</object-id>
         <columns>bookshef_owner</columns>
         <ref-key>~.user.user_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="111" parent="42" name="borrowed">
-        <state-number>3202</state-number>
+      <column id="118" parent="43" name="borrowed">
+        <state-number>3828</state-number>
         <mandatory>1</mandatory>
         <data-type>integer|0</data-type>
         <default-expression>nextval(&apos;borrows_borrowed_seq&apos;::regclass)</default-expression>
       </column>
-      <column id="112" parent="42" name="user_id">
-        <state-number>3202</state-number>
+      <column id="119" parent="43" name="user_id">
+        <state-number>3828</state-number>
         <data-type>integer|0</data-type>
       </column>
-      <column id="113" parent="42" name="shelf_id">
-        <state-number>3202</state-number>
+      <column id="120" parent="43" name="shelf_id">
+        <state-number>3828</state-number>
         <data-type>integer|0</data-type>
       </column>
-      <column id="114" parent="42" name="date">
-        <state-number>3202</state-number>
+      <column id="121" parent="43" name="date">
+        <state-number>3828</state-number>
         <data-type>timestamp|0</data-type>
       </column>
-      <column id="115" parent="42" name="status">
-        <state-number>3202</state-number>
+      <column id="122" parent="43" name="status">
+        <state-number>3828</state-number>
         <data-type>integer|0</data-type>
       </column>
-      <column id="116" parent="42" name="bookid">
-        <state-number>3202</state-number>
+      <column id="123" parent="43" name="price">
+        <state-number>3828</state-number>
         <data-type>integer|0</data-type>
       </column>
-      <column id="117" parent="42" name="seen">
-        <state-number>3202</state-number>
+      <column id="124" parent="43" name="bookid">
+        <state-number>3828</state-number>
         <data-type>integer|0</data-type>
       </column>
-      <column id="118" parent="42" name="otherUserReturn">
-        <state-number>3202</state-number>
+      <column id="125" parent="43" name="seen">
+        <state-number>3828</state-number>
         <data-type>integer|0</data-type>
       </column>
-      <column id="119" parent="42" name="curUserReturn">
-        <state-number>3202</state-number>
+      <column id="126" parent="43" name="otherUserReturn">
+        <state-number>3828</state-number>
         <data-type>integer|0</data-type>
       </column>
-      <column id="120" parent="42" name="returnDate">
-        <state-number>3202</state-number>
+      <column id="127" parent="43" name="curUserReturn">
+        <state-number>3828</state-number>
+        <data-type>integer|0</data-type>
+      </column>
+      <column id="128" parent="43" name="returnDate">
+        <state-number>3828</state-number>
         <data-type>text|0</data-type>
       </column>
-      <index id="121" parent="42" name="borrows_pkey">
-        <object-id>494121</object-id>
+      <index id="129" parent="43" name="borrows_pkey">
+        <object-id>634284</object-id>
         <columns>borrowed</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="122" parent="42" name="borrows_pkey">
-        <object-id>494122</object-id>
+      <key id="130" parent="43" name="borrows_pkey">
+        <object-id>634285</object-id>
         <columns>borrowed</columns>
         <underlying-index>borrows_pkey</underlying-index>
         <primary>1</primary>
       </key>
-      <foreign-key id="123" parent="42" name="borrows_user_id_fkey">
-        <object-id>494123</object-id>
+      <foreign-key id="131" parent="43" name="borrows_user_id_fkey">
+        <object-id>634286</object-id>
         <columns>user_id</columns>
         <ref-key>~.user.user_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="124" parent="42" name="borrows_shelf_id_fkey">
-        <object-id>494128</object-id>
+      <foreign-key id="132" parent="43" name="borrows_shelf_id_fkey">
+        <object-id>634291</object-id>
         <columns>shelf_id</columns>
         <ref-key>~.bookshelf.bookshelf_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="125" parent="43" name="category_id">
-        <state-number>3204</state-number>
+      <foreign-key id="133" parent="43" name="borrows_bookid_fkey">
+        <object-id>634296</object-id>
+        <columns>bookid</columns>
+        <ref-key>~.books.books_pkey</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="134" parent="44" name="category_id">
+        <state-number>3827</state-number>
         <mandatory>1</mandatory>
         <data-type>integer|0</data-type>
         <default-expression>nextval(&apos;category_category_id_seq&apos;::regclass)</default-expression>
       </column>
-      <column id="126" parent="43" name="book_id">
-        <state-number>3204</state-number>
+      <column id="135" parent="44" name="book_id">
+        <state-number>3827</state-number>
         <data-type>integer|0</data-type>
       </column>
-      <column id="127" parent="43" name="categories">
-        <state-number>3204</state-number>
+      <column id="136" parent="44" name="categories">
+        <state-number>3827</state-number>
         <data-type>varchar(30)|0</data-type>
       </column>
-      <index id="128" parent="43" name="category_pkey">
-        <object-id>494157</object-id>
+      <index id="137" parent="44" name="category_pkey">
+        <object-id>634266</object-id>
         <columns>category_id</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <index id="129" parent="43" name="category_book_id_uindex">
-        <object-id>543770</object-id>
+      <index id="138" parent="44" name="category_book_id_key">
+        <object-id>634268</object-id>
         <columns>book_id</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="130" parent="43" name="category_pkey">
-        <object-id>494158</object-id>
+      <key id="139" parent="44" name="category_pkey">
+        <object-id>634267</object-id>
         <columns>category_id</columns>
         <underlying-index>category_pkey</underlying-index>
         <primary>1</primary>
       </key>
-      <foreign-key id="131" parent="43" name="category_book_id_fkey">
-        <object-id>494159</object-id>
+      <key id="140" parent="44" name="category_book_id_key">
+        <object-id>634269</object-id>
+        <columns>book_id</columns>
+        <underlying-index>category_book_id_key</underlying-index>
+      </key>
+      <foreign-key id="141" parent="44" name="category_book_id_fkey">
+        <object-id>634270</object-id>
         <columns>book_id</columns>
         <ref-key>~.books.books_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="132" parent="44" name="quantity">
-        <state-number>3201</state-number>
+      <column id="142" parent="45" name="quantity">
+        <state-number>3823</state-number>
         <data-type>integer|0</data-type>
       </column>
-      <column id="133" parent="44" name="availability">
-        <state-number>3201</state-number>
+      <column id="143" parent="45" name="availability">
+        <state-number>3823</state-number>
         <data-type>varchar(3)|0</data-type>
       </column>
-      <column id="134" parent="44" name="shelf_id">
-        <state-number>3201</state-number>
+      <column id="144" parent="45" name="shelf_id">
+        <state-number>3823</state-number>
+        <data-type>integer|0</data-type>
+      </column>
+      <column id="145" parent="45" name="book_id">
+        <state-number>3823</state-number>
         <mandatory>1</mandatory>
         <data-type>integer|0</data-type>
       </column>
-      <column id="135" parent="44" name="book_id">
-        <state-number>3201</state-number>
-        <mandatory>1</mandatory>
-        <data-type>integer|0</data-type>
-      </column>
-      <index id="136" parent="44" name="contains_pkey">
-        <object-id>494100</object-id>
-        <columns>shelf_id
-book_id</columns>
+      <index id="146" parent="45" name="contains_pkey">
+        <object-id>634194</object-id>
+        <columns>book_id</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="137" parent="44" name="contains_pkey">
-        <object-id>494101</object-id>
-        <columns>shelf_id
-book_id</columns>
+      <key id="147" parent="45" name="contains_pkey">
+        <object-id>634195</object-id>
+        <columns>book_id</columns>
         <underlying-index>contains_pkey</underlying-index>
         <primary>1</primary>
       </key>
-      <foreign-key id="138" parent="44" name="contains_shelf_id_fkey">
-        <object-id>494102</object-id>
+      <foreign-key id="148" parent="45" name="contains_shelf_id_fkey">
+        <object-id>634196</object-id>
         <columns>shelf_id</columns>
         <ref-key>~.bookshelf.bookshelf_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="139" parent="44" name="contains_book_id_fkey">
-        <object-id>494107</object-id>
+      <foreign-key id="149" parent="45" name="contains_book_id_fkey">
+        <object-id>634201</object-id>
         <columns>book_id</columns>
         <ref-key>~.books.books_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="140" parent="45" name="id_genre">
-        <state-number>3206</state-number>
+      <column id="150" parent="46" name="follow_id">
+        <state-number>3816</state-number>
+        <mandatory>1</mandatory>
+        <data-type>integer|0</data-type>
+        <default-expression>nextval(&apos;follow_follow_id_seq&apos;::regclass)</default-expression>
+      </column>
+      <column id="151" parent="46" name="user_idFollower">
+        <state-number>3816</state-number>
+        <data-type>integer|0</data-type>
+      </column>
+      <column id="152" parent="46" name="user_idFollowee">
+        <state-number>3816</state-number>
+        <data-type>integer|0</data-type>
+      </column>
+      <index id="153" parent="46" name="follow_pkey">
+        <object-id>634074</object-id>
+        <columns>follow_id</columns>
+        <desc-columns></desc-columns>
+        <unique>1</unique>
+      </index>
+      <key id="154" parent="46" name="follow_pkey">
+        <object-id>634075</object-id>
+        <columns>follow_id</columns>
+        <underlying-index>follow_pkey</underlying-index>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="155" parent="46" name="follow_user_idFollower_fkey">
+        <object-id>634076</object-id>
+        <columns>user_idFollower</columns>
+        <ref-key>~.user.user_pkey</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="156" parent="46" name="follow_user_idFollowee_fkey">
+        <object-id>634081</object-id>
+        <columns>user_idFollowee</columns>
+        <ref-key>~.user.user_pkey</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="157" parent="47" name="follow_id">
+        <state-number>3822</state-number>
+        <mandatory>1</mandatory>
+        <data-type>integer|0</data-type>
+      </column>
+      <column id="158" parent="47" name="userFollower">
+        <state-number>3822</state-number>
+        <data-type>integer|0</data-type>
+      </column>
+      <column id="159" parent="47" name="userFollowee">
+        <state-number>3822</state-number>
+        <data-type>integer|0</data-type>
+      </column>
+      <column id="160" parent="47" name="numberFollow">
+        <state-number>3822</state-number>
+        <data-type>integer|0</data-type>
+      </column>
+      <index id="161" parent="47" name="followTotal_pkey">
+        <object-id>634174</object-id>
+        <columns>follow_id</columns>
+        <desc-columns></desc-columns>
+        <unique>1</unique>
+      </index>
+      <key id="162" parent="47" name="followTotal_pkey">
+        <object-id>634175</object-id>
+        <columns>follow_id</columns>
+        <underlying-index>followTotal_pkey</underlying-index>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="163" parent="47" name="followTotal_follow_id_fkey">
+        <object-id>634176</object-id>
+        <columns>follow_id</columns>
+        <ref-key>~.follow.follow_pkey</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="164" parent="47" name="followTotal_userFollower_fkey">
+        <object-id>634181</object-id>
+        <columns>userFollower</columns>
+        <ref-key>~.user.user_pkey</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="165" parent="47" name="followTotal_userFollowee_fkey">
+        <object-id>634186</object-id>
+        <columns>userFollowee</columns>
+        <ref-key>~.user.user_pkey</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="166" parent="48" name="id_genre">
+        <state-number>3833</state-number>
         <mandatory>1</mandatory>
         <data-type>integer|0</data-type>
         <default-expression>nextval(&apos;genre_id_genre_seq&apos;::regclass)</default-expression>
       </column>
-      <column id="141" parent="45" name="genre">
-        <state-number>3488</state-number>
-        <data-type>varchar(30)|0</data-type>
+      <column id="167" parent="48" name="book_id">
+        <state-number>3833</state-number>
+        <data-type>integer|0</data-type>
       </column>
-      <index id="142" parent="45" name="genre_pkey">
-        <object-id>494188</object-id>
+      <index id="168" parent="48" name="genre_pkey">
+        <object-id>634376</object-id>
         <columns>id_genre</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="143" parent="45" name="genre_pkey">
-        <object-id>494189</object-id>
+      <key id="169" parent="48" name="genre_pkey">
+        <object-id>634377</object-id>
         <columns>id_genre</columns>
         <underlying-index>genre_pkey</underlying-index>
         <primary>1</primary>
       </key>
-      <column id="144" parent="46" name="genreId">
-        <state-number>3208</state-number>
+      <foreign-key id="170" parent="48" name="genre_book_id_fkey">
+        <object-id>634378</object-id>
+        <columns>book_id</columns>
+        <ref-key>~.books.books_pkey</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="171" parent="49" name="genreId">
+        <state-number>3835</state-number>
         <mandatory>1</mandatory>
         <data-type>integer|0</data-type>
       </column>
-      <column id="145" parent="46" name="bookId">
-        <state-number>3208</state-number>
-        <mandatory>1</mandatory>
+      <column id="172" parent="49" name="bookId">
+        <state-number>3835</state-number>
         <data-type>integer|0</data-type>
       </column>
-      <index id="146" parent="46" name="hasGenre_pkey">
-        <object-id>494213</object-id>
-        <columns>genreId
-bookId</columns>
+      <index id="173" parent="49" name="hasGenre_pkey">
+        <object-id>634404</object-id>
+        <columns>genreId</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="147" parent="46" name="hasGenre_pkey">
-        <object-id>494214</object-id>
-        <columns>genreId
-bookId</columns>
+      <key id="174" parent="49" name="hasGenre_pkey">
+        <object-id>634405</object-id>
+        <columns>genreId</columns>
         <underlying-index>hasGenre_pkey</underlying-index>
         <primary>1</primary>
       </key>
-      <foreign-key id="148" parent="46" name="hasGenre_genreId_fkey">
-        <object-id>494215</object-id>
+      <foreign-key id="175" parent="49" name="hasGenre_genreId_fkey">
+        <object-id>634406</object-id>
         <columns>genreId</columns>
         <ref-key>~.genre.genre_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="149" parent="46" name="hasGenre_bookId_fkey">
-        <object-id>494220</object-id>
+      <foreign-key id="176" parent="49" name="hasGenre_bookId_fkey">
+        <object-id>634411</object-id>
         <columns>bookId</columns>
         <ref-key>~.books.books_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="150" parent="47" name="interestId">
-        <state-number>3370</state-number>
+      <column id="177" parent="50" name="interestId">
+        <state-number>3834</state-number>
         <mandatory>1</mandatory>
         <data-type>integer|0</data-type>
         <default-expression>nextval(&apos;&quot;hasInterest_interestId_seq&quot;&apos;::regclass)</default-expression>
       </column>
-      <column id="151" parent="47" name="user_Id">
-        <state-number>3370</state-number>
+      <column id="178" parent="50" name="user_Id">
+        <state-number>3834</state-number>
         <data-type>integer|0</data-type>
       </column>
-      <column id="152" parent="47" name="genreId">
-        <state-number>3370</state-number>
+      <column id="179" parent="50" name="genreId">
+        <state-number>3834</state-number>
         <data-type>integer|0</data-type>
       </column>
-      <index id="153" parent="47" name="hasInterest_pkey">
-        <object-id>527305</object-id>
+      <index id="180" parent="50" name="hasInterest_pkey">
+        <object-id>634389</object-id>
         <columns>interestId</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="154" parent="47" name="hasInterest_pkey">
-        <object-id>527306</object-id>
+      <key id="181" parent="50" name="hasInterest_pkey">
+        <object-id>634390</object-id>
         <columns>interestId</columns>
         <underlying-index>hasInterest_pkey</underlying-index>
         <primary>1</primary>
       </key>
-      <foreign-key id="155" parent="47" name="hasInterest_user_Id_fkey">
-        <object-id>527307</object-id>
+      <foreign-key id="182" parent="50" name="hasInterest_user_Id_fkey">
+        <object-id>634391</object-id>
         <columns>user_Id</columns>
         <ref-key>~.user.user_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="156" parent="47" name="hasInterest_genreId_fkey">
-        <object-id>527312</object-id>
+      <foreign-key id="183" parent="50" name="hasInterest_genreId_fkey">
+        <object-id>634396</object-id>
         <columns>genreId</columns>
         <ref-key>~.genre.genre_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="157" parent="48" name="publisher_id">
-        <state-number>3193</state-number>
+      <column id="184" parent="51" name="publisher_id">
+        <state-number>3813</state-number>
         <mandatory>1</mandatory>
         <data-type>integer|0</data-type>
         <default-expression>nextval(&apos;publisher_publisher_id_seq&apos;::regclass)</default-expression>
       </column>
-      <column id="158" parent="48" name="publisher_name">
-        <state-number>3193</state-number>
+      <column id="185" parent="51" name="publisher_name">
+        <state-number>3813</state-number>
         <data-type>varchar(50)|0</data-type>
       </column>
-      <index id="159" parent="48" name="publisher_pkey">
-        <object-id>493991</object-id>
+      <index id="186" parent="51" name="publisher_pkey">
+        <object-id>634045</object-id>
         <columns>publisher_id</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="160" parent="48" name="publisher_pkey">
-        <object-id>493992</object-id>
+      <key id="187" parent="51" name="publisher_pkey">
+        <object-id>634046</object-id>
         <columns>publisher_id</columns>
         <underlying-index>publisher_pkey</underlying-index>
         <primary>1</primary>
       </key>
-      <column id="161" parent="49" name="purchase_id">
-        <state-number>3369</state-number>
+      <column id="188" parent="52" name="purchase_id">
+        <state-number>3825</state-number>
         <mandatory>1</mandatory>
         <data-type>integer|0</data-type>
         <default-expression>nextval(&apos;purchase_purchase_id_seq&apos;::regclass)</default-expression>
       </column>
-      <column id="162" parent="49" name="user_Id">
-        <state-number>3369</state-number>
+      <column id="189" parent="52" name="user_Id">
+        <state-number>3825</state-number>
         <data-type>integer|0</data-type>
       </column>
-      <column id="163" parent="49" name="shelf_id">
-        <state-number>3369</state-number>
+      <column id="190" parent="52" name="shelf_id">
+        <state-number>3825</state-number>
         <data-type>integer|0</data-type>
       </column>
-      <column id="164" parent="49" name="price">
-        <state-number>3369</state-number>
+      <column id="191" parent="52" name="price">
+        <state-number>3825</state-number>
         <data-type>integer|0</data-type>
       </column>
-      <index id="165" parent="49" name="purchase_pkey">
-        <object-id>527287</object-id>
+      <index id="192" parent="52" name="purchase_pkey">
+        <object-id>634230</object-id>
         <columns>purchase_id</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="166" parent="49" name="purchase_pkey">
-        <object-id>527288</object-id>
+      <key id="193" parent="52" name="purchase_pkey">
+        <object-id>634231</object-id>
         <columns>purchase_id</columns>
         <underlying-index>purchase_pkey</underlying-index>
         <primary>1</primary>
       </key>
-      <foreign-key id="167" parent="49" name="purchase_user_Id_fkey">
-        <object-id>527289</object-id>
+      <foreign-key id="194" parent="52" name="purchase_user_Id_fkey">
+        <object-id>634232</object-id>
         <columns>user_Id</columns>
         <ref-key>~.user.user_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="168" parent="49" name="purchase_shelf_id_fkey">
-        <object-id>527294</object-id>
+      <foreign-key id="195" parent="52" name="purchase_shelf_id_fkey">
+        <object-id>634237</object-id>
         <columns>shelf_id</columns>
         <ref-key>~.bookshelf.bookshelf_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="169" parent="50" name="id">
-        <state-number>3195</state-number>
+      <column id="196" parent="53" name="id">
+        <state-number>3818</state-number>
+        <data-type>integer|0</data-type>
+      </column>
+      <column id="197" parent="53" name="token">
+        <state-number>3818</state-number>
+        <mandatory>1</mandatory>
+        <data-type>varchar(125)|0</data-type>
+      </column>
+      <column id="198" parent="53" name="TTL">
+        <state-number>3818</state-number>
+        <data-type>timestamp|0</data-type>
+      </column>
+      <index id="199" parent="53" name="token_pkey">
+        <object-id>634107</object-id>
+        <columns>token</columns>
+        <desc-columns></desc-columns>
+        <unique>1</unique>
+      </index>
+      <key id="200" parent="53" name="token_pkey">
+        <object-id>634108</object-id>
+        <columns>token</columns>
+        <underlying-index>token_pkey</underlying-index>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="201" parent="53" name="token_id_fkey">
+        <object-id>634109</object-id>
+        <columns>id</columns>
+        <ref-key>~.user.user_pkey</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="202" parent="54" name="id">
+        <state-number>3812</state-number>
         <mandatory>1</mandatory>
         <data-type>integer|0</data-type>
         <default-expression>nextval(&apos;user_id_seq&apos;::regclass)</default-expression>
       </column>
-      <column id="170" parent="50" name="username">
-        <state-number>3195</state-number>
+      <column id="203" parent="54" name="username">
+        <state-number>3812</state-number>
         <mandatory>1</mandatory>
         <data-type>varchar(20)|0</data-type>
       </column>
-      <column id="171" parent="50" name="password">
-        <state-number>3195</state-number>
+      <column id="204" parent="54" name="password">
+        <state-number>3812</state-number>
         <mandatory>1</mandatory>
         <data-type>varchar(80)|0</data-type>
       </column>
-      <column id="172" parent="50" name="first_name">
-        <state-number>3195</state-number>
+      <column id="205" parent="54" name="first_name">
+        <state-number>3812</state-number>
         <mandatory>1</mandatory>
         <data-type>varchar(50)|0</data-type>
       </column>
-      <column id="173" parent="50" name="last_name">
-        <state-number>3195</state-number>
+      <column id="206" parent="54" name="last_name">
+        <state-number>3812</state-number>
         <mandatory>1</mandatory>
         <data-type>varchar(50)|0</data-type>
       </column>
-      <column id="174" parent="50" name="contact_number">
-        <state-number>3195</state-number>
+      <column id="207" parent="54" name="contact_number">
+        <state-number>3812</state-number>
         <data-type>varchar(11)|0</data-type>
       </column>
-      <column id="175" parent="50" name="birth_date">
-        <state-number>3195</state-number>
+      <column id="208" parent="54" name="birth_date">
+        <state-number>3812</state-number>
         <mandatory>1</mandatory>
         <data-type>date|0</data-type>
       </column>
-      <column id="176" parent="50" name="gender">
-        <state-number>3195</state-number>
+      <column id="209" parent="54" name="gender">
+        <state-number>3812</state-number>
         <mandatory>1</mandatory>
         <data-type>varchar(6)|0</data-type>
       </column>
-      <column id="177" parent="50" name="profpic">
-        <state-number>3195</state-number>
-        <data-type>text|0</data-type>
+      <column id="210" parent="54" name="address">
+        <state-number>3812</state-number>
+        <data-type>varchar(100)|0</data-type>
       </column>
-      <column id="178" parent="50" name="longitude">
-        <state-number>3431</state-number>
-        <mandatory>1</mandatory>
-        <data-type>double precision|0</data-type>
+      <column id="211" parent="54" name="profpic">
+        <state-number>3812</state-number>
+        <data-type>bytea|0</data-type>
       </column>
-      <column id="179" parent="50" name="latitude">
-        <state-number>3432</state-number>
-        <mandatory>1</mandatory>
-        <data-type>double precision|0</data-type>
-      </column>
-      <index id="180" parent="50" name="user_pkey">
-        <object-id>494010</object-id>
+      <index id="212" parent="54" name="user_pkey">
+        <object-id>634035</object-id>
         <columns>id</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <index id="181" parent="50" name="user_username_key">
-        <object-id>494012</object-id>
+      <index id="213" parent="54" name="user_username_key">
+        <object-id>634037</object-id>
         <columns>username</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="182" parent="50" name="user_pkey">
-        <object-id>494011</object-id>
+      <key id="214" parent="54" name="user_pkey">
+        <object-id>634036</object-id>
         <columns>id</columns>
         <underlying-index>user_pkey</underlying-index>
         <primary>1</primary>
       </key>
-      <key id="183" parent="50" name="user_username_key">
-        <object-id>494013</object-id>
+      <key id="215" parent="54" name="user_username_key">
+        <object-id>634038</object-id>
         <columns>username</columns>
         <underlying-index>user_username_key</underlying-index>
       </key>
-      <column id="184" parent="51" name="comment_id">
-        <state-number>3472</state-number>
+      <column id="216" parent="55" name="comment_id">
+        <state-number>3820</state-number>
         <mandatory>1</mandatory>
         <data-type>integer|0</data-type>
         <default-expression>nextval(&apos;&quot;userComment_comment_id_seq&quot;&apos;::regclass)</default-expression>
       </column>
-      <column id="185" parent="51" name="user_idCommenter">
-        <state-number>3472</state-number>
+      <column id="217" parent="55" name="user_idCommenter">
+        <state-number>3820</state-number>
         <data-type>integer|0</data-type>
       </column>
-      <column id="186" parent="51" name="user_idCommentee">
-        <state-number>3472</state-number>
+      <column id="218" parent="55" name="user_idCommentee">
+        <state-number>3820</state-number>
         <data-type>integer|0</data-type>
       </column>
-      <column id="187" parent="51" name="comment">
-        <state-number>3472</state-number>
+      <column id="219" parent="55" name="date">
+        <state-number>3820</state-number>
+        <data-type>date|0</data-type>
+      </column>
+      <column id="220" parent="55" name="comment">
+        <state-number>3820</state-number>
         <data-type>text|0</data-type>
       </column>
-      <index id="188" parent="51" name="userComment_pkey">
-        <object-id>543740</object-id>
+      <index id="221" parent="55" name="userComment_pkey">
+        <object-id>634141</object-id>
         <columns>comment_id</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="189" parent="51" name="userComment_pkey">
-        <object-id>543741</object-id>
+      <key id="222" parent="55" name="userComment_pkey">
+        <object-id>634142</object-id>
         <columns>comment_id</columns>
         <underlying-index>userComment_pkey</underlying-index>
         <primary>1</primary>
       </key>
-      <foreign-key id="190" parent="51" name="userComment_user_idCommenter_fkey">
-        <object-id>543742</object-id>
+      <foreign-key id="223" parent="55" name="userComment_user_idCommenter_fkey">
+        <object-id>634143</object-id>
         <columns>user_idCommenter</columns>
         <ref-key>~.user.user_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="191" parent="51" name="userComment_user_idCommentee_fkey">
-        <object-id>543747</object-id>
+      <foreign-key id="224" parent="55" name="userComment_user_idCommentee_fkey">
+        <object-id>634148</object-id>
         <columns>user_idCommentee</columns>
         <ref-key>~.user.user_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="192" parent="52" name="user_idRater">
-        <state-number>3199</state-number>
+      <column id="225" parent="56" name="rate_id">
+        <state-number>3821</state-number>
         <mandatory>1</mandatory>
         <data-type>integer|0</data-type>
+        <default-expression>nextval(&apos;&quot;userRate_rate_id_seq&quot;&apos;::regclass)</default-expression>
       </column>
-      <column id="193" parent="52" name="user_idRatee">
-        <state-number>3199</state-number>
-        <mandatory>1</mandatory>
+      <column id="226" parent="56" name="user_idRater">
+        <state-number>3821</state-number>
         <data-type>integer|0</data-type>
       </column>
-      <column id="194" parent="52" name="rating">
-        <state-number>3199</state-number>
+      <column id="227" parent="56" name="user_idRatee">
+        <state-number>3821</state-number>
         <data-type>integer|0</data-type>
       </column>
-      <column id="195" parent="52" name="comment">
-        <state-number>3199</state-number>
-        <data-type>text|0</data-type>
+      <column id="228" parent="56" name="rating">
+        <state-number>3821</state-number>
+        <data-type>integer|0</data-type>
       </column>
-      <index id="196" parent="52" name="userRate_pkey">
-        <object-id>494067</object-id>
-        <columns>user_idRater
-user_idRatee</columns>
+      <index id="229" parent="56" name="userRate_pkey">
+        <object-id>634159</object-id>
+        <columns>rate_id</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="197" parent="52" name="userRate_pkey">
-        <object-id>494068</object-id>
-        <columns>user_idRater
-user_idRatee</columns>
+      <key id="230" parent="56" name="userRate_pkey">
+        <object-id>634160</object-id>
+        <columns>rate_id</columns>
         <underlying-index>userRate_pkey</underlying-index>
         <primary>1</primary>
       </key>
-      <foreign-key id="198" parent="52" name="userRate_user_idRater_fkey">
-        <object-id>494069</object-id>
+      <foreign-key id="231" parent="56" name="userRate_user_idRater_fkey">
+        <object-id>634161</object-id>
         <columns>user_idRater</columns>
         <ref-key>~.user.user_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="199" parent="52" name="userRate_user_idRatee_fkey">
-        <object-id>494074</object-id>
+      <foreign-key id="232" parent="56" name="userRate_user_idRatee_fkey">
+        <object-id>634166</object-id>
         <columns>user_idRatee</columns>
         <ref-key>~.user.user_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="200" parent="53" name="numOfRate">
-        <state-number>3197</state-number>
+      <column id="233" parent="57" name="numOfRate">
+        <state-number>3819</state-number>
         <mandatory>1</mandatory>
         <data-type>integer|0</data-type>
         <default-expression>nextval(&apos;&quot;userRateTotal_numOfRate_seq&quot;&apos;::regclass)</default-expression>
       </column>
-      <column id="201" parent="53" name="userRatee">
-        <state-number>3197</state-number>
+      <column id="234" parent="57" name="userRatee">
+        <state-number>3819</state-number>
         <data-type>integer|0</data-type>
       </column>
-      <column id="202" parent="53" name="userRater">
-        <state-number>3197</state-number>
+      <column id="235" parent="57" name="userRater">
+        <state-number>3819</state-number>
         <data-type>integer|0</data-type>
       </column>
-      <column id="203" parent="53" name="totalRate">
-        <state-number>3197</state-number>
+      <column id="236" parent="57" name="totalRate">
+        <state-number>3819</state-number>
         <data-type>double precision|0</data-type>
       </column>
-      <index id="204" parent="53" name="userRateTotal_pkey">
-        <object-id>494036</object-id>
+      <index id="237" parent="57" name="userRateTotal_pkey">
+        <object-id>634120</object-id>
         <columns>numOfRate</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="205" parent="53" name="userRateTotal_pkey">
-        <object-id>494037</object-id>
+      <key id="238" parent="57" name="userRateTotal_pkey">
+        <object-id>634121</object-id>
         <columns>numOfRate</columns>
         <underlying-index>userRateTotal_pkey</underlying-index>
         <primary>1</primary>
       </key>
-      <foreign-key id="206" parent="53" name="userRateTotal_userRatee_fkey">
-        <object-id>494038</object-id>
+      <foreign-key id="239" parent="57" name="userRateTotal_userRatee_fkey">
+        <object-id>634122</object-id>
         <columns>userRatee</columns>
         <ref-key>~.user.user_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="207" parent="53" name="userRateTotal_userRater_fkey">
-        <object-id>494043</object-id>
+      <foreign-key id="240" parent="57" name="userRateTotal_userRater_fkey">
+        <object-id>634127</object-id>
         <columns>userRater</columns>
         <ref-key>~.user.user_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="208" parent="54" name="wishlist_id">
-        <state-number>3368</state-number>
+      <column id="241" parent="58" name="wishlist_id">
+        <state-number>3831</state-number>
         <mandatory>1</mandatory>
         <data-type>integer|0</data-type>
-        <default-expression>nextval(&apos;wishlist_wishlist_id_seq&apos;::regclass)</default-expression>
+        <default-expression>nextval(&apos;&quot;Wishlist_wishlist_id_seq&quot;&apos;::regclass)</default-expression>
       </column>
-      <column id="209" parent="54" name="user_id">
-        <state-number>3368</state-number>
+      <column id="242" parent="58" name="user_id">
+        <state-number>3831</state-number>
         <data-type>integer|0</data-type>
       </column>
-      <column id="210" parent="54" name="bookId">
-        <state-number>3368</state-number>
+      <column id="243" parent="58" name="shelf_id">
+        <state-number>3831</state-number>
         <data-type>integer|0</data-type>
       </column>
-      <index id="211" parent="54" name="wishlist_pkey">
-        <object-id>527269</object-id>
+      <column id="244" parent="58" name="bookid">
+        <state-number>3831</state-number>
+        <data-type>integer|0</data-type>
+      </column>
+      <index id="245" parent="58" name="Wishlist_pkey">
+        <object-id>634340</object-id>
         <columns>wishlist_id</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="212" parent="54" name="wishlist_pkey">
-        <object-id>527270</object-id>
+      <key id="246" parent="58" name="Wishlist_pkey">
+        <object-id>634341</object-id>
         <columns>wishlist_id</columns>
-        <underlying-index>wishlist_pkey</underlying-index>
+        <underlying-index>Wishlist_pkey</underlying-index>
         <primary>1</primary>
       </key>
-      <foreign-key id="213" parent="54" name="wishlist_user_id_fkey">
-        <object-id>527271</object-id>
+      <foreign-key id="247" parent="58" name="Wishlist_user_id_fkey">
+        <object-id>634342</object-id>
         <columns>user_id</columns>
         <ref-key>~.user.user_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="214" parent="55" name="book_id">
-        <state-number>3207</state-number>
+      <foreign-key id="248" parent="58" name="Wishlist_shelf_id_fkey">
+        <object-id>634347</object-id>
+        <columns>shelf_id</columns>
+        <ref-key>~.bookshelf.bookshelf_pkey</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="249" parent="59" name="book_id">
+        <state-number>3830</state-number>
         <mandatory>1</mandatory>
         <data-type>integer|0</data-type>
       </column>
-      <column id="215" parent="55" name="author_id">
-        <state-number>3207</state-number>
-        <mandatory>1</mandatory>
+      <column id="250" parent="59" name="author_id">
+        <state-number>3830</state-number>
         <data-type>integer|0</data-type>
       </column>
-      <index id="216" parent="55" name="writtenBy_pkey">
-        <object-id>494198</object-id>
-        <columns>book_id
-author_id</columns>
+      <index id="251" parent="59" name="writtenBy_pkey">
+        <object-id>634322</object-id>
+        <columns>book_id</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="217" parent="55" name="writtenBy_pkey">
-        <object-id>494199</object-id>
-        <columns>book_id
-author_id</columns>
+      <key id="252" parent="59" name="writtenBy_pkey">
+        <object-id>634323</object-id>
+        <columns>book_id</columns>
         <underlying-index>writtenBy_pkey</underlying-index>
         <primary>1</primary>
       </key>
-      <foreign-key id="218" parent="55" name="writtenBy_book_id_fkey">
-        <object-id>494200</object-id>
+      <foreign-key id="253" parent="59" name="writtenBy_book_id_fkey">
+        <object-id>634324</object-id>
         <columns>book_id</columns>
         <ref-key>~.books.books_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="219" parent="55" name="writtenBy_author_id_fkey">
-        <object-id>494205</object-id>
+      <foreign-key id="254" parent="59" name="writtenBy_author_id_fkey">
+        <object-id>634329</object-id>
         <columns>author_id</columns>
         <ref-key>~.author.author_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
