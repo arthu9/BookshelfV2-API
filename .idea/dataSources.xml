@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="516579839">
+  <component name="DataSourceManagerImpl" format="xml" hash="2961514359">
     <data-source source="LOCAL" name="PostgreSQL - bookshelf@localhost" uuid="9902f1a4-bfbd-44d4-abab-0a50beaf26a9">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/bookshelf</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="PostgreSQL - bookshelf@localhost [2]" uuid="0b243f53-fbcc-4b9a-8293-b9b65c7bb569">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component name="dataSourceStorage">
   <data-source name="PostgreSQL - bookshelf@localhost" uuid="9902f1a4-bfbd-44d4-abab-0a50beaf26a9">
+    <database-info product="" version="" jdbc-version="" driver-name="" driver-version=""/>
+  </data-source>
+  <data-source name="PostgreSQL - bookshelf@localhost [2]" uuid="0b243f53-fbcc-4b9a-8293-b9b65c7bb569">
     <database-info product="PostgreSQL" version="9.6.0" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.2.2">
       <identifier-quote-string>&quot;</identifier-quote-string>
     </database-info>
@@ -44,7 +47,7 @@
         <object-id>2200</object-id>
         <visible>1</visible>
         <introspection-state-number>3873</introspection-state-number>
-        <introspection-timestamp>2018-05-27.23:58:51.644</introspection-timestamp>
+        <introspection-timestamp>2018-05-28.01:30:13.650</introspection-timestamp>
       </schema>
       <schema id="13" parent="1" name="pg_catalog">
         <object-id>11</object-id>
