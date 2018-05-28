@@ -7,6 +7,8 @@ import uuid
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
 from flask_cors import CORS
+import openlibrary_api
+import requests, json
 
 
 app = Flask(__name__)
@@ -16,7 +18,7 @@ db = SQLAlchemy(app)
 CORS(app)
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:mvjunetwo@localhost/bookshelf'
 # app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost/bookshelf'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost/bookshelf4'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['USE_SESSION_FOR_NEXT'] = True
 app.config['CORS_HEADERS'] = 'Content-Type'
@@ -24,7 +26,7 @@ app.config['SECRET_KEY'] = 'thisissecret'
 app.secret_key = os.urandom(24)
 
 #rttr
-from apps import api
+from app import app
 
 
 #def createDB():
