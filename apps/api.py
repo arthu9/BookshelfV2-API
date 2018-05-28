@@ -129,6 +129,22 @@ def create_user():
     else:
         return jsonify({'message': 'username already created'})
 
+    ### ADD PROFILE PICTURE ###
+
+@app.route('/profile/picture', methods=['POST'])
+def add_profile():
+    data = request.get_json()
+    print('file')
+    print(data['filename'])
+    print('binary')
+    file = binascii.a2b_base64(data['filename'])
+    print(file)
+    user = User.query.filter_by(username=data['current_user']).first()
+    user.profpic = file
+    db.session.commit()
+    return jsonify({'message': "successful"})
+    ### END OF PROFILE PICTURE ###
+
 
 # @app.route('/user/<user_id>', methods=['PUT'])
 # @token_required
