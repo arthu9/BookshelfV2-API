@@ -49,7 +49,7 @@ class Bookshelf(db.Model):
     bookshelf_id = db.Column(db.Integer, primary_key=True)
     bookshef_owner = db.Column(db.Integer, db.ForeignKey('user.id'))
     owner = db.relationship('User', backref='bookshelf_owner')
-    booksContain = db.relationship('ContainsAsscociation', backref=db.backref('bookshelf_contains'))
+    booksContain = db.relationship('ContainsAssociation', backref=db.backref('bookshelf_contains'))
     borrow_users = db.relationship('BorrowsAssociation', backref='bookshelfBooks')
     wishlist_users = db.relation('Wishlist', backref='bookshelfwish')
     purchase = db.relationship('PurchaseAssociation', backref='books_purchase')
@@ -70,7 +70,7 @@ class Books(db.Model):
     date_published = db.Column(db.DATE, nullable=True)
     book_cover = db.Column(db.LargeBinary)
     publisher_id = db.Column(db.Integer, db.ForeignKey('publisher.publisher_id'))
-    bookshelfBooks = db.relationship('ContainsAsscociation', backref='books_contains')
+    bookshelfBooks = db.relationship('ContainsAssociation', backref='books_contains')
     categoryBooks = db.relationship('Category', backref='books_category')
     booksAuthor = db.relationship('WrittenByAssociation', backref='books_author')
     publisher = db.relationship('Publisher', backref='bookPublish')
@@ -89,7 +89,7 @@ class Books(db.Model):
         self.publisher_id = publisher_id
 
 
-class ContainsAsscociation(db.Model):
+class ContainsAssociation(db.Model):
     __tablename__ = 'contains'
     quantity = db.Column(db.Integer)
     availability = db.Column(db.String(3))
