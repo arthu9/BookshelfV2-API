@@ -223,7 +223,7 @@ def searchbookshelf(current_user):
     books = Bookshelf.query.filter_by(bookshef_owner=current_user).first()
     shelf_id = books.bookshelf_id
 
-    books = Books.query.join(ContainsAsscociation).filter(
+    books = Books.query.join(ContainsAssociation).filter(
         (cast(shelf_id, sqlalchemy.String).like(item)) & ((Books.title.like(item)) | (
             Books.year_published.like(item)) | (Books.types.like(item)) | cast(Books.edition, sqlalchemy.String).like(
             item) | (Books.isbn.like(item)))).all()
@@ -252,15 +252,15 @@ def viewbook(current_user):
     books = Bookshelf.query.filter_by(bookshef_owner=current_user).first()
     shelf_id = books.bookshelf_id
 
-    contains = ContainsAsscociation.query.filter_by(shelf_id=shelf_id).first()
+    contains = ContainsAssociation.query.filter_by(shelf_id=shelf_id).first()
     shelf_id = contains.shelf_id
 
-    Book = Books.query.join(ContainsAsscociation).filter_by(shelf_id=shelf_id).all()
+    Book = Books.query.join(ContainsAssociation).filter_by(shelf_id=shelf_id).all()
 
-    # q = (db.session.query(Books, Bookshelf, ContainsAsscociation, Author)
+    # q = (db.session.query(Books, Bookshelf, ContainsAssociation, Author)
     #      .filter(Bookshelf.bookshef_owner == id)
-    #      .filter(ContainsAsscociation.shelf_id == Bookshelf.bookshelf_id)
-    #      .filter(Books.book_id == ContainsAsscociation.book_id)
+    #      .filter(ContainsAssociation.shelf_id == Bookshelf.bookshelf_id)
+    #      .filter(Books.book_id == ContainsAssociation.book_id)
     #      .filter(Author.author_id == Books.publisher_id)
     #      .all())
 
@@ -331,7 +331,7 @@ def addbook(current_user):
         bookshelf = Bookshelf.query.filter_by(bookshef_owner=current_user).first()
         shelf_id = bookshelf.bookshelf_id
 
-        contain = ContainsAsscociation(shelf_id, book.book_id, 1, 'YES')
+        contain = ContainsAssociation(shelf_id, book.book_id, 1, 'YES')
         db.session.add(contain)
         db.session.commit()
 
@@ -343,10 +343,10 @@ def addbook(current_user):
         shelf_id = bookshelf.bookshelf_id
 
 
-        bookquantity = ContainsAsscociation.query.filter((ContainsAsscociation.shelf_id == shelf_id) & (ContainsAsscociation.book_id == book.book_id)).first()
+        bookquantity = ContainsAssociation.query.filter((ContainsAssociation.shelf_id == shelf_id) & (ContainsAssociation.book_id == book.book_id)).first()
 
         if bookquantity is None:
-            contain = ContainsAsscociation(shelf_id, book.book_id, 1, 'YES')
+            contain = ContainsAssociation(shelf_id, book.book_id, 1, 'YES')
             db.session.add(contain)
             db.session.commit()
         else:
@@ -363,7 +363,7 @@ def addbook(current_user):
 @app.route('/user/bookshelf/availability', methods=['GET'])
 @token_required
 def viewbooks(current_user):
-    books = ContainsAsscociation.query.join(Bookshelf).filter_by(bookshef_owner=current_user).all()
+    books = ContainsAssociation.query.join(Bookshelf).filter_by(bookshef_owner=current_user).all()
 
     if books == []:
         return jsonify({'message': 'No book found!'})
@@ -465,10 +465,10 @@ def diplayWishlist(current_user):
 
 
     Book = Books.query.join(Wishlist).filter(user_id=current_user).all()
-    # q = (db.session.query(Books, Bookshelf, ContainsAsscociation, Author)
+    # q = (db.session.query(Books, Bookshelf, ContainsAssociation, Author)
     #      .filter(Bookshelf.bookshef_owner == id)
-    #      .filter(ContainsAsscociation.shelf_id == Bookshelf.bookshelf_id)
-    #      .filter(Books.book_id == ContainsAsscociation.book_id)
+    #      .filter(ContainsAssociation.shelf_id == Bookshelf.bookshelf_id)
+    #      .filter(Books.book_id == ContainsAssociation.book_id)
     #      .filter(Author.author_id == Books.publisher_id)
     #      .all())
 

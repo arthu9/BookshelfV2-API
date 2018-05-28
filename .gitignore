@@ -23,3 +23,4 @@ apps/models.pyc
 *.pyc
 *.xml
 *.pyc
+*.py___jb_tmp___
