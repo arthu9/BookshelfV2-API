@@ -26,7 +26,6 @@ def token_required(f):
 
 
 @app.route('/users', methods=['GET'])
-@token_required
 def get_all_user_accounts():
     # if not current_user.admin:
     #     return jsonify({'message' : 'Cannot perform that function!'})
@@ -48,7 +47,7 @@ def get_all_user_accounts():
         user_data['profpic'] = user.profpic
         output.append(user_data)
 
-    return jsonify({'users': output})
+    return jsonify({'users', output})
 
 @app.route('/books', methods=['GET'])
 def all_books():
@@ -122,7 +121,7 @@ def create_user():
         token = jwt.encode({'id': current_user, 'exp': datetime.datetime.utcnow() + datetime.timedelta(days=(30*365))},
                            app.config['SECRET_KEY'])
 
-        new_token = Token(id= current_user, token = token.decode('UTF-8'), TTL= datetime.datetime.utcnow() + datetime.timedelta(days=(30*365)) )
+        new_token = Token(id= current_user, token = token.decode('UTF-8'), TTL=datetime.datetime.utcnow() + datetime.timedelta(days=(30*365)) )
         db.session.add(new_token)
         db.session.commit()
 
@@ -285,14 +284,12 @@ def viewbook(current_user):
 @token_required
 def addbook(current_user):
 
-
     data = request.get_json()
 
     book = Books.query.filter((Books.title == data['title']) & (Books.edition == data['edition']) & (Books.year_published == data['year']) & (Books.isbn == data['isbn'])).first()
 
     publisher = Publisher.query.filter(Publisher.publisher_name == data['publisher_name']).first()
-    author = Author.query.filter(
-        (Author.author_first_name == data['author_fname']) & (Author.author_last_name == data['author_lname'])).first()
+    author = Author.query.filter((Author.author_name == data['author_name'])).first()
     if (book is None) or (publisher is None) or (author is None):
         if publisher is None:
 
@@ -302,23 +299,21 @@ def addbook(current_user):
             db.session.commit()
             publisher_id = Publisher.query.filter((Publisher.publisher_name == data['publisher_name'])).first()
             if author is None:
-                author = Author(data['author_fname'], data['author_lname'])
+                author = Author(data['author_name'])
                 db.session.add(author)
                 db.session.commit()
             elif author is not None:
 
-                auth_id = Author.query.filter((Author.author_first_name == data['author_fname']) and (Author.author_last_name == data['author_lname'])).first()
+                auth_id = Author.query.filter((Author.author_name == data['author_name'])).first()
 
         elif publisher is not None:
             publisher_id = Publisher.query.filter((Publisher.publisher_name == data['publisher_name'])).first()
             if author is None:
-                authbook = Author(data['author_fname'], data['author_lname'])
+                authbook = Author(data['author_name'])
                 db.session.add(authbook)
                 db.session.commit()
             elif author is not None:
-                auth_id = Author.query.filter((Author.author_first_name == data['author_fname']) and (
-
-                    Author.author_last_name == data['author_lname'])).first()
+                auth_id = Author.query.filter((Author.author_name == data['author_name'])).first()
 
         publisher = Publisher.query.filter(Publisher.publisher_name == data['publisher_name']).first()
         publisher_id = publisher.publisher_id
@@ -327,8 +322,7 @@ def addbook(current_user):
         db.session.add(book)
         db.session.commit()
 
-        auth_id = Author.query.filter((Author.author_first_name == data['author_fname']) and (
-        Author.author_last_name == data['author_lname'])).first()
+        auth_id = Author.query.filter((Author.author_name == data['author_name'])).first()
 
         written = WrittenByAssociation(auth_id.author_id, book.book_id)
         db.session.add(written)
@@ -494,7 +488,7 @@ def diplayWishlist(current_user):
     return jsonify({'book': output})
 
 # COMMENT (BOOK)
-@app.route('/comment-book',methods=['GET','POST'])
+@app.route('/comment-book',methods=['POST'])
 @token_required
 def commentbook(current_user):
     data = request.get_json()
@@ -508,8 +502,8 @@ def commentbook(current_user):
 # {"bookid":"1","comment":"any comment here"}
 
 
-# COMMENT (USER)
-@app.route('/comment-user/<int:user_idCommentee>', methods=['GET','POST'])
+# COMMENT(USER)
+@app.route('/comment-user/<int:user_idCommentee>', methods=['POST'])
 @token_required
 def commentuser(current_user, user_idCommentee):
     data = request.get_json()
@@ -524,32 +518,20 @@ def commentuser(current_user, user_idCommentee):
 
 @app.route('/follow', methods=['POST'])
 @token_required
-def follow():
-
-
-    return jsonify({'message': 'comment posted!'})
-
-
-@app.route('/bookrate/<int:book_id>', methods=['POST', 'GET'])
-@token_required
-def ratebook(current_user, book_id):
-
-    data = request.get_json()
-
-    rateOld = BookRateAssociation.query.filter(
-        (BookRateAssociation.user_id == current_user) & (BookRateAssociation.book_id == book_id)).first()
-
-    rate = BookRateAssociation(rating=data['rating'])
-
-    if rateOld is None:
-        newRater = BookRateAssociation(current_user, book_id, data['rating'])
-        db.session.add(newRater)
-        db.session.commit()
-        return jsonify({'message': 'New rate added!'})
-    else:
-        rateOld.rating = data['rating']
-        db.session.commit()
-        return jsonify({'message': 'Rate updated!'})
+def follow(current_user):
+    user = User.query.filter_by(id=current_user).first()
+    # user = User.query.filter_by(username=username).first()
+    if user is None:
+        return jsonify({'message': 'user not found'})
+        # flash('User {} not found.'.format(username))
+        # return redirect(url_for('index'))
+    if user == current_user:
+        return jsonify({'message': 'you cant follow yourself!'})
+    current_user.follow(user)
+    db.session.commit()
+    return jsonify({'message': 'Followed!'})
+    # flash('You are following {}!'.format(username))
+    # return redirect(url_for('user', username=username))
 
 
 @app.route('/user-rate/<int:user_idRatee>', methods=['POST', 'GET'])
