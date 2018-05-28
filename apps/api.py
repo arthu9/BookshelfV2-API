@@ -492,6 +492,20 @@ def show_wishlist():
 
     return jsonify({'book': output})
 
+@app.route('/bookshelf/remove_wishlist', methods=['POST'])
+def remove_wishlist():
+    data = request.get_json()
+
+    user = User.query.filter_by(username=data['username']).first()
+    bookshelf = Bookshelf.query.filter_by(bookshef_owner=data['bookshelf_owner']).first()
+    book = Books.query.filter_by(book_id=data['book_id']).first()
+    wishlist = Wishlist.query.filter((Wishlist.user_id == user.id) & (Wishlist.shelf_id == bookshelf.bookshelf_id) &
+                                     (Wishlist.bookId == book.book_id)).first()
+    db.session.delete(wishlist)
+    db.session.commit()
+    return jsonify({'message': "Added successful"})
+
+
 # #COMMENT (USER)
 # # @app.route('/profile/commentUser/', methods=['GET', 'POST'])
 # @app.route('/profile/commentUser/<int:user_id>', methods=['GET', 'POST'])
