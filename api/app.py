@@ -129,26 +129,6 @@ def create_user():
     else:
         return jsonify({'message': 'username already created'})
 
-    # hashed_password = generate_password_hash(data['password'], method='sha256')
-    #
-    # new_user = User(username=data['username'], password=hashed_password, first_name=data['first_name'],
-    #                 last_name=data['last_name'], contact_number=data['contact_number'], birth_date=data['birth_date'],
-    #                 gender=data['gender'], latitude=data['latitude'], longitude=data['longitude'], profpic='')
-    #
-    # user = User.query.filter_by(username=data['username']).first()
-    # if user is None:
-    #     db.session.add(new_user)
-    #     db.session.commit()
-    #     bookshelf = Bookshelf(new_user.id, new_user.username)
-    #     db.session.add(bookshelf)
-    #     db.session.commit()
-    #
-    #     token = jwt.encode({'id': new_user.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)},
-    #                        app.config['SECRET_KEY'])
-    #
-    #     return jsonify({'token': token.decode('UTF-8')})
-    # else:
-    #     return make_response('username already used')
 
 #Profile Edit Current User
 #INPUT REQUIRED:  JSON: {username:, first_name, last_name, birth_date, gender, contact_num}
