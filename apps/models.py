@@ -363,8 +363,10 @@ class Message(db.Model):
     msgfrom = db.Column(db.Integer, db.ForeignKey('user.id'))
     msgto = db.Column(db.Integer, db.ForeignKey('user.id'))
     message = db.Column(db.TEXT)
+    date = db.Column(db.DateTime, default=datetime.datetime.today)
 
-    def __init__(self, msgfrom='', msgto='', message=''):
+    def __init__(self, msgfrom='', msgto='', message='', date=''):
         self.msgfrom = msgfrom
         self.msgto = msgto
         self.message = message
+        self.date = date

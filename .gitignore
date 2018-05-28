@@ -19,3 +19,5 @@ apps/models.pyc
 *.xml
 *.xml
 *.xml
+*.pyc
+*.xml

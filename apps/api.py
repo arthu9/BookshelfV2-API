@@ -582,7 +582,6 @@ def message(current_user, msgto):
 
     msg= Message.query.filter((Message.msgfrom == current_user) & (Message.msgto == msgto)).first()
 
-    # if msg is None:
     new_message = Message(current_user, msgto, data['message'])
     db.session.add(new_message)
     db.session.commit()
