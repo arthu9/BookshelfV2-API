@@ -432,23 +432,29 @@ def category(category):
     return jsonify({'book': output})
 
 @app.route('/user/AddWishlist/<int:book_id>', methods=['POST'])
-@token_required
-def wishlist(current_user, book_id):
-
+def add_wishlist():
     data = request.get_json()
 
-    books = Bookshelf.query.filter_by(bookshef_owner=current_user).first()
-    shelf_id = books.bookshelf_id
-
-    book = Wishlist.query.filter_by(bookid=book_id).first()
-
-    if book is None:
-        newWishlist = Wishlist(user_id=current_user, shelf_id=shelf_id, bookid=book_id)
-        db.session.add(newWishlist)
-        db.session.commit()
-        return jsonify({'message': 'wishlist added'})
+    user = User.query.filter_by(username=data['username']).first()
+    bookshelf = Bookshelf.query.filter_by(bookshef_owner=user.username).first()
+    bookshelf_id = data['bookshelf_id']
+    print(bookshelf.bookshelf_id)
+    print(bookshelf_id)
+    if int(bookshelf_id) == int(user.id):
+        return jsonify({'message': "You can't add your own book to your wishlist"})
     else:
-        return jsonify({'message': 'this book is already in the wishlist'})\
+        wishlist = Wishlist.query.filter((Wishlist.user_id==user.id) & (Wishlist.shelf_id==data['bookshelf_id']) & (Wishlist.bookId==data['book_id'])).first()
+        print(wishlist)
+        if wishlist is not None:
+            return jsonify({'message': "Book is already in wishlist"})
+
+        wishlist1 = Wishlist(user_id=user.id, shelf_id=data['bookshelf_id'], bookId=data['book_id'])
+        if wishlist1 is None:
+            return jsonify({'message': "Failed to add"})
+
+        db.session.add(wishlist1)
+        db.session.commit()
+        return jsonify({'message': "Added successful"})
 
 @app.route('/user/Wishlists', methods=['GET'])
 @token_required
