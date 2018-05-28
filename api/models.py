@@ -21,13 +21,14 @@ class User(UserMixin, db.Model):
     longitude = db.Column(db.FLOAT, nullable=False)
     latitude = db.Column(db.FLOAT, nullable=False)
     profpic = db.Column(db.LargeBinary)
+    address = db.Column(db.String(100))
     bookshelf_user = db.relationship('Bookshelf', uselist=False, backref='user_bookshelf')
     borrow_bookshelfs = db.relationship('BorrowsAssociation', backref='user_borrow')
     wishlists_bookshelf = db.relationship('Wishlist', backref='user_wishlist')
     user_interest = db.relationship('InterestAssociation', backref='user_interest')
 
     def __init__(self, username='', password='', first_name='', last_name='', contact_number='', birth_date='', gender='',
-                 longitude='', latitude='', profpic=''):
+                 longitude='', latitude='', profpic='', address=''):
         self.username = username
         self.password = password
         self.first_name = first_name
@@ -38,6 +39,7 @@ class User(UserMixin, db.Model):
         self.longitude = longitude
         self.latitude = latitude
         self.profpic = profpic
+        self.address = address
 
 
 class Token(db.Model):
