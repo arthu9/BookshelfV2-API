@@ -441,51 +441,80 @@ def category(category):
     # return jsonify({'book': output})
 
 @app.route('/user/AddWishlist/<int:book_id>', methods=['POST'])
-@token_required
-def wishlist(current_user, book_id):
-
+def add_wishlist():
     data = request.get_json()
 
-    books = Bookshelf.query.filter_by(bookshef_owner=current_user).first()
-    shelf_id = books.bookshelf_id
-
-    book = Wishlist.query.filter_by(bookid=book_id).first()
-
-    if book is None:
-        newWishlist = Wishlist(user_id=current_user, shelf_id=shelf_id, bookid=book_id)
-        db.session.add(newWishlist)
-        db.session.commit()
-        return jsonify({'message': 'wishlist added'})
+    user = User.query.filter_by(username=data['username']).first()
+    bookshelf = Bookshelf.query.filter_by(bookshef_owner=user.username).first()
+    bookshelf_id = data['bookshelf_id']
+    print(bookshelf.bookshelf_id)
+    print(bookshelf_id)
+    if int(bookshelf_id) == int(user.id):
+        return jsonify({'message': "You can't add your own book to your wishlist"})
     else:
-        return jsonify({'message': 'this book is already in the wishlist'})
+        wishlist = Wishlist.query.filter((Wishlist.user_id==user.id) & (Wishlist.shelf_id==data['bookshelf_id']) & (Wishlist.bookId==data['book_id'])).first()
+        print(wishlist)
+        if wishlist is not None:
+            return jsonify({'message': "Book is already in wishlist"})
+
+
+        wishlist1 = Wishlist(user_id=user.id, shelf_id=data['bookshelf_id'], bookId=data['book_id'])
+        if wishlist1 is None:
+            return jsonify({'message': "Failed to add"})
+
+        db.session.add(wishlist1)
+        db.session.commit()
+        return jsonify({'message': "Added successful"})
 
 @app.route('/user/Wishlists', methods=['GET'])
-@token_required
-def diplayWishlist(current_user):
-
-
-    Book = Books.query.join(Wishlist).filter(user_id=current_user).all()
-    # q = (db.session.query(Books, Bookshelf, ContainsAssociation, Author)
-    #      .filter(Bookshelf.bookshef_owner == id)
-    #      .filter(ContainsAssociation.shelf_id == Bookshelf.bookshelf_id)
-    #      .filter(Books.book_id == ContainsAssociation.book_id)
-    #      .filter(Author.author_id == Books.publisher_id)
-    #      .all())
+def show_wishlist():
+    data = request.get_json()
 
     output = []
-
-    for book in Book:
+    user = User.query.filter_by(username=data['current_user']).first()
+    wishlist_books = Wishlist.query.filter_by(user_id=user.id).all()
+    for book in wishlist_books:
         user_data = {}
-        user_data['title'] = book.title
-        user_data['description'] = book.description
-        user_data['edition'] = book.edition
-        user_data['year'] = book.year_published
-        user_data['isbn'] = book.isbn
-        user_data['types'] = book.types
-        user_data['publisher_id'] = book.publisher_id
-        output.append(user_data)
+        get_book = Books.query.filter_by(book_id=book.bookId).first()
+        owner_contains = ContainsAssociation.query.filter_by(book_id=get_book.book_id).first()
+        if owner_contains is None:
+            continue
+        else:
+            owner_bookshelf = Bookshelf.query.filter_by(bookshelf_id=owner_contains.shelf_id).first()
+            bookrate = BookRateTotal.query.filter_by(bookRated=owner_contains.contains_id).first()
+            if bookrate is not None:
+                user_data['totalRate'] = ((bookrate.totalRate/bookrate.numofRates))
+            else:
+                user_data['totalRate'] = 0.0
+            user_data['title'] = get_book.title
+            user_data['book_id'] = get_book.book_id
+            genre = HasGenreAssociation.query.filter_by(bookId=get_book.book_id).first()
+            genre_final = Genre.query.filter_by(id_genre=genre.genreId).first()
+            user_data['genre'] = genre_final.genre_name
+            book_author = WrittenByAssociation.query.filter_by(book_id=get_book.book_id).first()
+            author = Author.query.filter_by(author_id=book_author.author_id).first()
+            user_data['author_name'] = author.author_name
+            owner = User.query.filter_by(username=owner_bookshelf.bookshef_owner).first()
+            user_data['book_cover'] = book.book_cover
+            user_data['owner_fname'] = owner.first_name
+            user_data['owner_lname'] = owner.last_name
+            user_data['owner_username'] = owner.username
+            output.append(user_data)
 
     return jsonify({'book': output})
+
+@app.route('/bookshelf/remove_wishlist', methods=['POST'])
+def remove_wishlist():
+    data = request.get_json()
+
+    user = User.query.filter_by(username=data['username']).first()
+    bookshelf = Bookshelf.query.filter_by(bookshef_owner=data['bookshelf_owner']).first()
+    book = Books.query.filter_by(book_id=data['book_id']).first()
+    wishlist = Wishlist.query.filter((Wishlist.user_id == user.id) & (Wishlist.shelf_id == bookshelf.bookshelf_id) &
+                                     (Wishlist.bookId == book.book_id)).first()
+    db.session.delete(wishlist)
+    db.session.commit()
+    return jsonify({'message': "Added successful"})
 
 # COMMENT (BOOK)
 @app.route('/comment-book',methods=['POST'])
