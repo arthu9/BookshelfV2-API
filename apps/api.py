@@ -235,36 +235,33 @@ def searchbookshelf(current_user):
     return jsonify({'book': output})
 
 
-@app.route('/user/bookshelf', methods=['GET'])
-@token_required
-def viewbook(current_user):
-    books = Bookshelf.query.filter_by(bookshef_owner=current_user).first()
-    shelf_id = books.bookshelf_id
-
-    contains = ContainsAsscociation.query.filter_by(shelf_id=shelf_id).first()
-    shelf_id = contains.shelf_id
-
-    Book = Books.query.join(ContainsAsscociation).filter_by(shelf_id=shelf_id).all()
-
-    # q = (db.session.query(Books, Bookshelf, ContainsAsscociation, Author)
-    #      .filter(Bookshelf.bookshef_owner == id)
-    #      .filter(ContainsAsscociation.shelf_id == Bookshelf.bookshelf_id)
-    #      .filter(Books.book_id == ContainsAsscociation.book_id)
-    #      .filter(Author.author_id == Books.publisher_id)
-    #      .all())
-
+@app.route('/bookshelf/books', methods=['GET'])
+def get_all_book():
     output = []
+    books = Books.query.order_by(Books.title.desc()).all()
+    for book in books:
+        owner_contains = ContainsAssociation.query.filter_by(book_id=book.book_id).all()
 
-    for book in Book:
-        user_data = {}
-        user_data['title'] = book.title
-        user_data['description'] = book.description
-        user_data['edition'] = book.edition
-        user_data['year'] = book.year_published
-        user_data['isbn'] = book.isbn
-        user_data['types'] = book.types
-        user_data['publisher_id'] = book.publisher_id
-        output.append(user_data)
+        for owner_contain in owner_contains:
+            user_data = {}
+            owner_bookshelf = Bookshelf.query.filter_by(bookshelf_id=owner_contain.shelf_id).first()
+            owner = User.query.filter_by(username=owner_bookshelf.bookshef_owner).first()
+            bookrate = BookRateTotal.query.filter_by(bookRated=owner_contain.contains_id).first()
+            user_data['totalRate'] = ((bookrate.totalRate/bookrate.numofRates))
+            user_data['owner_fname'] = owner.first_name
+            user_data['owner_lname'] = owner.last_name
+            user_data['owner_username'] = owner.username
+            user_data['owner_bookshelfid'] = owner_bookshelf.bookshelf_id
+            user_data['title'] = book.title
+            user_data['book_id'] = book.book_id
+            user_data['book_cover'] = book.book_cover
+            genre = HasGenreAssociation.query.filter_by(bookId=book.book_id).first()
+            genre_final = Genre.query.filter_by(id_genre=genre.genreId).first()
+            user_data['genre'] = genre_final.genre_name
+            book_author = WrittenByAssociation.query.filter_by(book_id=book.book_id).first()
+            author = Author.query.filter_by(author_id=book_author.author_id).first()
+            user_data['author_name'] = author.author_name
+            output.append(user_data)
 
     return jsonify({'book': output})
 
