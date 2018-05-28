@@ -359,6 +359,21 @@ class ActLogs(db.Model):
         self.bookid = bookid
 
 
+class Message(db.Model):
+    __tablename__ = 'message'
+    message_id = db.Column(db.Integer, primary_key=True)
+    msgfrom = db.Column(db.Integer, db.ForeignKey('user.id'))
+    msgto = db.Column(db.Integer, db.ForeignKey('user.id'))
+    message = db.Column(db.TEXT)
+    date = db.Column(db.DateTime, default=datetime.datetime.today)
+
+    def __init__(self, msgfrom='', msgto='', message='', date=''):
+        self.msgfrom = msgfrom
+        self.msgto = msgto
+        self.message = message
+        self.date = date
+
+        
 class Follow(db.Model):
     __tablename__ = 'follow'
     follow_id = db.Column(db.Integer, primary_key=True)

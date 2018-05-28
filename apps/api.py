@@ -554,3 +554,26 @@ def rateuser(current_user, user_idRatee):
         db.session.add(newRater)
         db.session.commit()
         return jsonify({'message': 'New rate added!'})
+
+
+@app.route('/dm/<int:msgto>', methods=['GET', 'POST'])
+@token_required
+def message(current_user, msgto):
+
+    data = request.get_json()
+
+    msg= Message.query.filter((Message.msgfrom == current_user) & (Message.msgto == msgto)).first()
+
+    new_message = Message(current_user, msgto, data['message'])
+    db.session.add(new_message)
+    db.session.commit()
+
+    # return jsonify({'message': 'Message sent!'})
+
+    return jsonify({'message': 'Message sent!'})
+    # else:
+    #     msg.message = data['message']
+    #     # db.session.add(new_message)
+    #     db.session.commit()
+    #
+    #     return jsonify({'message': 'Message sent updated!'})
