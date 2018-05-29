@@ -16,9 +16,9 @@ app = Flask(__name__)
 db = SQLAlchemy(app)
 
 CORS(app)
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:mvjunetwo@localhost/bookshelf'
-# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost/bookshelf4'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:mvjunetwo@localhost/bookshelf'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost/bookshelf4'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['USE_SESSION_FOR_NEXT'] = True
 app.config['CORS_HEADERS'] = 'Content-Type'

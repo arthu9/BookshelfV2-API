@@ -7,14 +7,6 @@ from config import *
 from base64 import b64encode
 from datetime import date, datetime
 import base64, binascii, jsonpickle
-
-
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost/bookshelf4'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = 'thisissecretkey'
-db = SQLAlchemy(app)
-
 from sqlalchemy import cast
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
