@@ -93,8 +93,7 @@ def create_user():
     hashed_password = generate_password_hash(data['password'], method='sha256')
 
     new_user = User(username=data['username'], password=hashed_password, first_name=data['first_name'], last_name=data['last_name'],
-                    contact_number=data['contact_number'], birth_date=data['birth_date'], gender=data['gender'], latitude=data['latitude'],
-                    longitude=data['longitude'], profpic='')
+                    contact_number=data['contact_number'], birth_date=data['birth_date'], gender=data['gender'], address=['address'], profpic='')
 
     user = User.query.filter_by(username=data['username']).first()
 
