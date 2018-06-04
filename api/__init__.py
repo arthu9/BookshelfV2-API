@@ -16,9 +16,8 @@ app = Flask(__name__)
 db = SQLAlchemy(app)
 
 CORS(app)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:mvjunetwo@localhost/bookshelf'
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost/bookshelf4'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost/bookshelf'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['USE_SESSION_FOR_NEXT'] = True
 app.config['CORS_HEADERS'] = 'Content-Type'
@@ -27,7 +26,7 @@ app.secret_key = os.urandom(24)
 
 #rttr
 from app import app
-
+import models
 
 #def createDB():
 #    engine = sqlalchemy.create_engine('postgresql://postgres:mvjunetwo@localhost') #connects to server
@@ -36,7 +35,7 @@ from app import app
 #    conn.execute("create database bookshelf")
 #    conn.close()
 
-#def createTables():
+
 db.create_all()
 
 

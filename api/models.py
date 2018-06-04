@@ -3,9 +3,7 @@ from flask import Flask
 import sqlalchemy, datetime
 from flask_login import UserMixin
 
-from app import app
-
-db = SQLAlchemy(app)
+from api import db
 
 
 class User(UserMixin, db.Model):
@@ -24,6 +22,9 @@ class User(UserMixin, db.Model):
     address = db.Column(db.String(100))
     bookshelf_user = db.relationship('Bookshelf', uselist=False, backref='user_bookshelf')
     borrow_bookshelfs = db.relationship('BorrowsAssociation', backref='user_borrow')
+    borrow_bookshelfs = db.relationship('BorrowsAssociation', backref='user_borrow')
+    rent_bookshelfs = db.relationship('RentAssociation', backref='user_rent')
+    waitinglist = db.relationship('WaitingList', backref='user_watinglist')
     wishlists_bookshelf = db.relationship('Wishlist', backref='user_wishlist')
     user_interest = db.relationship('InterestAssociation', backref='user_interest')
 
@@ -61,6 +62,9 @@ class Bookshelf(db.Model):
     owner = db.relationship('User', backref='bookshelf_owner')
     booksContain = db.relationship('ContainsAssociation', backref=db.backref('bookshelf_contains'))
     borrow_users = db.relationship('BorrowsAssociation', backref='bookshelfBooks')
+    borrow_users = db.relationship('BorrowsAssociation', backref='bookshelfBooks')
+    rent_users = db.relationship('RentAssociation', backref='rentBooks')
+    waitinglist = db.relationship('WaitingList', backref='waitingBooks')
     wishlist_users = db.relation('Wishlist', backref='bookshelfwish')
     purchase = db.relationship('PurchaseAssociation', backref='books_purchase')
 
@@ -206,53 +210,98 @@ class InterestAssociation(db.Model):
     user = db.relationship('User', backref='Interestuser')
     genre = db.relationship('Genre', backref='Interestgenre')
 
-
-
-
 class PurchaseAssociation(db.Model):
     __tablename__ = 'purchase'
     purchase_id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    shelf_id = db.Column(db.Integer, db.ForeignKey('bookshelf.bookshelf_id'))
+    buyer = db.Column(db.Integer, db.ForeignKey('user.id'))
+    status = db.Column(db.String)
+    owner_shelf_id = db.Column(db.Integer, db.ForeignKey('bookshelf.bookshelf_id'))
+    bookid = db.Column(db.Integer, db.ForeignKey('books.book_id'))
     price = db.Column(db.Integer)
+    date = db.Column(db.DateTime, default=datetime.datetime.today)
     user = db.relationship('User', backref='purchaseBook')
     bookshelf = db.relationship('Bookshelf', backref='purchasebook')
 
-    def __init__(self, user_id='', shelf_id='', status='', price='', bookid='', seen='', otherUserReturn='',
-                 curUserReturn='', returnDate=''):
-        self.user_id = user_id
-        self.shelf_id = shelf_id
+    def __init__(self, buyer='', owner_shelf_id='', status='', price='', bookid=''):
+        self.buyer = buyer
+        self.owner_shelf_id = owner_shelf_id
         self.status = status
         self.price = price
+        self.bookid = bookid
+
+
+
+class WaitingList(db.Model):
+    waiting_id = db.Column(db.Integer, primary_key=True)
+    approval = db.Column(db.Boolean, nullable=True)
+    method = db.Column(db.String)
+    date = db.Column(db.DateTime, default=datetime.datetime.today)
+    request_Date = db.Column(db.DateTime, nullable=True)
+    borrower = db.Column(db.Integer, db.ForeignKey('user.id'))
+    price = db.Column(db.Integer, nullable=True)
+    price_rate = db.Column(db.Integer, nullable=True)
+    owner_shelf_id = db.Column(db.Integer, db.ForeignKey('bookshelf.bookshelf_id'))
+    bookid = db.Column(db.Integer, db.ForeignKey('books.book_id'))
+    user = db.relationship('User', backref='waitingUsers')
+    bookshelf = db.relationship('Bookshelf', backref='waitingBookshelf')
+
+    def __init__(self, borrower='', owner_shelf_id='', price='', price_rate='', approval='', method='', bookid='', request_Date=''):
+        self.borrower = borrower
+        self.owner_shelf_id = owner_shelf_id
+        self.approval = approval
+        self.price_rate = price_rate
+        self.price = price
+        self.bookid = bookid
+        self.method = method
+        self.request_Date = request_Date
+
+class RentAssociation(db.Model):
+    __tablename__ = 'rents'
+    borrowed = db.Column(db.Integer, primary_key=True)
+    borrower = db.Column(db.Integer, db.ForeignKey('user.id'))
+    owner_shelf_id = db.Column(db.Integer, db.ForeignKey('bookshelf.bookshelf_id'))
+    bookid = db.Column(db.Integer, db.ForeignKey('books.book_id'))
+    status = db.Column(db.String)
+    total = db.Column(db.Integer)
+    price_rate = db.Column(db.Integer)
+    startDate = db.Column(db.DateTime)
+    returnDate = db.Column(db.DateTime)
+    verification = db.Column(db.Boolean)
+    user = db.relationship('User', backref='userRent')
+    bookshelf = db.relationship('Bookshelf', backref='bookRent')
+
+    def __init__(self, borrower='', owner_shelf_id='', status='', verification='', price_rate='', bookid='', total='', startDate='', returnDate=''):
+        self.borrower = borrower
+        self.owner_shelf_id = owner_shelf_id
+        self.status = status
+        self.bookid = bookid
+        self.total = total
+        self.verification = verification
+        self.price_rate = price_rate
+        self.startDate = startDate
+        self.returnDate = returnDate
 
 class BorrowsAssociation(db.Model):
     __tablename__ = 'borrows'
     borrowed = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    shelf_id = db.Column(db.Integer, db.ForeignKey('bookshelf.bookshelf_id'))
-    date = db.Column(db.DateTime, default=datetime.datetime.today)
-    status = db.Column(db.Integer)
-    price = db.Column(db.Integer)
+    borrower = db.Column(db.Integer, db.ForeignKey('user.id'))
+    owner_shelf_id = db.Column(db.Integer, db.ForeignKey('bookshelf.bookshelf_id'))
     bookid = db.Column(db.Integer, db.ForeignKey('books.book_id'))
-    seen = db.Column(db.Integer)
-    otherUserReturn = db.Column(db.Integer)
-    curUserReturn = db.Column(db.Integer)
-    returnDate = db.Column(db.TEXT)
+    status = db.Column(db.String)
+    startDate = db.Column(db.DateTime)
+    returnDate = db.Column(db.DateTime)
+    verification = db.Column(db.Boolean)
     user = db.relationship('User', backref='borrowBookshelfs')
     bookshelf = db.relationship('Bookshelf', backref='borrowUsers')
 
-    def __init__(self, user_id='', shelf_id='', status='', price='', bookid='', seen='', otherUserReturn='',
-                 curUserReturn='', returnDate=''):
-        self.user_id = user_id
-        self.shelf_id = shelf_id
+    def __init__(self, borrower='', owner_shelf_id='', status='', bookid='', verification='', startDate='', returnDate=''):
+        self.borrower = borrower
+        self.owner_shelf_id = owner_shelf_id
         self.status = status
-        self.price = price
         self.bookid = bookid
-        self.seen = seen
-        self.otherUserReturn = otherUserReturn
-        self.curUserReturn = curUserReturn
+        self.verification = verification
+        self.startDate = startDate
         self.returnDate = returnDate
-
 
 class Wishlist(db.Model):
     __tablename__ = "wishlist"
@@ -318,15 +367,15 @@ class UserRateAssociation(db.Model):
 
 class UserRateTotal(db.Model):
     __tablename__ = 'userRateTotal'
-    numOfRate = db.Column(db.Integer, primary_key=True)
+    user_totalrate_id = db.Column(db.Integer, primary_key=True)
     userRatee = db.Column(db.Integer, db.ForeignKey('user.id'))
-    userRater = db.Column(db.Integer, db.ForeignKey('user.id'))
+    numOfRates = db.Column(db.Integer)
     totalRate = db.Column(db.Float)
 
-    def __init__(self, userRatee='', userRater='', totalRate=''):
+    def __init__(self, userRatee='', totalRate='', numOfRates=''):
         self.userRatee = userRatee
-        self.userRater = userRater
         self.totalRate = totalRate
+        self.numOfRates = numOfRates
 
 
 # Comment (Book)--------------------------------
@@ -361,36 +410,6 @@ class UserCommentAssociation(db.Model):
         self.comment = comment
 
 
-# class Message(db.Model):
-#     __tablename__ = 'message'
-#     message_id = db.Column(db.Integer, primary_key=True)
-#     messageFrom = db.Column(db.Integer, db.ForeignKey('user.id'))
-#     messageTo = db.Column(db.Integer, db.ForeignKey('user.id'))
-#     content = db.Column(db.String(100))
-#     messaging_message = db.relationship('MessageAssociation', backref='messaging')
-#
-#     def __init__(self, messageFrom='', messageTo='', content='' ):
-#         self.messageFrom = messageFrom
-#         self.messageTo = messageTo
-#         self.content = content
-#
-# class MessageAssociation(db.Model):
-#     __tablename__ = 'messaging'
-#     message_id = db.Column(db.Integer, db.ForeignKey('message.message_id'), primary_key=True)
-#     messageFrom = db.Column(db.Integer, db.ForeignKey('user.id'))
-#     messageTo = db.Column(db.Integer, db.ForeignKey('user.id'))
-#     content = db.Column(db.String(100), db.ForeignKey('message.content'))
-#     date = db.Column(db.DATE, nullable=False)
-#     user = db.relationship('User', backref='userMessage')
-#     messaging = db.relationship('Message', backref='hasMessage')
-#
-#     def __init__(self, messageFrom='', messageTo='', content='', date='' ):
-#         self.messageFrom = messageFrom
-#         self.messageTo = messageTo
-#         self.content = content
-#         self.date = date
-
-
 class ActLogs(db.Model):
     __tablename__ = 'actlogs'
     logs = db.Column(db.Integer, primary_key=True)
@@ -406,5 +425,3 @@ class ActLogs(db.Model):
         self.status = status
         self.bookid = bookid
 
-
-db.create_all()
