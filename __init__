@@ -1,0 +1,13 @@
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+import sqlalchemy
+
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://postgres:mvjunetwo@localhost/bookshelf'
+#engine = sqlalchemy.create_engine('mysql+pymysql://root:sw33t890@localhost')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
+
+import models
+from app import controller
