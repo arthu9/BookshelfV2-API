@@ -1,6 +1,14 @@
 
-api/README.md
-api/api/config.py
-*.ids
-*.xml
-api/api/models.py
+*.pyc
+*.log
+*.pdf
+
+*.py~
+*.txt~
+
+.idea/
+
+tmp/
+.cache
+.DS_Store
+venv/
